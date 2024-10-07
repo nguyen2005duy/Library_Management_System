@@ -53,13 +53,12 @@ public class LoginController implements Initializable {
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(verifyLogin);
-
-
+            System.out.println(statement);
             while (queryResult.next()) {
                 if (queryResult.getInt(1) == 1) {
                     LoginMessage.setText("You have successfully logged in!");
                 } else {
-                    LoginMessage.setText("Invalid username or password");
+                   LoginMessage.setText("Invalid username or password");
                 }
             }
         } catch (Exception e) {
