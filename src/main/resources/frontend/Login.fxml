@@ -18,9 +18,9 @@
    <left>
       <AnchorPane prefHeight="900.0" prefWidth="600.0" style="-fx-background-color: #61D4C3;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="book" fitHeight="558.0" fitWidth="616.0" layoutX="21.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="book" fitHeight="558.0" fitWidth="616.0" layoutX="20.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@book.png" />
+                  <Image url="@book1.png" />
                </image>
             </ImageView>
          </children></AnchorPane>
