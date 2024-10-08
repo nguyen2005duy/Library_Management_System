@@ -14,7 +14,7 @@ public class Login extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
-        Image icon = new Image(Login.class.getResourceAsStream("book.png"));
+        Image icon = new Image(Login.class.getResourceAsStream("book1.png"));
         stage.getIcons().add(icon);
         stage.setTitle("LoginPage!");
         stage.setScene(scene);
