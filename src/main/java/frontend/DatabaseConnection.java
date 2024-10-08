@@ -8,14 +8,14 @@ public class DatabaseConnection {
     public static Connection databaseLink;
     public static String databasePassword = null;
 
-    public static Connection getConnection(String databaseNameToAccess) {
+    public static Connection getConnection() {
         String databaseUser = "root";
         while (databasePassword == null) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Type in your database password");
             databasePassword = scanner.next();
         }
-        String databaseName = "user_accounts";
+        String databaseName = "library";
         String url = "jdbc:mysql://localhost/" + databaseName;
 
         try {

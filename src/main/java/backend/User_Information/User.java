@@ -1,8 +1,14 @@
 package backend.User_Information;
 
-public class User {
+import java.util.List;
+
+public abstract class User {
     private String user_id;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String username;
     private String password;
-    
+    private String email;
+    private List<Integer> borrowed_documents;
+    private String role;
 }
