@@ -36,7 +36,7 @@ public class LoginController implements Initializable {
     private Label LoginMessage;
     @FXML
     private ImageView book;
-
+    public static  Connection connectDB;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -48,7 +48,7 @@ public class LoginController implements Initializable {
 
     private void Validatelogin() {
         DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection("user_accounts");
+        connectNow.getConnection("user_accounts");
 
         String verifyLogin = "SELECT count(1) FROM user_account WHERE username = '" + UsernameField.getText() + "' AND password = '" + passwordField.getText() + "'";
         try {
