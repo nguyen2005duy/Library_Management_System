@@ -37,6 +37,7 @@ public class LoginController implements Initializable {
     @FXML
     private ImageView book;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -47,13 +48,14 @@ public class LoginController implements Initializable {
 
     private void Validatelogin() {
         DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = connectNow.getConnection("user_accounts");
 
         String verifyLogin = "SELECT count(1) FROM user_account WHERE username = '" + UsernameField.getText() + "' AND password = '" + passwordField.getText() + "'";
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(verifyLogin);
             System.out.println(statement);
+            System.out.println(queryResult);
             while (queryResult.next()) {
                 if (queryResult.getInt(1) == 1) {
                     LoginMessage.setText("You have successfully logged in!");
