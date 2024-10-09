@@ -1,7 +1,11 @@
 package frontend;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
@@ -22,6 +26,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 
 public class LoginController implements Initializable {
@@ -58,8 +64,11 @@ public class LoginController implements Initializable {
             while (queryResult.next()) {
                 if (queryResult.getInt(1) == 1) {
                     LoginMessage.setText("You have successfully logged in!");
+                    LoginMessage.setTextFill(Color.GREEN);
                 } else {
                    LoginMessage.setText("Invalid username or password");
+                    LoginMessage.setTextFill(Color.RED);
+
                 }
             }
         } catch (Exception e) {
@@ -69,10 +78,41 @@ public class LoginController implements Initializable {
     }
 
     public void loginButtoninAction(javafx.event.ActionEvent actionEvent) {
-        if (!UsernameField.getText().isBlank() || !passwordField.getText().isBlank()) {
+        if (!UsernameField.getText().isBlank() && !passwordField.getText().isBlank()) {
             Validatelogin();
-        } else {
+        }
+        else if (!UsernameField.getText().isBlank() && passwordField.getText().isBlank())
+        {
+            LoginMessage.setText("Please enter your password");
+            LoginMessage.setTextFill(Color.RED);
+
+        }
+        else if (UsernameField.getText().isBlank() && !passwordField.getText().isBlank())
+        {
+            LoginMessage.setText("Please enter your username");
+            LoginMessage.setTextFill(Color.RED);
+
+        }
+        else {
             LoginMessage.setText("Please enter your username and password");
+            LoginMessage.setTextFill(Color.RED);
+
         }
     }
+
+
+    public void createSignupForm(javafx.event.ActionEvent actionEvent) {
+        try{
+            Parent root = FXMLLoader.load(getClass().getResource("signup.fxml"));
+            Stage SignupStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            SignupStage.setTitle("Sign up");
+            SignupStage.setScene(new Scene(root));
+            SignupStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
+
 }
