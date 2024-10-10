@@ -7,13 +7,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
-
+import javafx.scene.paint.Color;
+import java.awt.*;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
@@ -55,25 +60,41 @@ public class SignupController implements Initializable {
 
     public void RegisterUser() {
         DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection("user_accounts");
+        Connection connectDB = DatabaseConnection.getConnection();
 
         String username = SignupUsernameField.getText();
         String password = SignupPasswordField.getText();
         String email = SignupEmailField.getText();
         String FirstName = FirstnameField.getText();
         String LastName = LastnameField.getText();
-
+        String checkUsername = "SELECT username FROM user_account WHERE username = '"+username+"'";
         String insertFields = "INSERT INTO user_account(firstname, lastname, username, password, email) VALUES ('";
         String insertValues = FirstName + "','" + LastName + "','" + username + "','" + password + "','" + email + "')";
         String insertToRegister = insertFields + insertValues;
+        boolean invalidEmail = !email.contains("@")&&!email.contains(".")
+                &&(email.indexOf(".")>email.indexOf("@"));
+        if(invalidEmail)
+        {
+            registerMessage.setText("Invalid email!!");
+            registerMessage.setTextFill(Color.RED);
+        }
+        else {
+            try {
+                Statement stmt = connectDB.createStatement();
+                ResultSet usernameSet = stmt.executeQuery(checkUsername);
+                if (usernameSet.next()) {
+                    registerMessage.setText("Username is already taken");
+                    registerMessage.setTextFill(Color.RED);
+                } else {
+                    stmt.executeUpdate(insertToRegister);
+                    registerMessage.setText("Registered Successfully!");
+                    registerMessage.setTextFill(Color.GREEN);
 
-        try {
-            Statement stmt = connectDB.createStatement();
-            stmt.executeUpdate(insertToRegister);
-            registerMessage.setText("Registered Successfully!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            e.getCause();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                e.getCause();
+            }
         }
     }
 
