@@ -1,4 +1,4 @@
-package frontend;
+package Application;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

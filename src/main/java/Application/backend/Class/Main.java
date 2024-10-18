@@ -1,4 +1,4 @@
-package backend;
+package Application.backend.Class;
 
 import frontend.DatabaseConnection;
 import javafx.application.Application;

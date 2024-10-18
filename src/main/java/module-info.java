@@ -7,7 +7,11 @@ module org.example.library_management_system {
     requires javafx.graphics;
 
 
-    opens frontend to javafx.fxml;
-    exports frontend;
+    opens Application to javafx.fxml;
+    exports Application;
+    exports Application.backend;
+    opens Application.backend to javafx.fxml;
+    exports Application.frontend;
+    opens Application.frontend to javafx.fxml;
 
 }
