@@ -14,7 +14,11 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
+<<<<<<< HEAD:src/main/resources/frontend/Login.fxml
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.Controller.LoginController">
+=======
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.backend.LoginController">
+>>>>>>> b628945d9ee2db00728341637ff7208c24a388ab:src/main/resources/Application/Login.fxml
    <left>
       <AnchorPane prefHeight="900.0" prefWidth="600.0" style="-fx-background-color: #61D4C3;" BorderPane.alignment="CENTER">
          <children>

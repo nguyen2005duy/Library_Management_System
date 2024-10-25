@@ -1,4 +1,4 @@
-package backend;
+package Application.backend.Class;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
