@@ -1,5 +1,7 @@
-package frontend;
+package backend.Controller;
 
+import backend.Connection.DatabaseConnection;
+import frontend.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,16 +16,11 @@ import javafx.scene.control.Button;
 
 import javafx.scene.image.ImageView;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -103,7 +100,7 @@ public class LoginController implements Initializable {
 
     public void createSignupForm(javafx.event.ActionEvent actionEvent) {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("signup.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/frontend/signup.fxml"));
             Stage SignupStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
             SignupStage.setTitle("Sign up");
             SignupStage.setScene(new Scene(root));

@@ -1,5 +1,7 @@
-package frontend;
+package backend.Controller;
 
+import backend.Connection.DatabaseConnection;
+import frontend.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
-import java.awt.*;
+
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -55,11 +57,16 @@ public class SignupController implements Initializable {
 
 
     public void SignupEnable(javafx.event.ActionEvent actionEvent) {
-        SignupButton.setDisable(false);
+        if(SignupButton.isDisable()) {
+            SignupButton.setDisable(false);
+        }
+        else
+        {
+            SignupButton.setDisable(true);
+        }
     }
 
     public void RegisterUser() {
-        DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = DatabaseConnection.getConnection();
 
         String username = SignupUsernameField.getText();
@@ -110,7 +117,7 @@ public class SignupController implements Initializable {
 
     public void SwitchToSignin(ActionEvent actionEvent) {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/frontend/Login.fxml"));
             Stage SignupStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
             SignupStage.setScene(new Scene(root));
             SignupStage.show();
