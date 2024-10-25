@@ -3,14 +3,14 @@ module org.example.library_management_system {
     requires javafx.fxml;
     requires java.desktop;
     requires java.sql;
-    exports Application.backend.backend;
+    exports Application.backend;
     requires javafx.graphics;
 
 
 <<<<<<< HEAD
     opens frontend to javafx.fxml;
     exports frontend;
-    opens Application.backend.backend to javafx.fxml;
+    opens Application.backend to javafx.fxml;
     exports Application.backend.Controller;
     opens Application.backend.Controller to javafx.fxml;
     exports Application.backend.Connection;
