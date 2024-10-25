@@ -22,6 +22,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.scene.image.Image;
@@ -102,7 +103,7 @@ public class LoginController implements Initializable {
 
     public void createSignupForm(javafx.event.ActionEvent actionEvent) {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("/Application/signup.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Application/signup.fxml")));
             Stage SignupStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
             SignupStage.setTitle("Sign up");
             SignupStage.setScene(new Scene(root));

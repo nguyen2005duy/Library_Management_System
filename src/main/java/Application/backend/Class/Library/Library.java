@@ -34,4 +34,5 @@ public class Library {
     {
 
     }
+    public static void add_user(User user)
 }

@@ -18,6 +18,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SignupController implements Initializable {
@@ -96,7 +97,7 @@ public class SignupController implements Initializable {
 
     public void SwitchToSignin(ActionEvent actionEvent) {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("/Application/Login.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Application/Login.fxml")));
             Stage SignupStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
             SignupStage.setScene(new Scene(root));
             SignupStage.show();
