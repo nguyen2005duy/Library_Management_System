@@ -1,7 +1,7 @@
 package Application.backend.Controller;
 
+import Application.Login;
 import Application.backend.Connection.DatabaseConnection;
-import frontend.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,9 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
-<<<<<<<< HEAD:src/main/java/backend/Controller/SignupController.java
-========
->>>>>>>> b628945d9ee2db00728341637ff7208c24a388ab:src/main/java/Application/backend/SignupController.java
 
 import java.net.URL;
 import java.sql.Connection;
@@ -65,13 +62,8 @@ public class SignupController implements Initializable {
     }
 
     public void RegisterUser() {
-<<<<<<<< HEAD:src/main/java/ Application.backend.backend /Controller/SignupController.java
         Connection connectDB = DatabaseConnection.getConnection();
-========
         DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection("user_accounts");
->>>>>>>> b628945d9ee2db00728341637ff7208c24a388ab:src/main/java/Application/ Application.backend.backend /SignupController.java
-
         String username = SignupUsernameField.getText();
         String password = SignupPasswordField.getText();
         String email = SignupEmailField.getText();
@@ -104,11 +96,14 @@ public class SignupController implements Initializable {
 
     public void SwitchToSignin(ActionEvent actionEvent) {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("/frontend/Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/Application/Login.fxml"));
             Stage SignupStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
             SignupStage.setScene(new Scene(root));
             SignupStage.show();
         } catch (Exception e) {
+            System.out.println();
+            System.out.println("Switching to Signin error");
+            System.out.println();
             e.printStackTrace();
             e.getCause();
         }

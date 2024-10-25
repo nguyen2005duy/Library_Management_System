@@ -1,7 +1,6 @@
 package Application.backend.Class.Library;
 import Application.backend.Class.User_Information.User;
 import Application.backend.Documents.*;
-import Application.backend.Class.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;

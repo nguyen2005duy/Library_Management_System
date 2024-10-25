@@ -1,14 +1,9 @@
-<<<<<<<< HEAD:src/main/java/backend/Controller/LoginController.java
-package backend.Controller;
+package Application.backend.Controller;
 
 import Application.backend.Connection.DatabaseConnection;
-import frontend.Login;
-========
-package Application.backend;
 
-import Application.DatabaseConnection;
-import Application.frontend.Login;
->>>>>>>> b628945d9ee2db00728341637ff7208c24a388ab:src/main/java/Application/backend/LoginController.java
+
+import Application.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -107,12 +102,15 @@ public class LoginController implements Initializable {
 
     public void createSignupForm(javafx.event.ActionEvent actionEvent) {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("/frontend/signup.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/Application/signup.fxml"));
             Stage SignupStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
             SignupStage.setTitle("Sign up");
             SignupStage.setScene(new Scene(root));
             SignupStage.show();
         } catch (Exception e) {
+            System.out.println();
+            System.out.println("Creating SignupForm error ");
+            System.out.println();
             e.printStackTrace();
             e.getCause();
         }

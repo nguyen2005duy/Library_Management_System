@@ -1,9 +1,4 @@
-<<<<<<<< HEAD:src/main/java/backend/Connection/DatabaseConnection.java
-package backend.Connection;
-========
-package Application;
->>>>>>>> b628945d9ee2db00728341637ff7208c24a388ab:src/main/java/Application/DatabaseConnection.java
-
+package Application.backend.Connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Scanner;
