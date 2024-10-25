@@ -1,6 +1,6 @@
-package backend.Controller;
+package Application.backend.Controller;
 
-import backend.Connection.DatabaseConnection;
+import Application.backend.Connection.DatabaseConnection;
 import frontend.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 <<<<<<<< HEAD:src/main/java/backend/Controller/SignupController.java
-import javafx.scene.paint.Color;
 ========
 >>>>>>>> b628945d9ee2db00728341637ff7208c24a388ab:src/main/java/Application/backend/SignupController.java
 
@@ -66,12 +65,12 @@ public class SignupController implements Initializable {
     }
 
     public void RegisterUser() {
-<<<<<<<< HEAD:src/main/java/backend/Controller/SignupController.java
+<<<<<<<< HEAD:src/main/java/ Application.backend.backend /Controller/SignupController.java
         Connection connectDB = DatabaseConnection.getConnection();
 ========
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection("user_accounts");
->>>>>>>> b628945d9ee2db00728341637ff7208c24a388ab:src/main/java/Application/backend/SignupController.java
+>>>>>>>> b628945d9ee2db00728341637ff7208c24a388ab:src/main/java/Application/ Application.backend.backend /SignupController.java
 
         String username = SignupUsernameField.getText();
         String password = SignupPasswordField.getText();

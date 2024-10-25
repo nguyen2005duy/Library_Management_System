@@ -1,4 +1,4 @@
-package backend.User_Information;
+package Application.backend.Class.User_Information;
 
 public class Member {
     String member_id;

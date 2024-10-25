@@ -1,7 +1,7 @@
 <<<<<<<< HEAD:src/main/java/backend/Controller/LoginController.java
 package backend.Controller;
 
-import backend.Connection.DatabaseConnection;
+import Application.backend.Connection.DatabaseConnection;
 import frontend.Login;
 ========
 package Application.backend;
