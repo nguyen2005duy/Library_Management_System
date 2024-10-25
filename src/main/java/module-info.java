@@ -12,6 +12,7 @@ module org.example.library_management_system {
     opens Application.backend.Controller to javafx.fxml;
     exports Application.backend.Connection;
     opens Application.backend.Connection to javafx.fxml;
-
+    exports  Application.backend.Class.Library;
+    exports Application.backend.Class.Exceptions;
     // Export and open the frontend packages
 }

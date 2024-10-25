@@ -47,7 +47,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        Image bookFile = new Image(Login.class.getResourceAsStream("Img/book1.png"));
+        Image bookFile = new Image(Login.class.getResourceAsStream("/Img/book1.png"));
         book.setImage(bookFile);
 
     }

@@ -1,6 +1,10 @@
 package Application.backend.Controller;
 
 import Application.Login;
+import Application.backend.Class.Exceptions.UsernameTakenException;
+import Application.backend.Class.Library.Library;
+import Application.backend.Class.User_Information.Member;
+import Application.backend.Class.User_Information.User;
 import Application.backend.Connection.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 
@@ -20,7 +25,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
 public class SignupController implements Initializable {
 
     @FXML
@@ -46,7 +50,7 @@ public class SignupController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        Image bookFile = new Image(Login.class.getResourceAsStream("Img/book1.png"));
+        Image bookFile = new Image(Login.class.getResourceAsStream("/Img/book1.png"));
         book.setImage(bookFile);
 
     }
@@ -64,24 +68,25 @@ public class SignupController implements Initializable {
 
     public void RegisterUser() {
         Connection connectDB = DatabaseConnection.getConnection();
-        DatabaseConnection connectNow = new DatabaseConnection();
         String username = SignupUsernameField.getText();
         String password = SignupPasswordField.getText();
         String email = SignupEmailField.getText();
         String FirstName = FirstnameField.getText();
         String LastName = LastnameField.getText();
-
-        String insertFields = "INSERT INTO user_account(firstname, lastname, username, password, email) VALUES ('";
-        String insertValues = FirstName + "','" + LastName + "','" + username + "','" + password + "','" + email + "')";
-        String insertToRegister = insertFields + insertValues;
-
+        User account = new Member(username,password,FirstName,LastName,email,"Member");
+        Library.add_user(account);
         try {
             Statement stmt = connectDB.createStatement();
-            stmt.executeUpdate(insertToRegister);
+            Library.add_user(account);
             registerMessage.setText("Registered Successfully!");
         } catch (SQLException e) {
+
             e.printStackTrace();
             e.getCause();
+        } catch (UsernameTakenException usernameTakenException)
+        {
+            registerMessage.setTextFill(Color.RED);
+            registerMessage.setText(usernameTakenException.getMessage());
         }
     }
 
@@ -103,7 +108,7 @@ public class SignupController implements Initializable {
             SignupStage.show();
         } catch (Exception e) {
             System.out.println();
-            System.out.println("Switching to Signin error");
+            System.out.println("Switching to Sign in error");
             System.out.println();
             e.printStackTrace();
             e.getCause();
