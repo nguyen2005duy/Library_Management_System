@@ -3,7 +3,7 @@ package Application.backend.Class.User_Information;
 import java.util.List;
 
 public abstract class User {
-    protected String account_id;
+    protected int account_id;
     protected String firstName;
     protected String lastName;
     protected String username;
@@ -42,5 +42,12 @@ public abstract class User {
 
     public String getRole() {
         return role;
+    }
+
+    public int getAccount_id() {
+        return account_id;
+    }
+    public void setAccount_id(int account_id) {
+        this.account_id = account_id;
     }
 }

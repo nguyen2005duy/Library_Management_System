@@ -74,7 +74,6 @@ public class SignupController implements Initializable {
         String FirstName = FirstnameField.getText();
         String LastName = LastnameField.getText();
         User account = new Member(username,password,FirstName,LastName,email,"Member");
-        Library.add_user(account);
         try {
             Statement stmt = connectDB.createStatement();
             Library.add_user(account);

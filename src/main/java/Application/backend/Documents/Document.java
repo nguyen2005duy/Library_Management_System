@@ -4,23 +4,23 @@ package Application.backend.Documents;
 import java.sql.Date;
 
 public class Document {
-    private String book_id;
+    private final String book_id;
     private String title;
     private String author;
-    private java.sql.Date published_date;
+    private String published_date;
     private int pages;
-    private String type;
+    private String []  categories;
     private boolean available;
     private String borrow_user_id;
     private java.sql.Date borrowed_date;
     private java.sql.Date required_date;
 
-    public Document(String book_id, String title, String author, String type,
-                    Date published_date, int pages, String borrow_user_id, Date borrowed_date, Date required_date) {
+    public Document(String book_id, String title, String author, String [] categories,
+                    String published_date, int pages, String borrow_user_id, Date borrowed_date, Date required_date) {
         this.book_id = book_id;
         this.title = title;
         this.author = author;
-        this.type = type;
+        this.categories = categories;
         this.published_date = published_date;
         this.pages = pages;
         this.available = false;
@@ -30,11 +30,11 @@ public class Document {
     }
 
     public Document(String book_id, String title, String author,
-                    String type, Date published_date, int pages) {
+                    String[] categories  , String published_date, int pages) {
         this.book_id = book_id;
         this.title = title;
         this.author = author;
-        this.type = type;
+        this.categories = categories ;
         this.published_date = published_date;
         this.pages = pages;
         this.available = true;
