@@ -21,7 +21,6 @@ public class Library {
     static {
         documentsList = new ArrayList<>();
         usersList = new ArrayList<>();
-        membersList = new ArrayList<>();
         connectDB = DatabaseConnection.getConnection();
     }
 
@@ -51,7 +50,7 @@ public class Library {
             e.printStackTrace();////
             e.getCause();
         }
-        membersList.add(member);
+        usersList.add(member);
     }
 
     public static void add_user(User user) throws UsernameTakenException {
@@ -86,7 +85,6 @@ public class Library {
         user.setAccount_id(lastInsertId);
         System.out.println(user.getAccount_id());
         add_member(user);
-        usersList.add(user);
     }
 
     public static boolean remove_user(int id) throws SQLException {
@@ -110,4 +108,8 @@ public class Library {
             return "Errors while finding books";
         }
     }
+//    public static boolean borrow_books(String id) {
+//
+//    }
+
 }
