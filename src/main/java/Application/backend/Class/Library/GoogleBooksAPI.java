@@ -44,7 +44,7 @@ public class GoogleBooksAPI {
     /**
      * Searching for book in generals.
      *
-     * @param query the title name
+     * @param query the title name.
      * @return A string that lead to the book.
      * @throws IOException ?
      */
@@ -81,6 +81,11 @@ public class GoogleBooksAPI {
 
     }
 
+    /**
+     * lay thong tin nhieu quyen sach.
+     *
+     * @param jsonResponse Phản hồi JSON từ API.
+     */
     public static void getBookInfo(String jsonResponse) {
         try {
             // Create an ObjectMapper
@@ -91,7 +96,8 @@ public class GoogleBooksAPI {
 
             // Get the first book item (if exists)
             int querySize = rootNode.path("items").size();
-            for (int i = 0; i < 5; i++) {
+
+            for (int i = 0; i < querySize; i++) {
                 JsonNode book = rootNode.path("items").get(i);
                 printBookDetails(book.path("selfLink").asText());
             }
@@ -99,6 +105,15 @@ public class GoogleBooksAPI {
             System.err.println("Error parsing JSON response: " + e.getMessage());
         }
     }
+
+
+    /**
+     * lay thong tin mot cuon sach.
+     *
+     * @param selfLink duong dan den sach.
+     * @return tra lai du lieu string cuon sach hoac loi.
+     * @throws IOException co loi khi ket noi hoac doc du lieu.
+     */
 
     public static String searchOneBook(String selfLink) throws IOException {
         String urlString = selfLink + "?key=" + apiKey;
@@ -127,6 +142,12 @@ public class GoogleBooksAPI {
         }
     }
 
+    /**
+     * in ra thong tin cua cuon sach.
+     *
+     * @param selfLink duong dan den sach.
+     * @throws IOException co loi khi ket noi hoac doc du lieu.
+     */
     public static void printBookDetails(String selfLink) throws IOException {
         String jsonResponse = searchOneBook(selfLink);
         try {
@@ -134,6 +155,7 @@ public class GoogleBooksAPI {
             ObjectMapper objectMapper = new ObjectMapper();
             // Get the  book item (if exists)
             JsonNode book = objectMapper.readTree(jsonResponse);
+
 
             // Extract the book's title, authors, and description
             String book_id = book.path("id").asText();

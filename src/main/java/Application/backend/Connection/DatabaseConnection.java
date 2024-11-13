@@ -13,6 +13,11 @@ public class DatabaseConnection {
         connection = getConnection();
     }
 
+    /**
+     * ket noi den database.
+     *
+     * @return duong dan den database.
+     */
     public static Connection getConnection() {
         String databaseUser = "root";
         while (databasePassword == null) {

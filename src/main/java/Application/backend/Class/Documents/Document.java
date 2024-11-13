@@ -12,11 +12,12 @@ public class Document {
     private String author;
     private String published_date;
     private int pages;
-    private String []  categories;
+    private String[] categories;
     private boolean available;
     private String borrow_user_id;
     private java.sql.Date borrowed_date;
     private java.sql.Date required_date;
+
 
     public Document(String book_id, String borrow_user_id) {
         this.book_id = book_id;
@@ -27,7 +28,9 @@ public class Document {
         this.required_date = java.sql.Date.valueOf(requiredLocalDate);
     }
 
-    public Document(String book_id, String title, String author, String [] categories,
+  
+    public Document(String book_id, String title, String author, String[] categories,
+
                     String published_date, int pages, String borrow_user_id, Date borrowed_date, Date required_date) {
         this.book_id = book_id;
         this.title = title;
@@ -78,26 +81,34 @@ public class Document {
     }
 
     public Document(String book_id, String title, String author,
-                    String[] categories  , String published_date, int pages) {
+                    String[] categories, String published_date, int pages) {
         this.book_id = book_id;
         this.title = title;
         this.author = author;
-        this.categories = categories ;
+        this.categories = categories;
         this.published_date = published_date;
         this.pages = pages;
         this.available = true;
     }
 
-    public void check_out()
-    {
+    /**
+     * danh dau quyen sach nay chua co nguoi muon.
+     */
+    public void check_out() {
         available = true;
         borrow_user_id = null;
         borrowed_date = null;
         required_date = null;
     }
 
-    public void check_in(String borrow_user_id, Date borrowed_date, Date required_date)
-    {
+    /**
+     * danh dau quyen sach nay da co nguoi muon.
+     *
+     * @param borrow_user_id id nguoi muon.
+     * @param borrowed_date  ngay muon.
+     * @param required_date  ngay tra.
+     */
+    public void check_in(String borrow_user_id, Date borrowed_date, Date required_date) {
         available = false;
         this.borrow_user_id = borrow_user_id;
         this.borrowed_date = new Date(System.currentTimeMillis());

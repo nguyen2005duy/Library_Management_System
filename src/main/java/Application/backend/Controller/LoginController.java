@@ -42,7 +42,7 @@ public class LoginController implements Initializable {
     private Label LoginMessage;
     @FXML
     private ImageView book;
-    public static  Connection connectDB;
+    public static Connection connectDB;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,7 +66,7 @@ public class LoginController implements Initializable {
                     LoginMessage.setText("You have successfully logged in!");
                     LoginMessage.setTextFill(Color.GREEN);
                 } else {
-                   LoginMessage.setText("Invalid username or password");
+                    LoginMessage.setText("Invalid username or password");
                     LoginMessage.setTextFill(Color.RED);
 
                 }
@@ -80,20 +80,15 @@ public class LoginController implements Initializable {
     public void loginButtoninAction(javafx.event.ActionEvent actionEvent) {
         if (!UsernameField.getText().isBlank() && !passwordField.getText().isBlank()) {
             Validatelogin();
-        }
-        else if (!UsernameField.getText().isBlank() && passwordField.getText().isBlank())
-        {
+        } else if (!UsernameField.getText().isBlank() && passwordField.getText().isBlank()) {
             LoginMessage.setText("Please enter your password");
             LoginMessage.setTextFill(Color.RED);
 
-        }
-        else if (UsernameField.getText().isBlank() && !passwordField.getText().isBlank())
-        {
+        } else if (UsernameField.getText().isBlank() && !passwordField.getText().isBlank()) {
             LoginMessage.setText("Please enter your username");
             LoginMessage.setTextFill(Color.RED);
 
-        }
-        else {
+        } else {
             LoginMessage.setText("Please enter your username and password");
             LoginMessage.setTextFill(Color.RED);
 
@@ -102,9 +97,9 @@ public class LoginController implements Initializable {
 
 
     public void createSignupForm(javafx.event.ActionEvent actionEvent) {
-        try{
+        try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Application/signup.fxml")));
-            Stage SignupStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage SignupStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             SignupStage.setTitle("Sign up");
             SignupStage.setScene(new Scene(root));
             SignupStage.show();
