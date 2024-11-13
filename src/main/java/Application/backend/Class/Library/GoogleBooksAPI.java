@@ -48,11 +48,11 @@ public class GoogleBooksAPI {
      * @return A string that lead to the book.
      * @throws IOException ?
      */
-    // Method to search for books
+    // Method to search for books//
     public static String searchMultiBooks(String query) throws IOException {
         // Construct the URL with the search query and API key
         String urlString = "https://www.googleapis.com/books/v1/volumes?q=intitle:" + query.replace(" ", "+") + "&languageRestrict=en&key=" + apiKey;
-
+//
         // Create a URL object from the URL string
         URL url = new URL(urlString);
 
