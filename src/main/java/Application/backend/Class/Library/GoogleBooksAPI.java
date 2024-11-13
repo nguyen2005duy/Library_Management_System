@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 public class GoogleBooksAPI {
     public static String apiKey = "AIzaSyBuLI1dOZrUS6U78tj41hZtWr5aKo6u_j0";
+
     public static void main(String[] args) {
         // Replace YOUR_API_KEY with your actual API key
         String query = new Scanner(System.in).next();  // Example search query
@@ -30,7 +31,8 @@ public class GoogleBooksAPI {
 
     /**
      * Searching for book in generals.
-     * @param query the title name
+     *
+     * @param query the title name.
      * @return A string that lead to the book.
      * @throws IOException ?
      */
@@ -67,6 +69,11 @@ public class GoogleBooksAPI {
 
     }
 
+    /**
+     * lay thong tin nhieu quyen sach.
+     *
+     * @param jsonResponse Phản hồi JSON từ API.
+     */
     public static void getBookInfo(String jsonResponse) {
         try {
             // Create an ObjectMapper
@@ -77,7 +84,7 @@ public class GoogleBooksAPI {
 
             // Get the first book item (if exists)
             int querySize = rootNode.path("items").size();
-            for (int i =0;i<querySize;i++) {
+            for (int i = 0; i < querySize; i++) {
                 JsonNode book = rootNode.path("items").get(i);
                 printBookDetails(book.path("selfLink").asText());
             }
@@ -85,6 +92,14 @@ public class GoogleBooksAPI {
             System.err.println("Error parsing JSON response: " + e.getMessage());
         }
     }
+
+    /**
+     * lay thong tin mot cuon sach.
+     *
+     * @param selfLink duong dan den sach.
+     * @return tra lai du lieu string cuon sach hoac loi.
+     * @throws IOException co loi khi ket noi hoac doc du lieu.
+     */
     public static String searchOneBook(String selfLink) throws IOException {
         String urlString = selfLink + "?key=" + apiKey;
         URL url = new URL(urlString);
@@ -108,17 +123,24 @@ public class GoogleBooksAPI {
             in.close();
             return response.toString();  // Return the response as a String
         } else {
-           return "Error: Unable to get response from Google Books API. HTTP Code: " + responseCode;
+            return "Error: Unable to get response from Google Books API. HTTP Code: " + responseCode;
         }
     }
 
+    /**
+     * in ra thong tin cua cuon sach.
+     *
+     * @param selfLink duong dan den sach.
+     * @throws IOException co loi khi ket noi hoac doc du lieu.
+     */
     public static void printBookDetails(String selfLink) throws IOException {
-          String jsonResponse = searchOneBook(selfLink);
+        String jsonResponse = searchOneBook(selfLink);
         try {
             // Create an ObjectMapper
             ObjectMapper objectMapper = new ObjectMapper();
             // Get the  book item (if exists)
-            JsonNode book = objectMapper.readTree(jsonResponse);;
+            JsonNode book = objectMapper.readTree(jsonResponse);
+            ;
 
             // Extract the book's title, authors, and description
 

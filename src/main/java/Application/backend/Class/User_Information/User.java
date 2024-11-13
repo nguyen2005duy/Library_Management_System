@@ -47,6 +47,7 @@ public abstract class User {
     public int getAccount_id() {
         return account_id;
     }
+
     public void setAccount_id(int account_id) {
         this.account_id = account_id;
     }

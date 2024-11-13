@@ -16,7 +16,6 @@ public class Library {
     public static Connection connectDB;
     public static List<Document> documentsList;
     public static List<User> usersList;
-    public static List<Member> membersList;
 
     static {
         documentsList = new ArrayList<>();
@@ -34,8 +33,14 @@ public class Library {
 
     public static void add_document(Document document) {
 
+
     }
 
+    /**
+     * them nguoi dung vao usersList va co so du lieu.
+     *
+     * @param user nguoi dung can them.
+     */
     public static void add_member(User user) {
         Member member = (Member) user;
         member.generateMemberType();
@@ -53,6 +58,12 @@ public class Library {
         usersList.add(member);
     }
 
+    /**
+     * them nguoi dung vao co so du lieu.
+     *
+     * @param user nguoi dung can them.
+     * @throws UsernameTakenException loi khi thay ten nguoi dung trung nhau.
+     */
     public static void add_user(User user) throws UsernameTakenException {
         for (User user1 : usersList) {
             if (user.getUsername().equals(user1.getUsername())) {
@@ -87,6 +98,13 @@ public class Library {
         add_member(user);
     }
 
+    /**
+     * xoa nguoi dung vao usersList va co so du lieu.
+     *
+     * @param id ma id cua nguoi dung.
+     * @return dung khi da xoa nguoi dung thanh cong, sai khi khong tim thay nguoi dung.
+     * @throws SQLException loi khi thao tac co so du lieu.
+     */
     public static boolean remove_user(int id) throws SQLException {
         User userToRemove = null;
         for (User user1 : usersList) {
