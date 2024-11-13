@@ -5,6 +5,7 @@ import Application.backend.Class.User_Information.Member;
 import Application.backend.Class.User_Information.User;
 import Application.backend.Connection.DatabaseConnection;
 import Application.backend.Class.Documents.*;
+
 import java.io.IOException;
 
 import java.sql.*;
@@ -33,7 +34,7 @@ public class Library {
     }
 
     public static void add_document(Document document) {
-        
+
     }
 
     public static void add_member(User user) {
@@ -41,7 +42,7 @@ public class Library {
         member.generateMemberType();
         String insertFields = "INSERT INTO member_account(member_id, isPremiumMember, account_id) VALUES ('";
         String insertValues = member.getMember_id() + "','" + 0 +
-                "','" + member.getAccount_id() +"')";
+                "','" + member.getAccount_id() + "')";
         String insertToRegister = insertFields + insertValues;
         try {
             Statement stmt = connectDB.createStatement();
@@ -87,9 +88,24 @@ public class Library {
         add_member(user);
         usersList.add(user);
     }
+
+    public static boolean remove_user(int id) throws SQLException {
+        User userToRemove = null;
+        for (User user1 : usersList) {
+            if (id == user1.getAccount_id()) {
+                userToRemove = user1;
+                break;
+            }
+        }
+        if (userToRemove == null) {
+            return false;
+        }
+        return usersList.remove(userToRemove);
+    }
+
     public static String find_document(String name) {
         try {
-            return   GoogleBooksAPI.searchMultiBooks(name);
+            return GoogleBooksAPI.searchMultiBooks(name);
         } catch (IOException e) {
             return "Errors while finding books";
         }
