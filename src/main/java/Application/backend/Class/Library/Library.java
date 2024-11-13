@@ -4,7 +4,8 @@ import Application.backend.Class.Exceptions.UsernameTakenException;
 import Application.backend.Class.User_Information.Member;
 import Application.backend.Class.User_Information.User;
 import Application.backend.Connection.DatabaseConnection;
-import Application.backend.Documents.*;
+import Application.backend.Class.Documents.*;
+import java.io.IOException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -85,5 +86,12 @@ public class Library {
         System.out.println(user.getAccount_id());
         add_member(user);
         usersList.add(user);
+    }
+    public static String find_document(String name) {
+        try {
+            return   GoogleBooksAPI.searchMultiBooks(name);
+        } catch (IOException e) {
+            return "Errors while finding books";
+        }
     }
 }

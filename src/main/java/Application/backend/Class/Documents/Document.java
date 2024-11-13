@@ -1,4 +1,4 @@
-package Application.backend.Documents;
+package Application.backend.Class.Documents;
 
 
 import java.sql.Date;
@@ -42,7 +42,7 @@ public class Document {
 
     public void check_out()
     {
-        available = false;
+        available = true;
         borrow_user_id = null;
         borrowed_date = null;
         required_date = null;
@@ -50,7 +50,7 @@ public class Document {
 
     public void check_in(String borrow_user_id, Date borrowed_date, Date required_date)
     {
-        available = true;
+        available = false;
         this.borrow_user_id = borrow_user_id;
         this.borrowed_date = borrowed_date;
         this.required_date = required_date;

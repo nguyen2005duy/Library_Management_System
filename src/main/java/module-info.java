@@ -4,6 +4,7 @@ module org.example.library_management_system {
     requires java.desktop;
     requires java.sql;
     requires javafx.graphics;
+    requires com.fasterxml.jackson.databind;
 
     // Export and open the backend packages
     opens Application to javafx.fxml;
@@ -15,5 +16,7 @@ module org.example.library_management_system {
     exports Application.backend.Class.Exceptions;
     exports Application.frontend;
     opens Application.frontend to javafx.fxml;
+    exports Application.backend.Class.Documents;
+    exports Application.backend.Class.User_Information;
     // Export and open the frontend packages
 }
