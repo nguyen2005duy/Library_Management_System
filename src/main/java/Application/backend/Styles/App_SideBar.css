@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+.main_menu{
+    -fx-background-color: white;
+    -fx-padding: 10 10 10 10;
+    -fx-spacing: 10;
+}
+
+.main_menu Button {
+    -fx-background-color: transparent;
+    -fx-border-radius: 20 20 0 0;
+    -fx-alignment: top_center;
+    -fx-padding: 10;
+    -fx-text-fill: #808191;
+}
+
+.main_menu Button:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #ffeded;
+}
+
+
+
+.main_menu Button FontAwesomeIconView {
+    -fx-fill: gray;
+    -fx-background-color: #F2F2F2;
+    -fx-spacing: 10;
+}
+
+.rectangle {
+    -fx-background-color: #EAE6D7;
+    -fx-border-radius: 20%;
+}
+
+
+.icon {
+    -fx-background-color: aqua;
+}
+

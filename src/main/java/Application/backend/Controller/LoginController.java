@@ -2,7 +2,7 @@ package Application.backend.Controller;
 
 import Application.backend.Connection.DatabaseConnection;
 
-
+import Application.backend.Model.Model;
 import Application.frontend.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -52,8 +52,13 @@ public class LoginController implements Initializable {
 
     }
 
+<<<<<<< Updated upstream
     private void Validatelogin() {
         connectDB = DatabaseConnection.connection;
+=======
+    private void Validatelogin(javafx.event.ActionEvent actionEvent) {
+        connectDB = DatabaseConnection.getConnection();
+>>>>>>> Stashed changes
 
         String verifyLogin = "SELECT count(1) FROM user_account WHERE username = '" + UsernameField.getText() + "' AND password = '" + passwordField.getText() + "'";
         try {
@@ -65,6 +70,7 @@ public class LoginController implements Initializable {
                 if (queryResult.getInt(1) == 1) {
                     LoginMessage.setText("You have successfully logged in!");
                     LoginMessage.setTextFill(Color.GREEN);
+                    Model.getInstance().getFactoryViews().showAppView();
                 } else {
                     LoginMessage.setText("Invalid username or password");
                     LoginMessage.setTextFill(Color.RED);
@@ -79,8 +85,15 @@ public class LoginController implements Initializable {
 
     public void loginButtoninAction(javafx.event.ActionEvent actionEvent) {
         if (!UsernameField.getText().isBlank() && !passwordField.getText().isBlank()) {
+<<<<<<< Updated upstream
             Validatelogin();
         } else if (!UsernameField.getText().isBlank() && passwordField.getText().isBlank()) {
+=======
+            Validatelogin(actionEvent);
+        }
+        else if (!UsernameField.getText().isBlank() && passwordField.getText().isBlank())
+        {
+>>>>>>> Stashed changes
             LoginMessage.setText("Please enter your password");
             LoginMessage.setTextFill(Color.RED);
 
@@ -95,6 +108,21 @@ public class LoginController implements Initializable {
         }
     }
 
+    public void GetInApp(javafx.event.ActionEvent actionEvent) {
+        try{
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Application/app.fxml")));
+            Stage SignupStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            SignupStage.setTitle("The Books");
+            SignupStage.setScene(new Scene(root));
+            SignupStage.show();
+        } catch (Exception e) {
+            System.out.println();
+            System.out.println("app error ");
+            System.out.println();
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
 
     public void createSignupForm(javafx.event.ActionEvent actionEvent) {
         try {
