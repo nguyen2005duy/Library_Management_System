@@ -1,7 +1,10 @@
 package Application.backend.Class.Documents;
 
 
+import Application.backend.Class.Library.Library;
+
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Document {
     private final String book_id;
@@ -15,6 +18,15 @@ public class Document {
     private java.sql.Date borrowed_date;
     private java.sql.Date required_date;
 
+    public Document(String book_id, String borrow_user_id) {
+        this.book_id = book_id;
+        this.borrow_user_id = borrow_user_id;
+        this.borrowed_date = new Date(System.currentTimeMillis());
+        LocalDate borrowedLocalDate = borrowed_date.toLocalDate();
+        LocalDate requiredLocalDate = borrowedLocalDate.plusDays(30);
+        this.required_date = java.sql.Date.valueOf(requiredLocalDate);
+    }
+
     public Document(String book_id, String title, String author, String [] categories,
                     String published_date, int pages, String borrow_user_id, Date borrowed_date, Date required_date) {
         this.book_id = book_id;
@@ -27,6 +39,42 @@ public class Document {
         this.borrow_user_id = borrow_user_id;
         this.borrowed_date = borrowed_date;
         this.required_date = required_date;
+    }
+
+    public String getBook_id() {
+        return book_id;
+    }
+
+    public String getBorrow_user_id() {
+        return borrow_user_id;
+    }
+
+    public void setBorrow_user_id(String borrow_user_id) {
+        this.borrow_user_id = borrow_user_id;
+    }
+
+    public Date getBorrowed_date() {
+        return borrowed_date;
+    }
+
+    public void setBorrowed_date(Date borrowed_date) {
+        this.borrowed_date = borrowed_date;
+    }
+
+    public Date getRequired_date() {
+        return required_date;
+    }
+
+    public void setRequired_date(Date required_date) {
+        this.required_date = required_date;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public Document(String book_id, String title, String author,
@@ -52,9 +100,11 @@ public class Document {
     {
         available = false;
         this.borrow_user_id = borrow_user_id;
-        this.borrowed_date = borrowed_date;
-        this.required_date = required_date;
+        this.borrowed_date = new Date(System.currentTimeMillis());
+        LocalDate borrowedLocalDate = borrowed_date.toLocalDate();
+        LocalDate requiredLocalDate = borrowedLocalDate.plusDays(30);
+        this.required_date = java.sql.Date.valueOf(requiredLocalDate);
     }
-    
+
 
 }

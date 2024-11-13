@@ -16,12 +16,11 @@ public class Library {
     public static Connection connectDB;
     public static List<Document> documentsList;
     public static List<User> usersList;
-    public static List<Member> membersList;
 
     static {
         documentsList = new ArrayList<>();
         usersList = new ArrayList<>();
-        connectDB = DatabaseConnection.getConnection();
+        connectDB = DatabaseConnection.connection;
     }
 
     public static void loadDocuments() {
@@ -34,6 +33,24 @@ public class Library {
 
     public static void add_document(Document document) {
 
+        String insertFields = "INSERT INTO document(book_id,available,borrowed_user_id,borrowed_date,required_date) VALUES (";
+        String insertValues = "'" + document.getBook_id() + "'," +
+                (document.isAvailable() ? 1 : 0) + "," +
+                document.getBorrow_user_id() + ",'" +
+                document.getBorrowed_date() + "','" +
+                document.getRequired_date() + "')";
+        String insertToDownloadBooks = insertFields + insertValues;
+        System.out.println(insertToDownloadBooks);
+        System.out.println(document.getBook_id());
+        try {
+            Statement stmt = connectDB.createStatement();
+            stmt.executeUpdate(insertToDownloadBooks);
+        } catch (SQLException e) {
+            System.out.println("Loi khi them book vao database.");////
+            e.getCause();
+            return;
+        }
+        documentsList.add(document);
     }
 
     public static void add_member(User user) {
@@ -108,8 +125,16 @@ public class Library {
             return "Errors while finding books";
         }
     }
-//    public static boolean borrow_books(String id) {
-//
-//    }
+
+    public static boolean borrow_books(String id, String user_id) {
+        for (Document document : documentsList) {
+            if (id.equals(document.getBook_id())) {
+                return false;
+            }
+        }
+        Document document = new Document(id, user_id);
+        add_document(document);
+        return true;
+    }
 
 }

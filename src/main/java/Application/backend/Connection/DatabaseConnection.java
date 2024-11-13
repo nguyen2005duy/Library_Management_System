@@ -1,4 +1,5 @@
 package Application.backend.Connection;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Scanner;
@@ -6,6 +7,11 @@ import java.util.Scanner;
 public class DatabaseConnection {
     public static Connection databaseLink;
     public static String databasePassword = null;
+    public static Connection connection;
+
+    static {
+        connection = getConnection();
+    }
 
     public static Connection getConnection() {
         String databaseUser = "root";

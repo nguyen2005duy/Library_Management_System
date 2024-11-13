@@ -67,7 +67,7 @@ public class SignupController implements Initializable {
     }
 
     public void RegisterUser() {
-        Connection connectDB = DatabaseConnection.getConnection();
+        Connection connectDB = DatabaseConnection.connection;
         String username = SignupUsernameField.getText();
         String password = SignupPasswordField.getText();
         String email = SignupEmailField.getText();
