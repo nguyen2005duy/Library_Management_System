@@ -4,11 +4,8 @@ module org.example.library_management_system {
     requires java.desktop;
     requires java.sql;
     requires javafx.graphics;
-<<<<<<< Updated upstream
     requires com.fasterxml.jackson.databind;
-=======
     requires de.jensd.fx.glyphs.fontawesome;
->>>>>>> Stashed changes
 
     // Export and open the backend packages
     opens Application to javafx.fxml;

@@ -19,6 +19,10 @@
     -fx-background-color: #ffeded;
 }
 
+.main_menu FontAwesomeIconView {
+    -fx-background-color: red;
+}
+
 
 
 .main_menu Button FontAwesomeIconView {

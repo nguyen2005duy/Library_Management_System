@@ -52,13 +52,9 @@ public class LoginController implements Initializable {
 
     }
 
-<<<<<<< Updated upstream
+
     private void Validatelogin() {
-        connectDB = DatabaseConnection.connection;
-=======
-    private void Validatelogin(javafx.event.ActionEvent actionEvent) {
         connectDB = DatabaseConnection.getConnection();
->>>>>>> Stashed changes
 
         String verifyLogin = "SELECT count(1) FROM user_account WHERE username = '" + UsernameField.getText() + "' AND password = '" + passwordField.getText() + "'";
         try {
@@ -70,7 +66,7 @@ public class LoginController implements Initializable {
                 if (queryResult.getInt(1) == 1) {
                     LoginMessage.setText("You have successfully logged in!");
                     LoginMessage.setTextFill(Color.GREEN);
-                    Model.getInstance().getFactoryViews().showAppView();
+                    onLogin();
                 } else {
                     LoginMessage.setText("Invalid username or password");
                     LoginMessage.setTextFill(Color.RED);
@@ -85,15 +81,12 @@ public class LoginController implements Initializable {
 
     public void loginButtoninAction(javafx.event.ActionEvent actionEvent) {
         if (!UsernameField.getText().isBlank() && !passwordField.getText().isBlank()) {
-<<<<<<< Updated upstream
             Validatelogin();
         } else if (!UsernameField.getText().isBlank() && passwordField.getText().isBlank()) {
-=======
-            Validatelogin(actionEvent);
+            Validatelogin();
         }
         else if (!UsernameField.getText().isBlank() && passwordField.getText().isBlank())
         {
->>>>>>> Stashed changes
             LoginMessage.setText("Please enter your password");
             LoginMessage.setTextFill(Color.RED);
 
@@ -140,5 +133,10 @@ public class LoginController implements Initializable {
         }
     }
 
+    private void onLogin(){
+        Stage stage = (Stage) LoginButton.getScene().getWindow();
+        Model.getInstance().getFactoryViews().closeStage(stage);
+        Model.getInstance().getFactoryViews().showAppView();
+    }
 
 }
