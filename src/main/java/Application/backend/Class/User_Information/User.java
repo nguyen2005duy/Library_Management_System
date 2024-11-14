@@ -51,4 +51,15 @@ public abstract class User {
     public void setAccount_id(int account_id) {
         this.account_id = account_id;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "account_id=" + account_id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }

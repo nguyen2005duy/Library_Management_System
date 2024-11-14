@@ -1,17 +1,20 @@
-package Application.backend.Class.Documents;
+package Application.backend.Class.Books;
 
 
 import Application.backend.Class.Library.Library;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Arrays;
 
-public class Document {
+public class Book {
     private final String book_id;
     private String title;
     private String author;
     private String published_date;
-    private int pages;
+    private String pages;
     private String[] categories;
     private boolean available;
     private String borrow_user_id;
@@ -19,7 +22,7 @@ public class Document {
     private java.sql.Date required_date;
 
 
-    public Document(String book_id, String borrow_user_id) {
+    public Book(String book_id, String borrow_user_id) {
         this.book_id = book_id;
         this.borrow_user_id = borrow_user_id;
         this.borrowed_date = new Date(System.currentTimeMillis());
@@ -28,10 +31,10 @@ public class Document {
         this.required_date = java.sql.Date.valueOf(requiredLocalDate);
     }
 
-  
-    public Document(String book_id, String title, String author, String[] categories,
 
-                    String published_date, int pages, String borrow_user_id, Date borrowed_date, Date required_date) {
+    public Book(String book_id, String title, String author, String[] categories,
+
+                String published_date, String pages, String borrow_user_id, Date borrowed_date, Date required_date) {
         this.book_id = book_id;
         this.title = title;
         this.author = author;
@@ -42,6 +45,15 @@ public class Document {
         this.borrow_user_id = borrow_user_id;
         this.borrowed_date = borrowed_date;
         this.required_date = required_date;
+    }
+
+    public Book(String book_id, String title, String author, String pages, String[] categories, String published_date) {
+        this.book_id = book_id;
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.categories = categories;
+        this.published_date = published_date;
     }
 
     public String getBook_id() {
@@ -64,12 +76,34 @@ public class Document {
         this.borrowed_date = borrowed_date;
     }
 
+    public void setBorrowed_Date(String borrowed_date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            java.util.Date utilDate = formatter.parse(borrowed_date);
+            Date sqlDate = new Date(utilDate.getTime());
+            setBorrowed_date(sqlDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Date getRequired_date() {
         return required_date;
     }
 
     public void setRequired_date(Date required_date) {
         this.required_date = required_date;
+    }
+
+    public void setRequired_date(String required_date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            java.util.Date utilDate = formatter.parse(required_date);
+            Date sqlDate = new Date(utilDate.getTime());
+            setBorrowed_date(sqlDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isAvailable() {
@@ -80,8 +114,8 @@ public class Document {
         this.available = available;
     }
 
-    public Document(String book_id, String title, String author,
-                    String[] categories, String published_date, int pages) {
+    public Book(String book_id, String title, String author,
+                String[] categories, String published_date, String pages) {
         this.book_id = book_id;
         this.title = title;
         this.author = author;
@@ -95,6 +129,7 @@ public class Document {
      * danh dau quyen sach nay chua co nguoi muon.
      */
     public void check_out() {
+        Library.add_record(this);
         available = true;
         borrow_user_id = null;
         borrowed_date = null;
@@ -117,5 +152,15 @@ public class Document {
         this.required_date = java.sql.Date.valueOf(requiredLocalDate);
     }
 
-
+    @Override
+    public String toString() {
+        return "Book{" +
+                "title='" + title + '\'' +
+                ", published_date='" + published_date + '\'' +
+                ", pages=" + pages +
+                ", categories=" + Arrays.toString(categories) +
+                ", book_id='" + book_id + '\'' +
+                ", author='" + author + '\'' +
+                '}';
+    }
 }

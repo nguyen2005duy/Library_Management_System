@@ -1,11 +1,8 @@
 package Application.frontend;
-import Application.Views.FactoryViews;
+import Application.backend.Class.Library.Library;
 import Application.backend.Model.Model;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
 
 import java.io.IOException;
 
@@ -16,6 +13,18 @@ public class Login extends Application {
     }
 
     public static void main(String[] args) {
+        Thread loadDocuments = new Thread(Library::loadBooks);
+        Thread loadUsers = new Thread(Library::loadUsers);
+        loadDocuments.start();
+        loadUsers.start();
+        try {
+            loadDocuments.join();
+            loadUsers.join();
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+        Library.printBookDetails();
+        Library.printUsers();
         launch();//
     }
 }
