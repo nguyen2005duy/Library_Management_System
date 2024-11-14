@@ -1,35 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
-.main_menu{
+.main_menu_container{
     -fx-background-color: white;
     -fx-padding: 10 10 10 10;
     -fx-spacing: 10;
 }
 
-.main_menu Button {
-    -fx-background-color: transparent;
-    -fx-border-radius: 20 20 0 0;
-    -fx-alignment: top_center;
-    -fx-padding: 10;
-    -fx-text-fill: #808191;
+.main_menu_container .menu{
+    -fx-font-size: 2em;
 }
 
-.main_menu Button:hover {
+.main_menu_container Button {
+    -fx-pref-width: 200;
+    -fx-pref-height: 60;
+    -fx-font-size: 1.5em;
+    -fx-background-color: transparent;
+    -fx-border-radius: 100 100 0 0;
+    -fx-alignment: top_center;
+    -fx-padding: 10;
+    -fx-text-fill: gray;
+}
+
+.main_menu_container Button:hover {
     -fx-cursor: hand;
     -fx-background-color: #ffeded;
 }
 
-.main_menu FontAwesomeIconView {
+.main_menu_container FontAwesomeIconView {
     -fx-background-color: red;
+    -fx-fill : gray;
+}
+
+.main_menu_container #Title{
+    -fx-font-size: 2em;
 }
 
 
-
-.main_menu Button FontAwesomeIconView {
-    -fx-fill: gray;
-    -fx-background-color: #F2F2F2;
-    -fx-spacing: 10;
-}
 
 .rectangle {
     -fx-background-color: #EAE6D7;

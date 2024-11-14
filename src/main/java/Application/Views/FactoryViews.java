@@ -19,7 +19,7 @@ public class FactoryViews {
     }
 
     public void showAppView(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/App.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/app.fxml"));
         AppController appController = new AppController();
         loader.setController(appController);
 
@@ -28,10 +28,13 @@ public class FactoryViews {
 
     private void createStage(FXMLLoader loader) {
         Scene scene = null;
+
         try{
             scene = new Scene(loader.load());
+
         }catch(Exception e){
             e.printStackTrace();
+            System.out.println("cc");
         }
         Stage stage = new Stage();
         stage.setScene(scene);
