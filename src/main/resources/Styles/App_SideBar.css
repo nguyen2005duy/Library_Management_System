@@ -1,4 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@font-face {
+    font-family: "UlmGrotesk";
+    src: url("/fonts/FontsFreeNetUlmGrotesk.ttf");
+}
+
+.ulm-grotesk-text {
+    -fx-font-family: "UlmGrotesk";
+    -fx-font-size: 16px;
+}
+
+.title
+{
+    -fx-font-family: "UlmGrotesk";
+
+}
+
+.main_container {
+    -fx-background-color: white;
+    -fx-border-radius: 100 100 100 100;
+}
 
 .main_menu_container{
     -fx-background-color: white;
@@ -7,6 +26,12 @@
 }
 
 .main_menu_container .menu{
+    -fx-font-size: 2em;
+}
+
+.main_menu_container Label{
+    -fx-padding: 20 0 0 20;
+    -fx-font-family: "UlmGrotesk";
     -fx-font-size: 2em;
 }
 
@@ -29,21 +54,6 @@
 .main_menu_container FontAwesomeIconView {
     -fx-background-color: red;
     -fx-fill : gray;
-}
-
-.main_menu_container #Title{
     -fx-font-size: 2em;
-}
-
-
-
-.rectangle {
-    -fx-background-color: #EAE6D7;
-    -fx-border-radius: 20%;
-}
-
-
-.icon {
-    -fx-background-color: aqua;
 }
 

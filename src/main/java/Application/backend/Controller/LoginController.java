@@ -101,22 +101,6 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void GetInApp(javafx.event.ActionEvent actionEvent) {
-        try{
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Application/app.fxml")));
-            Stage SignupStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-            SignupStage.setTitle("The Books");
-            SignupStage.setScene(new Scene(root));
-            SignupStage.show();
-        } catch (Exception e) {
-            System.out.println();
-            System.out.println("app error ");
-            System.out.println();
-            e.printStackTrace();
-            e.getCause();
-        }
-    }
-
     public void createSignupForm(javafx.event.ActionEvent actionEvent) {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Application/signup.fxml")));

@@ -10,6 +10,7 @@ public class Login extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Model.getInstance().getFactoryViews().showAppView();
+
     }
 
     public static void main(String[] args) {
