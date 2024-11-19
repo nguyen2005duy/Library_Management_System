@@ -250,7 +250,7 @@ public class GoogleBooksAPI {
                 categories[0] = "Couldn't load categories";
             }
 
-            String[] dataBaseInfos = Library.loadBookBorrowedId("book_id");
+            String[] dataBaseInfos = Library.loadBookBorrowedId(book_id);
             if (dataBaseInfos.length > 1) {
                 doc = new Book(book_id,title,author,categories,publishedDate, pageCount);
                 doc.setAvailable(false);

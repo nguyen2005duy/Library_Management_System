@@ -36,7 +36,7 @@ public class Library {
         ArrayList<String> columnData = new ArrayList<>();
         try {
             Statement stmt = connectDB.createStatement();
-            java.sql.ResultSet set = stmt.executeQuery("SELECT book_id FROM document");
+            java.sql.ResultSet set = stmt.executeQuery("SELECT book_id FROM book");
             while (set.next()) {
                 columnData.add(set.getString("book_id"));
             }
@@ -113,7 +113,7 @@ public class Library {
         ArrayList<String> columnData = new ArrayList<>();
         try {
             Statement stmt = connectDB.createStatement();
-            java.sql.ResultSet set = stmt.executeQuery("SELECT available, borrowed_user_id, borrowed_date, required_date FROM document WHERE book_id = '" + id + "'");
+            java.sql.ResultSet set = stmt.executeQuery("SELECT available, borrowed_user_id, borrowed_date, required_date FROM book WHERE book_id = '" + id + "'");
 
             if (set.next()) {
                 columnData.add(set.getString("available"));
