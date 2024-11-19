@@ -9,7 +9,6 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="826.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <AnchorPane prefHeight="611.0" prefWidth="424.0" style="-fx-background-color: #61D4C3;" BorderPane.alignment="CENTER" />
@@ -31,7 +30,7 @@
             </Label>
             <PasswordField layoutX="47.0" layoutY="321.0" prefHeight="26.0" prefWidth="322.0" promptText="Enter your password" style="-fx-background-color: #384A62;" />
             <Line endX="186.7999267578125" layoutX="132.0" layoutY="347.0" opacity="0.35" startX="-79.60000610351562" stroke="WHITE" />
-            <Button layoutX="47.0" layoutY="386.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="113.0" style="-fx-background-color: #61D4C3;" text="Button" textFill="WHITE" />
+            <Button layoutX="47.0" layoutY="386.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="113.0" style="-fx-background-color: #61D4C3; -fx-background-radius: 70 70 70 70;" text="Button" textFill="WHITE" />
          </children>
       </AnchorPane>
    </center>

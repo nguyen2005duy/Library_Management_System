@@ -1,0 +1,70 @@
+@font-face {
+    -fx-font-family: "UlmGrotesk" ;
+    url("fonts/FontsFreeNetUlmGrotesk.ttf")
+}
+
+.menu {
+    -fx-background-color: white;
+
+}
+
+.title {
+    -fx-font-size:  1.5em;
+    -fx-font-family: UlmGrotesk;
+    -fx-font-weight :bold;
+}
+
+.pane {
+    -fx-background-color: white;
+}
+
+.pane Pane {
+    -fx-background-color: #F1F1F1;
+}
+
+.pane Label {
+    -fx-font-family: "UlmGrotesk";
+    -fx-font-size: 1.2em;
+}
+
+.pane:hover {
+    -fx-cursor: hand;
+}
+
+.pane:hover Label {
+    -fx-font-family: "UlmGrotesk";
+    -fx-font-size: 1.3em;
+    -fx-font-weight: bold ;
+    -fx-text-fill: black;
+}
+
+.pane:hover Pane{
+    -fx-background-color: orange;
+    -fx-padding: 5 5 5 5;
+}
+
+.current Pane {
+    -fx-background-color: orange;
+    -fx-padding: 5 5 5 5;
+}
+
+.current FontAwesomeIconView {
+    -fx-fill: white;
+    -fx-font-size: 10px;
+}
+
+.current Label {
+    -fx-font-family: "UlmGrotesk";
+    -fx-font-size: 1.3em;
+    -fx-font-weight: bold ;
+    -fx-text-fill: black;
+}
+.pane:hover FontAwesomeIconView {
+    -fx-fill: white;
+    -fx-font-size: 10px;
+}
+
+.img {
+    -fx-border-radius: 40 40 40 40;
+}
+

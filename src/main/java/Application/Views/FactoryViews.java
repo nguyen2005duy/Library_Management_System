@@ -19,10 +19,7 @@ public class FactoryViews {
     }
 
     public void showAppView(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/app.fxml"));
-        AppController appController = new AppController();
-        loader.setController(appController);
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/sidebar.fxml"));
         createStage(loader);
     }
 
