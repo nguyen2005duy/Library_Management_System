@@ -162,7 +162,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "Book{" +  "borrowed_id'" + borrow_user_id + '\'' +
                 "title='" + title + '\'' +
                 ", published_date='" + published_date + '\'' +
                 ", pages=" + pages +

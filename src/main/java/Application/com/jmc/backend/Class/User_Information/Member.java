@@ -21,12 +21,15 @@ public class Member extends User {
         favourite_genres = new ArrayList<>();
     }
 
-    public Member(String username, String password, String firstName, String lastName, String email, String role, String member_id, boolean isPremiumMember) {
+    public Member(int account_id, String username, String password, String firstName, String lastName, String email, String role, String member_id, boolean isPremiumMember) {
         super(username, password, firstName, lastName, email, role);
+        this.account_id = account_id;
         this.member_id = member_id;
         this.isPremiumMember = isPremiumMember;
+        borrowed_documents = new ArrayList<>();
+        BorrowedHistory = new ArrayList<>();
+        favourite_genres = new ArrayList<>();
     }
-
     public void generateMemberType(){
         member_id = "M_"+account_id;
         BorrowedHistory = new ArrayList<>();
@@ -45,5 +48,8 @@ public class Member extends User {
 
     public boolean isPremiumMember() {
         return isPremiumMember;
+    }
+    public void add_book(Book book) {
+        borrowed_documents.add(book);
     }
 }

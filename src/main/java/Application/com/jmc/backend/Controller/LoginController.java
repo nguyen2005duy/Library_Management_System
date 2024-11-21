@@ -47,7 +47,27 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Thread loadDocuments = new Thread(Library::loadBooks);
+        Thread loadUsers = new Thread(Library::loadUsers);
 
+        loadDocuments.start();
+        loadUsers.start();
+        try {
+            loadDocuments.join();
+            loadUsers.join();
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+        Thread loadUsersBookLists = new Thread(Library::loadUserBookLists);
+        loadUsersBookLists.start();
+        try {
+            loadUsersBookLists.join();
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+        Library.printBookDetails();
+        Library.printUsers();
+        System.out.println(Library.bookLists);
         Image bookFile = new Image(Login.class.getResourceAsStream("/Img/book1.png"));
         book.setImage(bookFile);
 
@@ -67,7 +87,9 @@ public class LoginController implements Initializable {
                 if (queryResult.getInt(1) == 1) {
                     LoginMessage.setText("You have successfully logged in!");
                     LoginMessage.setTextFill(Color.GREEN);
-                    Library.init_current_user(UsernameField.toString(),passwordField.toString());
+                    Library.init_current_user(UsernameField.getText(),passwordField.getText());
+                    System.out.println(UsernameField.getText()+" "+passwordField.getText());
+                    System.out.println(Library.current_user);
                     onLogin();
                 } else {
                     LoginMessage.setText("Invalid username or password");
@@ -99,8 +121,8 @@ public class LoginController implements Initializable {
         } else {
             LoginMessage.setText("Please enter your username and password");
             LoginMessage.setTextFill(Color.RED);
-
         }
+
     }
 
     public void createSignupForm(javafx.event.ActionEvent actionEvent) {

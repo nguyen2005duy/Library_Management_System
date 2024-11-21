@@ -31,9 +31,9 @@ public class GoogleBooksAPI {
                 }
 
             });
+
             getListOfBooksThread.start();
             int pos = new Scanner(System.in).nextInt();
-            //System.out.println(get_Book_Image("df5uAAAAQBAJ"));
             Library.borrow_books(get_book_ID(pos, response), "2");
             System.out.println(Library.recordsLists.get(0));
         } catch (IOException e) {

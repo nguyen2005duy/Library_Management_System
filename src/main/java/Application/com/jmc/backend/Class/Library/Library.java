@@ -13,27 +13,32 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class Library {
     public static Connection connectDB;
     public static List<Book> bookLists;
-    public static List<User> usersList;
+    public static HashMap<Integer, User> usersList;
     public static List<BorrowRecord> recordsLists;
     public static User current_user;
+
     static {
         bookLists = new ArrayList<>();
-        usersList = new ArrayList<>();
+        usersList = new HashMap();
         connectDB = DatabaseConnection.connection;
         recordsLists = new ArrayList<>();
     }
-    public static void init_current_user (String username, String password) {
-        usersList.forEach(v-> {
-            if (v.getUsername().equals(username)&&v.getPassword().equals(password)) {
+
+    public static void init_current_user(String username, String password) {
+        usersList.forEach((k, v) -> {
+            if (v.getUsername().equals(username) && v.getPassword().equals(password)) {
                 current_user = v;
             }
         });
     }
+
     /**
      * Lay arrays cua book_id de phuc vu cho function looadBooks.
      *
@@ -65,6 +70,16 @@ public class Library {
         }
     }
 
+    public static void loadUserBookLists() {
+        bookLists.forEach(v -> {
+            if (v.getBorrow_user_id() != null) {
+                if (usersList.get(Integer.parseInt(v.getBorrow_user_id())) instanceof Member mem) {
+                    mem.add_book(v);
+                }
+            }
+        });
+    }
+
     public static void printBookDetails() {
         bookLists.forEach(System.out::println);
     }
@@ -75,9 +90,9 @@ public class Library {
     public static void loadUsers() {
         try {
             Statement stmt = connectDB.createStatement();
-            java.sql.ResultSet set = stmt.executeQuery("SELECT account_id,firstname,lastname,username,password,email,role FROM user_account");
+            java.sql.ResultSet set = stmt.executeQuery("SELECT account_id, firstname, lastname, username, password, email, role FROM user_account");
 
-            if (set.next()) {
+            while (set.next()) {
                 int account_id = Integer.parseInt(set.getString("account_id"));
                 String firstname = set.getString("firstname");
                 String lastname = set.getString("lastname");
@@ -85,17 +100,23 @@ public class Library {
                 String password = set.getString("password");
                 String email = set.getString("email");
                 String role = set.getString("role");
+
                 if (role.equalsIgnoreCase("Member")) {
-                    set = stmt.executeQuery("SELECT member_id,isPremiumMember FROM member_account");
-                    User user;
-                    if (set.next()) {
-                        String member_id = set.getString("member_id");
-                        boolean isPremiumMember = set.getString("isPremiumMember").equals("1");
-                        user = new Member(username, password, firstname, lastname, email, role, member_id, isPremiumMember);
-                        usersList.add(user);
+                    Statement memberStmt = connectDB.createStatement();
+                    java.sql.ResultSet memberSet = memberStmt.executeQuery("SELECT member_id, isPremiumMember FROM member_account WHERE account_id = " + account_id);
+
+                    if (memberSet.next()) {
+                        String member_id = memberSet.getString("member_id");
+                        boolean isPremiumMember = memberSet.getString("isPremiumMember").equals("1");
+
+
+                        User user = new Member(account_id,username, password, firstname, lastname, email, role, member_id, isPremiumMember);
+                        usersList.put(user.getAccount_id(), user);
                     } else {
-                        System.out.println("Errors while loading member info");
+                        System.out.println("No member details found for account ID: " + account_id);
                     }
+                } else {
+                    System.out.println("Skipping non-Member user: " + username);
                 }
             }
         } catch (SQLException e) {
@@ -107,7 +128,9 @@ public class Library {
      * de check xem load user chua.
      */
     public static void printUsers() {
-        usersList.forEach(System.out::println);
+        usersList.forEach((k, v) -> {
+            System.out.println(v);
+        });
     }
 
     /**
@@ -180,7 +203,7 @@ public class Library {
             e.printStackTrace();////
             e.getCause();
         }
-        usersList.add(member);
+        usersList.put(member.getAccount_id(), member);
     }
 
     /**
@@ -190,11 +213,11 @@ public class Library {
      * @throws UsernameTakenException loi khi thay ten nguoi dung trung nhau.
      */
     public static void add_user(User user) throws UsernameTakenException {
-        for (User user1 : usersList) {
+        usersList.forEach((k, user1) -> {
             if (user.getUsername().equals(user1.getUsername())) {
                 throw new UsernameTakenException();
             }
-        }
+        });
         String insertFields = "INSERT INTO user_account(firstname, lastname, username, password, email, role) VALUES ('";
         String insertValues = user.getFirstName() + "','" + user.getLastName() + "','" + user.getUsername() + "','" +
                 user.getPassword() + "','" + user.getEmail() + "', 'Member')";
@@ -231,17 +254,8 @@ public class Library {
      * @throws SQLException loi khi thao tac co so du lieu.
      */
     public static boolean remove_user(int id) throws SQLException {
-        User userToRemove = null;
-        for (User user1 : usersList) {
-            if (id == user1.getAccount_id()) {
-                userToRemove = user1;
-                break;
-            }
-        }
-        if (userToRemove == null) {
-            return false;
-        }
-        return usersList.remove(userToRemove);
+        User userToRemove = usersList.remove(id);
+        return userToRemove != null;
     }
 
     public static String find_document(String name) {
