@@ -1,12 +1,13 @@
-package Application.backend.Class.Library;
+package Application.com.jmc.backend.Class.Library;
 
-import Application.backend.Class.Exceptions.UsernameTakenException;
-import Application.backend.Class.User_Information.Member;
-import Application.backend.Class.User_Information.User;
-import Application.backend.Connection.DatabaseConnection;
-import Application.backend.Class.Books.*;
+import Application.com.jmc.backend.Class.Books.Book;
+import Application.com.jmc.backend.Class.Books.BorrowRecord;
+import Application.com.jmc.backend.Class.Exceptions.UsernameTakenException;
+import Application.com.jmc.backend.Class.User_Information.Member;
+import Application.com.jmc.backend.Class.User_Information.User;
+import Application.com.jmc.backend.Connection.DatabaseConnection;
+import Application.com.jmc.backend.Class.Books.*;
 
-import javax.swing.*;
 import java.io.IOException;
 
 import java.sql.*;

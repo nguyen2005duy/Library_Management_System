@@ -1,8 +1,8 @@
-package Application.backend.Controller;
+package Application.com.jmc.backend.Controller;
 
-import Application.backend.Connection.DatabaseConnection;
+import Application.com.jmc.backend.Connection.DatabaseConnection;
 
-import Application.backend.Model.Model;
+import Application.com.jmc.backend.Model.Model;
 import Application.frontend.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -120,7 +120,7 @@ public class LoginController implements Initializable {
     private void onLogin(){
         Stage stage = (Stage) LoginButton.getScene().getWindow();
         Model.getInstance().getFactoryViews().closeStage(stage);
-        Model.getInstance().getFactoryViews().showAppView();
+        Model.getInstance().getFactoryViews().showClientView();
     }
 
 }

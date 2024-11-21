@@ -1,6 +1,6 @@
-package Application.backend.Class.User_Information;
+package Application.com.jmc.backend.Class.User_Information;
 
-import Application.backend.Class.Books.BorrowRecord;
+import Application.com.jmc.backend.Class.Books.BorrowRecord;
 
 import java.util.ArrayList;
 import java.util.List;

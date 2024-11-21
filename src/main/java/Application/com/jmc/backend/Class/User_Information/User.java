@@ -1,4 +1,4 @@
-package Application.backend.Class.User_Information;
+package Application.com.jmc.backend.Class.User_Information;
 
 import java.util.List;
 

@@ -5,13 +5,14 @@
 
 .menu {
     -fx-background-color: white;
-
+    -fx-border-width: 0;
 }
 
 .title {
     -fx-font-size:  1.5em;
     -fx-font-family: UlmGrotesk;
     -fx-font-weight :bold;
+
 }
 
 .pane {
@@ -25,6 +26,7 @@
 .pane Label {
     -fx-font-family: "UlmGrotesk";
     -fx-font-size: 1.2em;
+    -fx-text-fill: #808191;
 }
 
 .pane:hover {

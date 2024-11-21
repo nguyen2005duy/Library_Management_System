@@ -1,6 +1,6 @@
-package Application.backend.Model;
+package Application.com.jmc.backend.Model;
 
-import Application.Views.FactoryViews;
+import Application.com.jmc.backend.Views.FactoryViews;
 
 public class Model {
     private static Model model;

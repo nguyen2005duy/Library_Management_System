@@ -1,4 +1,4 @@
-package Application.backend.Connection;
+package Application.com.jmc.backend.Connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

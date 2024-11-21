@@ -10,15 +10,15 @@ module org.example.library_management_system {
 
     // Export and open the backend packages
     opens Application to javafx.fxml;
-    exports Application.backend.Controller;
-    opens Application.backend.Controller to javafx.fxml;
-    exports Application.backend.Connection;
-    opens Application.backend.Connection to javafx.fxml;
-    exports  Application.backend.Class.Library;
-    exports Application.backend.Class.Exceptions;
+    exports Application.com.jmc.backend.Controller;
+    opens Application.com.jmc.backend.Controller to javafx.fxml;
+    exports Application.com.jmc.backend.Connection;
+    opens Application.com.jmc.backend.Connection to javafx.fxml;
+    exports Application.com.jmc.backend.Class.Library;
+    exports Application.com.jmc.backend.Class.Exceptions;
     exports Application.frontend;
     opens Application.frontend to javafx.fxml;
-    exports Application.backend.Class.Books;
-    exports Application.backend.Class.User_Information;
+    exports Application.com.jmc.backend.Class.Books;
+    exports Application.com.jmc.backend.Class.User_Information;
     // Export and open the frontend packages
 }

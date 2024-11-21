@@ -1,4 +1,4 @@
-package Application.backend.Controller;
+package Application.com.jmc.backend.Controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

@@ -1,6 +1,6 @@
 package Application.frontend;
-import Application.backend.Class.Library.Library;
-import Application.backend.Model.Model;
+import Application.com.jmc.backend.Class.Library.Library;
+import Application.com.jmc.backend.Model.Model;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

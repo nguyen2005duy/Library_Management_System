@@ -1,4 +1,4 @@
-package Application.backend.Class.Exceptions;
+package Application.com.jmc.backend.Class.Exceptions;
 
 public class UsernameTakenException extends RuntimeException {
     /**

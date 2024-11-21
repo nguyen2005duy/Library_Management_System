@@ -1,6 +1,6 @@
-package Application.backend.Class.Library;
+package Application.com.jmc.backend.Class.Library;
 
-import Application.backend.Class.Books.Book;
+import Application.com.jmc.backend.Class.Books.Book;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

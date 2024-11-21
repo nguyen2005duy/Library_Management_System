@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.DiscoverController">
+   <children>
+      <AnchorPane layoutY="-1.0" prefHeight="387.5" prefWidth="896.0" style="-fx-background-color: #EAE6D7; -fx-background-radius: 0 0 0 70;" AnchorPane.bottomAnchor="412.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="636.0" layoutY="-2.0" prefHeight="388.0" prefWidth="260.0" style="-fx-background-color: #DAD4BE;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="636.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Label layoutX="64.0" layoutY="37.0" prefHeight="56.0" prefWidth="230.0" text="Discover">
+               <font>
+                  <Font name="System Bold" size="39.0" />
+               </font>
+            </Label>
+            <HBox layoutX="64.0" layoutY="118.0" prefHeight="52.0" prefWidth="480.0" style="-fx-background-color: white; -fx-background-radius: 10 10 10 10;">
+               <children>
+                  <MenuButton fx:id="search_menu" mnemonicParsing="false" prefHeight="52.0" prefWidth="123.0" style="-fx-background-color: transparent;" text="All Categories">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <MenuItem mnemonicParsing="false" text="Action 2" />
+                     </items>
+                  </MenuButton>
+                  <Line endX="-100.70703125" endY="95.08578491210938" fill="#e4e4e4" startX="-100.7070541381836" startY="58.585784912109375" stroke="#808191" strokeLineCap="ROUND" strokeWidth="0.5" style="-fx-translate-y: 5;" />
+                  <TextField fx:id="search_bar" alignment="CENTER" prefHeight="52.0" prefWidth="219.0" promptText="find the book you like" style="-fx-background-color: transparent;" />
+                  <Button fx:id="search_button" alignment="CENTER" mnemonicParsing="false" prefHeight="33.0" prefWidth="91.0" style="-fx-background-color: #1C3F3A; -fx-translate-x: 30; -fx-translate-y: 8; -fx-background-radius: 7 7 7 7;" text="Search" textFill="WHITE" />
+               </children>
+            </HBox>
+            <Label layoutX="64.0" layoutY="216.0" prefHeight="30.0" prefWidth="230.0" text="Book Recommendation" textFill="#545454">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <ImageView fx:id="book1" fitHeight="241.0" fitWidth="173.0" layoutX="75.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../Downloads/download_LE_auto_x4.jpg" />
+         </image>
+         <viewport>
+            <Rectangle2D width="1221.0" />
+         </viewport>
+         <effect>
+            <DropShadow height="13.44" offsetY="10.0" radius="6.369999999999999" spread="0.07" width="14.04">
+               <color>
+                  <Color red="0.9176470637321472" green="0.9215686321258545" blue="0.9254902005195618" />
+               </color>
+            </DropShadow>
+         </effect>
+      </ImageView>
+      <ImageView fx:id="book2" fitHeight="241.0" fitWidth="173.0" layoutX="280.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../Downloads/download_LE_auto_x4.jpg" />
+         </image>
+         <viewport>
+            <Rectangle2D width="1221.0" />
+         </viewport>
+         <effect>
+            <DropShadow height="13.44" offsetY="10.0" radius="6.369999999999999" spread="0.07" width="14.04">
+               <color>
+                  <Color red="0.9176470637321472" green="0.9215686321258545" blue="0.9254902005195618" />
+               </color>
+            </DropShadow>
+         </effect>
+      </ImageView>
+      <ImageView fx:id="book3" fitHeight="241.0" fitWidth="173.0" layoutX="482.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../Downloads/download_LE_auto_x4.jpg" />
+         </image>
+         <viewport>
+            <Rectangle2D width="1221.0" />
+         </viewport>
+         <effect>
+            <DropShadow height="13.44" offsetY="10.0" radius="6.369999999999999" spread="0.07" width="14.04">
+               <color>
+                  <Color red="0.9176470637321472" green="0.9215686321258545" blue="0.9254902005195618" />
+               </color>
+            </DropShadow>
+         </effect>
+      </ImageView>
+      <ImageView fx:id="book4" fitHeight="241.0" fitWidth="173.0" layoutX="688.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../Downloads/download_LE_auto_x4.jpg" />
+         </image>
+         <viewport>
+            <Rectangle2D width="1221.0" />
+         </viewport>
+         <effect>
+            <DropShadow height="13.44" offsetY="10.0" radius="6.369999999999999" spread="0.07" width="14.04">
+               <color>
+                  <Color red="0.9176470637321472" green="0.9215686321258545" blue="0.9254902005195618" />
+               </color>
+            </DropShadow>
+         </effect>
+      </ImageView>
+      <Label layoutX="74.0" layoutY="532.0" prefHeight="30.0" prefWidth="230.0" text="Book Category" textFill="#545454">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -1,11 +1,11 @@
-package Application.backend.Controller;
+package Application.com.jmc.backend.Controller;
 
 import Application.frontend.Login;
-import Application.backend.Class.Exceptions.UsernameTakenException;
-import Application.backend.Class.Library.Library;
-import Application.backend.Class.User_Information.Member;
-import Application.backend.Class.User_Information.User;
-import Application.backend.Connection.DatabaseConnection;
+import Application.com.jmc.backend.Class.Exceptions.UsernameTakenException;
+import Application.com.jmc.backend.Class.Library.Library;
+import Application.com.jmc.backend.Class.User_Information.Member;
+import Application.com.jmc.backend.Class.User_Information.User;
+import Application.com.jmc.backend.Connection.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
