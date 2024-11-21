@@ -1,5 +1,6 @@
 package Application.com.jmc.backend.Controller;
 
+import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
 
 import Application.com.jmc.backend.Model.Model;
@@ -66,6 +67,7 @@ public class LoginController implements Initializable {
                 if (queryResult.getInt(1) == 1) {
                     LoginMessage.setText("You have successfully logged in!");
                     LoginMessage.setTextFill(Color.GREEN);
+                    Library.init_current_user(UsernameField.toString(),passwordField.toString());
                     onLogin();
                 } else {
                     LoginMessage.setText("Invalid username or password");

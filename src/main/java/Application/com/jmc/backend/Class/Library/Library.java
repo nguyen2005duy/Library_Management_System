@@ -20,14 +20,20 @@ public class Library {
     public static List<Book> bookLists;
     public static List<User> usersList;
     public static List<BorrowRecord> recordsLists;
-
+    public static User current_user;
     static {
         bookLists = new ArrayList<>();
         usersList = new ArrayList<>();
         connectDB = DatabaseConnection.connection;
         recordsLists = new ArrayList<>();
     }
-
+    public static void init_current_user (String username, String password) {
+        usersList.forEach(v-> {
+            if (v.getUsername().equals(username)&&v.getPassword().equals(password)) {
+                current_user = v;
+            }
+        });
+    }
     /**
      * Lay arrays cua book_id de phuc vu cho function looadBooks.
      *
