@@ -1,5 +1,7 @@
 package Application.com.jmc.backend.Class.User_Information;
 
+import Application.com.jmc.backend.Class.Books.Book;
+
 import java.util.List;
 
 public abstract class User {
@@ -10,6 +12,7 @@ public abstract class User {
     protected String password;
     protected String email;
     protected String role;
+
 
     public User(String username, String password, String firstName, String lastName, String email, String role) {
         this.username = username;

@@ -34,6 +34,7 @@ public class ClientMenuController implements Initializable {
     @FXML
     private void loadTrending(MouseEvent event) {
         Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Trending");
+        trending.getStylesheets().add("");
     }
 
     @FXML
@@ -42,11 +43,14 @@ public class ClientMenuController implements Initializable {
     }
 
     public void loadCategory(MouseEvent mouseEvent) {
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Category");
     }
 
     public void quit(MouseEvent mouseEvent) {
+
     }
 
     public void loadLibrary(MouseEvent mouseEvent) {
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Library");
     }
 }

@@ -14,6 +14,8 @@ public class FactoryViews {
     private final SimpleStringProperty clientSelectedMenuItem;
     private AnchorPane DiscoverView;
     private AnchorPane TrendingView;
+    private AnchorPane LibraryView;
+    private AnchorPane CategoryView;
 
     public FactoryViews() {
         this.clientSelectedMenuItem = new SimpleStringProperty("");
@@ -21,6 +23,28 @@ public class FactoryViews {
 
     public StringProperty getClientSelectedMenuItem() {
         return clientSelectedMenuItem;
+    }
+
+    public AnchorPane getLibraryView() {
+        if (LibraryView == null) {
+            try {
+                LibraryView = new FXMLLoader(getClass().getResource("/Application/Library.fxml")).load();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return LibraryView;
+    }
+
+    public AnchorPane getCategoryView() {
+        if (CategoryView == null) {
+            try {
+                CategoryView = new FXMLLoader(getClass().getResource("/Application/Category.fxml")).load();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return CategoryView;
     }
 
     public AnchorPane getTrendingView(){

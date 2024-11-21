@@ -56,6 +56,14 @@ public class Book {
         this.published_date = published_date;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
     public String getBook_id() {
         return book_id;
     }

@@ -15,6 +15,8 @@ public class ClientController implements Initializable
         Model.getInstance().getFactoryViews().getClientSelectedMenuItem().addListener((observationValue, oldVal, newVal) -> {
             switch (newVal){
                 case "Trending": client_parent.setCenter(Model.getInstance().getFactoryViews().getTrendingView()); break;
+                case "Library" : client_parent.setCenter(Model.getInstance().getFactoryViews().getLibraryView()); break;
+                case "Category" : client_parent.setCenter(Model.getInstance().getFactoryViews().getCategoryView()); break;
                 default: client_parent.setCenter(Model.getInstance().getFactoryViews().getDiscoverView()); break;
             }
         });
