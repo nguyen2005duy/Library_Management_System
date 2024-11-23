@@ -52,4 +52,16 @@ public class Member extends User {
     public void add_book(Book book) {
         borrowed_documents.add(book);
     }
+
+    public void setBorrowed_documents(List<Book> borrowed_documents) {
+        this.borrowed_documents = borrowed_documents;
+    }
+
+    public List<BorrowRecord> getBorrowedHistory() {
+        return BorrowedHistory;
+    }
+
+    public void setBorrowedHistory(List<BorrowRecord> borrowedHistory) {
+        BorrowedHistory = borrowedHistory;
+    }
 }

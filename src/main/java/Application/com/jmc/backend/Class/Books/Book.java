@@ -4,6 +4,8 @@ package Application.com.jmc.backend.Class.Books;
 import Application.com.jmc.backend.Class.Library.Library;
 
 import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -122,6 +124,14 @@ public class Book {
         this.available = available;
     }
 
+    public String[] getCategories() {
+        return categories;
+    }
+
+    public void setCategories(String[] categories) {
+        this.categories = categories;
+    }
+
     public Book(String book_id, String title, String author,
                 String[] categories, String published_date, String pages) {
         this.book_id = book_id;
@@ -138,6 +148,23 @@ public class Book {
      */
     public void check_out() {
         Library.add_record(this);
+        Date currentTime  = new Date(System.currentTimeMillis());
+        LocalDate currentDate = borrowed_date.toLocalDate();
+        Date currentDateSQL = java.sql.Date.valueOf(currentDate);
+        Library.recordsLists.add(new BorrowRecord(Integer.parseInt(borrow_user_id),book_id,borrowed_date,currentDateSQL));
+        String updateQuery = "UPDATE book SET available = 1, " +
+                "borrowed_user_id = NULL, " + // Use NULL without quotes
+                "borrowed_date = NULL, " +   // Use NULL without quotes
+                "required_date = NULL " +   // Use NULL without quotes
+                "WHERE book_id = '" + this.book_id + "'";
+        try {
+            Statement stmt = Library.connectDB.createStatement();
+            stmt.executeUpdate(updateQuery);
+        } catch (SQLException e) {
+            System.out.println("Error updating book in database.");
+            e.printStackTrace();
+        }
+        // Cần Update phần này để khi ktra thấy available chuyển book available thành ko
         available = true;
         borrow_user_id = null;
         borrowed_date = null;
@@ -148,10 +175,8 @@ public class Book {
      * danh dau quyen sach nay da co nguoi muon.
      *
      * @param borrow_user_id id nguoi muon.
-     * @param borrowed_date  ngay muon.
-     * @param required_date  ngay tra.
      */
-    public void check_in(String borrow_user_id, Date borrowed_date, Date required_date) {
+    public void check_in(String borrow_user_id) {
         available = false;
         this.borrow_user_id = borrow_user_id;
         this.borrowed_date = new Date(System.currentTimeMillis());

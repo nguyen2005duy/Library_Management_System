@@ -1,6 +1,8 @@
 package Application.com.jmc.backend.Controller;
 
+import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.Library;
+import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
 
 import Application.com.jmc.backend.Model.Model;
@@ -23,6 +25,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -47,27 +50,9 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Thread loadDocuments = new Thread(Library::loadBooks);
-        Thread loadUsers = new Thread(Library::loadUsers);
-
-        loadDocuments.start();
-        loadUsers.start();
-        try {
-            loadDocuments.join();
-            loadUsers.join();
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
-        Thread loadUsersBookLists = new Thread(Library::loadUserBookLists);
-        loadUsersBookLists.start();
-        try {
-            loadUsersBookLists.join();
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
         Library.printBookDetails();
         Library.printUsers();
-        System.out.println(Library.bookLists);
+
         Image bookFile = new Image(Login.class.getResourceAsStream("/Img/book1.png"));
         book.setImage(bookFile);
 

@@ -11,6 +11,8 @@ import Application.com.jmc.backend.Class.Books.*;
 import java.io.IOException;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +32,28 @@ public class Library {
         connectDB = DatabaseConnection.connection;
         recordsLists = new ArrayList<>();
     }
-
+    public static void init_Library() {
+        Thread loadDocuments = new Thread(Library::loadBooks);
+        Thread loadUsers = new Thread(Library::loadUsers);
+        Thread loadRecords = new Thread(Library::load_record);
+        loadDocuments.start();
+        loadUsers.start();
+        loadRecords.start();
+        try {
+            loadDocuments.join();
+            loadUsers.join();
+            loadRecords.join();
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+        Thread loadUsersBookLists = new Thread(Library::loadUserBookLists);
+        loadUsersBookLists.start();
+        try {
+            loadUsersBookLists.join();
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     public static void init_current_user(String username, String password) {
         usersList.forEach((k, v) -> {
             if (v.getUsername().equals(username) && v.getPassword().equals(password)) {
@@ -64,6 +87,7 @@ public class Library {
         for (String s : booksID) {
             try {
                 bookLists.add(GoogleBooksAPI.getDocumentDetails(s));
+
             } catch (IOException e) {
                 System.out.println("Load documents error");
             }
@@ -246,6 +270,7 @@ public class Library {
         add_member(user);
     }
 
+
     /**
      * xoa nguoi dung vao usersList va co so du lieu.
      *
@@ -273,6 +298,21 @@ public class Library {
                 if (!book.isAvailable()) {
                     return false;
                 } else {
+                    book.check_in(user_id);
+                    String updateQuery = "UPDATE book SET available = 0, " +
+                            "borrowed_user_id = " + book.getBorrow_user_id() + ", " +
+                            "borrowed_date = '" + book.getBorrowed_date() + "', " +
+                            "required_date = '" + book.getRequired_date() + "' " +
+                            "WHERE book_id = '" + book.getBook_id() + "'";
+                    try {
+                        Statement stmt = connectDB.createStatement();
+                        stmt.executeUpdate(updateQuery);
+                    } catch (SQLException e) {
+                        System.out.println("Error updating book in database.");
+                        e.printStackTrace();
+                    }
+                    bookLists.add(book);
+                    return true;
                     // Cần Update phần này để khi ktra thấy available chuyển book available thành ko
                 }
             }
@@ -328,5 +368,46 @@ public class Library {
             e.getCause();
         }
     }
+    public static void load_record () {
+            try {
+                Statement stmt = connectDB.createStatement();
+                java.sql.ResultSet set = stmt.executeQuery("SELECT book_id,account_id,borrow_date,return_date,user_rating  FROM borrow_record");
+                while (set.next()) {
+                    int account_id = Integer.parseInt(set.getString("account_id"));
+                    String bookId = set.getString("book_id");
+                    String borrowDate = set.getString("borrow_date");
+                    String returnDate = set.getString("return_date");
+                    String user_ratingString = set.getString("user_rating");
+                    if (user_ratingString==null) {
+                        recordsLists.add(new BorrowRecord(account_id, bookId, convertStringToSQLDate(borrowDate), convertStringToSQLDate(returnDate)));
+                    } else {
+                        recordsLists.add(new BorrowRecord(account_id, bookId, convertStringToSQLDate(borrowDate), convertStringToSQLDate(returnDate),Double.parseDouble(user_ratingString)));
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    }
+    public static void printRecords() {
+        System.out.println(recordsLists);
+    }
+    /**
+     * Converts a string in "yyyy-MM-dd" format to java.sql.Date.
+     *
+     * @param dateString the date string to convert
+     * @return java.sql.Date object, or null if parsing fails
+     */
+    public static Date convertStringToSQLDate(String dateString) {
+        try {
+            // Parse the String into a java.util.Date using "yyyy-MM-dd" format
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date utilDate = dateFormat.parse(dateString);
 
+            // Convert java.util.Date to java.sql.Date
+            return new Date(utilDate.getTime());
+        } catch (ParseException e) {
+            System.out.println("Invalid date format: " + e.getMessage());
+            return null; // Return null if parsing fails
+        }
+    }
 }
