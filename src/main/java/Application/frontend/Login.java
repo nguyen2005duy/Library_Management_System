@@ -14,18 +14,7 @@ public class Login extends Application {
     }
 
     public static void main(String[] args) {
-        Thread loadDocuments = new Thread(Library::loadBooks);
-        Thread loadUsers = new Thread(Library::loadUsers);
-        loadDocuments.start();
-        loadUsers.start();
-        try {
-            loadDocuments.join();
-            loadUsers.join();
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
-        Library.printBookDetails();
-        Library.printUsers();
         launch();//
+
     }
 }

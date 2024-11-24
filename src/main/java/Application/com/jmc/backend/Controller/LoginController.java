@@ -1,6 +1,8 @@
 package Application.com.jmc.backend.Controller;
 
+import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.Library;
+import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
 
 import Application.com.jmc.backend.Model.Model;
@@ -23,6 +25,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -47,6 +50,8 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Library.printBookDetails();
+        Library.printUsers();
 
         Image bookFile = new Image(Login.class.getResourceAsStream("/Img/book1.png"));
         book.setImage(bookFile);
@@ -67,7 +72,9 @@ public class LoginController implements Initializable {
                 if (queryResult.getInt(1) == 1) {
                     LoginMessage.setText("You have successfully logged in!");
                     LoginMessage.setTextFill(Color.GREEN);
-                    Library.init_current_user(UsernameField.toString(),passwordField.toString());
+                    Library.init_current_user(UsernameField.getText(),passwordField.getText());
+                    System.out.println(UsernameField.getText()+" "+passwordField.getText());
+                    System.out.println(Library.current_user);
                     onLogin();
                 } else {
                     LoginMessage.setText("Invalid username or password");
@@ -99,8 +106,8 @@ public class LoginController implements Initializable {
         } else {
             LoginMessage.setText("Please enter your username and password");
             LoginMessage.setTextFill(Color.RED);
-
         }
+
     }
 
     public void createSignupForm(javafx.event.ActionEvent actionEvent) {
