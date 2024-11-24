@@ -21,6 +21,15 @@ public class Book {
     private java.sql.Date borrowed_date;
     private java.sql.Date required_date;
 
+    private String imageSrc;
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
+    }
 
     public Book(String book_id, String borrow_user_id) {
         this.book_id = book_id;
@@ -62,6 +71,14 @@ public class Book {
 
     public String getAuthor() {
         return author;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getBook_id() {

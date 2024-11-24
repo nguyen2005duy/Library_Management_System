@@ -6,7 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,6 +35,8 @@ public class CardController implements Initializable {
 
     public void setData(Book book){
         //ImageView lay anh
+        Image image = new Image(getClass().getResourceAsStream(book.getImageSrc()));
+        bookImage.setImage(image);
         bookName.setText(book.getTitle());
         authorName.setText(book.getAuthor());
         box.setStyle("-fx-background-color: #" + "000000" + ";"

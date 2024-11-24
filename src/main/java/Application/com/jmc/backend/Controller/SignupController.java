@@ -27,6 +27,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 public class SignupController implements Initializable {
 
+    public CheckBox checkbox;
     @FXML
     private ImageView book;
     @FXML

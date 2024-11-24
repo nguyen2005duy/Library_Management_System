@@ -1,5 +1,6 @@
 package Application.com.jmc.backend.Views;
 
+import Application.com.jmc.backend.Controller.BookCardController;
 import Application.com.jmc.backend.Controller.ClientController;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -16,7 +17,7 @@ public class FactoryViews {
     private AnchorPane TrendingView;
     private AnchorPane LibraryView;
     private AnchorPane CategoryView;
-
+    private AnchorPane BookView;
     public FactoryViews() {
         this.clientSelectedMenuItem = new SimpleStringProperty("");
     }
@@ -59,6 +60,17 @@ public class FactoryViews {
         return TrendingView;
     }
 
+    public AnchorPane getBookView(){
+        if (BookView == null) {
+            try{
+                BookView = new FXMLLoader(getClass().getResource("/Application/book.fxml")).load();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return BookView;
+    }
+
     public AnchorPane getDiscoverView() {
         if (DiscoverView == null) {
             try {
@@ -74,6 +86,7 @@ public class FactoryViews {
         createStage(loader);
 
     }
+
 
     public void showClientView(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/Client.fxml"));

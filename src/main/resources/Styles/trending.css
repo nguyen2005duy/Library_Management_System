@@ -7,12 +7,19 @@
 }
 
 .round-layout{
-    -fx-border-radius: 50;
+    -fx-border-radius: 15;
     -fx-border-color: #D7D7D7;
+    -fx-background-radius: 15;
 }
 
 .selected{
     -fx-background-color: #F3F3F3;
+}
+
+.card-border{
+    -fx-border-radius: 15;
+    -fx-border-color:#b79738;
+    -fx-background-radius: 15;
 }
 
 .mouse-moved:hover{

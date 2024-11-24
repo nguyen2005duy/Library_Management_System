@@ -53,4 +53,6 @@ public class ClientMenuController implements Initializable {
     public void loadLibrary(MouseEvent mouseEvent) {
         Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Library");
     }
+
+
 }
