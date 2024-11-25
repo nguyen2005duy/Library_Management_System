@@ -50,9 +50,9 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Library.init_Library();
         Library.printBookDetails();
         Library.printUsers();
-
         Image bookFile = new Image(Login.class.getResourceAsStream("/Img/book1.png"));
         book.setImage(bookFile);
 

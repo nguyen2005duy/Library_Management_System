@@ -1,6 +1,11 @@
 package Application.com.jmc.backend.Controller;
 
 import Application.com.jmc.backend.Class.Books.Book;
+import Application.com.jmc.backend.Class.Library.Library;
+import Application.com.jmc.backend.Class.User_Information.Member;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
@@ -21,46 +26,44 @@ public class LibraryController implements Initializable {
     private Label title;
     @FXML
     private VBox cardLayout;
-    private List<Book> books;
+    private ObservableList<Book> books;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        books = new ArrayList<>(currentlyReading());
-        try {
-            for (Book book : books) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/Application/bookCardHBox.fxml"));
-                HBox cardBox = fxmlLoader.load();
-                bookCardHBoxController bookcardController = fxmlLoader.getController();
-                bookcardController.setData(book);
-                cardLayout.getChildren().add(cardBox);
+        books = FXCollections.observableArrayList(currentlyReading());
+        books.addListener((ListChangeListener<Book>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    for (Book addedBook : change.getAddedSubList()) {
+                        addBookToLayout(addedBook);
+                    }
+                }
+                if (change.wasRemoved()) {
+                    // Optionally handle removed books if necessary
+                }
             }
-        }catch (Exception e) {
-            e.printStackTrace();
-
+        });
+        for (Book book : books) {
+            addBookToLayout(book);
         }
     }
+
+    private void addBookToLayout(Book book) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/Application/bookCardHBox.fxml"));
+            HBox cardBox = fxmlLoader.load();
+            bookCardHBoxController bookcardController = fxmlLoader.getController();
+            bookcardController.setData(book);
+            cardLayout.getChildren().add(cardBox);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void refreshCurrentlyReading() {
+        books.setAll(currentlyReading());
+    }
     private List<Book> currentlyReading(){
-        List<Book> BorrowedBooks = new ArrayList<>();
-        Book book1 = new Book("ass","ass");
-        Book book2 = new Book("asd","asd");
-        Book book3 = new Book("asd1","asd");
-        Book book4 = new Book("asd2","asd");
-        book1.setTitle("RDPD");
-        book1.setAuthor("KIM");
-        book1.setImageSrc("/Img/content.jpg");
-        book2.setTitle("RDPD");
-        book2.setAuthor("KIM");
-        book2.setImageSrc("/Img/content.jpg");
-        book3.setTitle("RDPD");
-        book3.setAuthor("KIM");
-        book3.setImageSrc("/Img/content.jpg");
-        book4.setTitle("RDPD");
-        book4.setAuthor("KIM");
-        book4.setImageSrc("/Img/content.jpg");
-        BorrowedBooks.add(book1);
-        BorrowedBooks.add(book2);
-        BorrowedBooks.add(book3);
-        BorrowedBooks.add(book4);
-        return BorrowedBooks;
+        Member current_member = (Member) Library.current_user;
+        return current_member.getBorrowed_documents();
     }
 }

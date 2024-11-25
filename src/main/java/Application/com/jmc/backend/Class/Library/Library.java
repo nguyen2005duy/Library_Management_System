@@ -55,7 +55,10 @@ public class Library {
         }
     }
     public static void init_current_user(String username, String password) {
+        System.out.println("Initializing current user...");
+        System.out.println(username+" "+password);
         usersList.forEach((k, v) -> {
+            System.out.println(v.getUsername()+" "+v.getPassword());
             if (v.getUsername().equals(username) && v.getPassword().equals(password)) {
                 current_user = v;
             }

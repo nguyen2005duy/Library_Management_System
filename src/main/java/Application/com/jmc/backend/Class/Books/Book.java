@@ -213,4 +213,10 @@ public class Book {
                 ", author='" + author + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Book other = (Book) obj;
+        return book_id.equals(other.book_id);
+    }
 }

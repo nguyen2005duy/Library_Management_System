@@ -65,4 +65,15 @@ public class Member extends User {
     public void setBorrowedHistory(List<BorrowRecord> borrowedHistory) {
         BorrowedHistory = borrowedHistory;
     }
+    public Book removeBook(String id) {
+        Book bookToRemove = null;
+
+        for (int i =0;i<borrowed_documents.size();i++)  {
+            if (borrowed_documents.get(i).getBook_id().equals(id)) {
+                    bookToRemove = borrowed_documents.get(i);
+            }
+        }
+        borrowed_documents.remove(bookToRemove);
+        return bookToRemove;
+    }
 }

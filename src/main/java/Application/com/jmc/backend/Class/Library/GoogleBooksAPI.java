@@ -284,7 +284,7 @@ public class GoogleBooksAPI {
     /**
      * Tra lai categories, phuc vu cho viec recommend book va luu vao BookRecord.
      * @param book_id book_id.
-     * @return categories.
+     * @return w.
      */
     public static String [] getCategories  (String book_id) throws IOException{
         String jsonResponse = searchOneBook(book_id);
