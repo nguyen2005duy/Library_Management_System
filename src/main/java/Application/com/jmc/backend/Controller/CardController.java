@@ -34,7 +34,7 @@ public class CardController implements Initializable {
     }
 
 
-
+    //Favourite && Trending
     public void setData(Book book){
         //ImageView lay anh
         try {

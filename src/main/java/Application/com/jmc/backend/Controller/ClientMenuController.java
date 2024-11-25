@@ -43,7 +43,7 @@ public class ClientMenuController implements Initializable {
     }
 
     public void loadCategory(MouseEvent mouseEvent) {
-        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Category");
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Favourite");
     }
 
     public void quit(MouseEvent mouseEvent) {

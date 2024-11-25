@@ -16,7 +16,7 @@ public class ClientController implements Initializable
             switch (newVal){
                 case "Trending": client_parent.setCenter(Model.getInstance().getFactoryViews().getTrendingView()); break;
                 case "Library" : client_parent.setCenter(Model.getInstance().getFactoryViews().getLibraryView()); break;
-                case "Category" : client_parent.setCenter(Model.getInstance().getFactoryViews().getCategoryView()); break;
+                case "Favourite" : client_parent.setCenter(Model.getInstance().getFactoryViews().getFavouriteView()); break;
                 case "Book" :client_parent.setCenter(Model.getInstance().getFactoryViews().getBookView()); break;
                 default: client_parent.setCenter(Model.getInstance().getFactoryViews().getDiscoverView()); break;
             }

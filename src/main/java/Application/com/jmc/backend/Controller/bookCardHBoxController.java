@@ -46,7 +46,7 @@ public class bookCardHBoxController implements Initializable {
     }
 
 
-
+    //My Library
     public void setData(Book book) {
         try {
         Image image = new Image(GoogleBooksAPI.get_Book_Image(book.getBook_id()));

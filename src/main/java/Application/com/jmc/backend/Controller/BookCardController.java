@@ -32,6 +32,7 @@ public class BookCardController implements Initializable {
 
     }
 
+    //Trending
     public void setData(Book book) {
         try {
             Image image = new Image(GoogleBooksAPI.get_Book_Image(book.getBook_id()));

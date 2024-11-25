@@ -16,7 +16,7 @@ public class FactoryViews {
     private AnchorPane DiscoverView;
     private AnchorPane TrendingView;
     private AnchorPane LibraryView;
-    private AnchorPane CategoryView;
+    private AnchorPane FavouriteView;
     private AnchorPane BookView;
     public FactoryViews() {
         this.clientSelectedMenuItem = new SimpleStringProperty("");
@@ -37,15 +37,15 @@ public class FactoryViews {
         return LibraryView;
     }
 
-    public AnchorPane getCategoryView() {
-        if (CategoryView == null) {
+    public AnchorPane getFavouriteView() {
+        if (FavouriteView == null) {
             try {
-                CategoryView = new FXMLLoader(getClass().getResource("/Application/Category.fxml")).load();
+                FavouriteView = new FXMLLoader(getClass().getResource("/Application/favourite.fxml")).load();
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
-        return CategoryView;
+        return FavouriteView;
     }
 
     public AnchorPane getTrendingView(){
