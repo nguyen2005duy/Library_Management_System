@@ -55,7 +55,6 @@ public abstract class User {
         this.account_id = account_id;
     }
 
-
     @Override
     public String toString() {
         return "User{" +

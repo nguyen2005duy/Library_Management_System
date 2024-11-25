@@ -22,7 +22,6 @@ public class Book {
     private String borrow_user_id;
     private java.sql.Date borrowed_date;
     private java.sql.Date required_date;
-
     private String imageSrc;
 
     public String getImageSrc() {
@@ -42,9 +41,7 @@ public class Book {
         this.required_date = java.sql.Date.valueOf(requiredLocalDate);
     }
 
-
     public Book(String book_id, String title, String author, String[] categories,
-
                 String published_date, String pages, String borrow_user_id, Date borrowed_date, Date required_date) {
         this.book_id = book_id;
         this.title = title;
