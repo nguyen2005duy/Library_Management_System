@@ -32,7 +32,6 @@ public class GoogleBooksAPI {
                 } catch (InterruptedException e) {
                     System.out.println("Thread was interrupted");
                 }
-
             });
 
             getListOfBooksThread.start();
@@ -61,7 +60,7 @@ public class GoogleBooksAPI {
     public static String searchMultiBooks(String query) throws IOException {
         // Construct the URL with the search query and API key
         String urlString = "https://www.googleapis.com/books/v1/volumes?q=intitle:" + query.replace(" ", "+") + "&filter=ebooks&languageRestrict=en&key=" + apiKey;
-//
+
         // Create a URL object from the URL string
         URL url = new URL(urlString);
 
@@ -162,9 +161,9 @@ public class GoogleBooksAPI {
         try {
             // Create an ObjectMapper
             ObjectMapper objectMapper = new ObjectMapper();
+
             // Get the  book item (if exists)
             JsonNode book = objectMapper.readTree(jsonResponse);
-
 
             // Extract the book's title, authors, and description
             String book_id = book.path("id").asText();
@@ -190,6 +189,13 @@ public class GoogleBooksAPI {
         }
     }
 
+    /**
+     * Lấy ID của cuốn sách từ JSON phản hồi.
+     *
+     * @param pos Vị trí của cuốn sách trong danh sách items.
+     * @param jsonResponse Chuỗi JSON phản hồi từ API.
+     * @return trả về ID của cuốn sách hoặc error.
+     */
     public static String get_book_ID(int pos, String jsonResponse) {
         try {
             // Create an ObjectMapper
@@ -207,14 +213,21 @@ public class GoogleBooksAPI {
         return "error!";
     }
 
+    /**
+     * Lấy URL ảnh bìa của cuốn sách từ ID.
+     *
+     * @param id id của cuốn sách.
+     * @return URL ảnh bìa hoặc thông báo lỗi nếu không tìm thấy.
+     * @throws IOException in ra lỗi.
+     */
     public static String get_Book_Image(String id) throws IOException {
         String jsonResponse = searchOneBook(id);
         try {
             // Create an ObjectMapper
             ObjectMapper objectMapper = new ObjectMapper();
+
             // Get the  book item (if exists)
             JsonNode book = objectMapper.readTree(jsonResponse);
-
 
             // Extract the book's title, authors, and description
             return book.path("volumeInfo").path("imageLinks").path("thumbnail").asText("Couldn't find image");
@@ -223,15 +236,22 @@ public class GoogleBooksAPI {
         }
     }
 
+    /**
+     * Lấy thông tin của cuốn sách từ ID.
+     *
+     * @param id id của cuốn sách.
+     * @return in ra thông tin của cuốn sách hoặc null.
+     * @throws IOException in ra lỗi.
+     */
     public static Book getDocumentDetails(String id) throws IOException {
         String jsonResponse = searchOneBook(id);
         Book doc;
         try {
             // Create an ObjectMapper
             ObjectMapper objectMapper = new ObjectMapper();
+
             // Get the  book item (if exists)
             JsonNode book = objectMapper.readTree(jsonResponse);
-
 
             // Extract the book's title, authors, and description
             String book_id = book.path("id").asText();
@@ -291,6 +311,7 @@ public class GoogleBooksAPI {
         try {
             // Create an ObjectMapper
             ObjectMapper objectMapper = new ObjectMapper();
+
             // Get categories
             JsonNode categoriesNode = objectMapper.readTree(jsonResponse).path("volumeInfo").path("categories");
             String[] categories;

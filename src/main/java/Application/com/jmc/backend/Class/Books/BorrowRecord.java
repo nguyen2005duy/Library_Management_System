@@ -48,7 +48,6 @@ public class BorrowRecord {
         this.userRating = userRating;
     }
 
-
     @Override
     public String toString() {
         return "BorrowRecord{" +

@@ -50,6 +50,7 @@ public class Member extends User {
     public boolean isPremiumMember() {
         return isPremiumMember;
     }
+
     public void add_book(Book book) {
         borrowed_documents.add(book);
     }

@@ -11,13 +11,11 @@ import Application.com.jmc.backend.Class.Books.*;
 import java.io.IOException;
 
 import java.sql.*;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Library {
     public static Connection connectDB;
@@ -32,6 +30,10 @@ public class Library {
         connectDB = DatabaseConnection.connection;
         recordsLists = new ArrayList<>();
     }
+
+    /**
+     * khởi tạo thư viện.
+     */
     public static void init_Library() {
         Thread loadDocuments = new Thread(Library::loadBooks);
         Thread loadUsers = new Thread(Library::loadUsers);
@@ -63,6 +65,40 @@ public class Library {
     }
 
     /**
+     * Lấy danh sách các thể loại yêu thích của người dùng hiện tại.
+     *
+     * @return Chuỗi các thể loại yêu thích (tối đa 4 thể loại), cách nhau bởi dấu cách.
+     * @throws IOException in ra lỗi.
+     */
+    public String get_user_favourite() throws IOException {
+        Member member = (Member) Library.current_user;
+        if (member == null || member.getBorrowedHistory().isEmpty()) {
+            return "Không có dữ liệu lịch sử mượn!";
+        }
+
+        Map<String, Integer> categoryCount=new HashMap<>();
+
+        for (BorrowRecord record : member.getBorrowedHistory()) {
+            String[] categories = GoogleBooksAPI.getCategories(record.getBook_id());
+            if (categories != null) {
+                // Thêm từng thể loại vào Map và tăng tần suất
+                for (String category : categories) {
+                    categoryCount.put(category, categoryCount.getOrDefault(category, 0) + 1);
+                }
+            }
+        }
+
+        List<Map.Entry<String, Integer>> sortedCategories = new ArrayList<>(categoryCount.entrySet());
+        sortedCategories.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+
+        List<String> topcCategory =new ArrayList<>();
+        for (int i=0;i<Math.min(4, sortedCategories.size());i++) {
+            topcCategory.add(sortedCategories.get(i).getKey());
+        }
+        return String.join(" ", topcCategory);
+    }
+
+    /**
      * Lay arrays cua book_id de phuc vu cho function looadBooks.
      *
      * @return bookIdarrays.
@@ -82,6 +118,9 @@ public class Library {
         return columnData.toArray(new String[0]);
     }
 
+    /**
+     * Tải danh sách sách từ danh sách ID sách.
+     */
     public static void loadBooks() {
         String[] booksID = getBooksID();
         for (String s : booksID) {
@@ -94,6 +133,9 @@ public class Library {
         }
     }
 
+    /**
+     * Gán danh sách sách đã mượn cho từng thành viên.
+     */
     public static void loadUserBookLists() {
         bookLists.forEach(v -> {
             if (v.getBorrow_user_id() != null) {
@@ -104,12 +146,15 @@ public class Library {
         });
     }
 
+    /**
+     * In thông tin chi tiết sách
+     */
     public static void printBookDetails() {
         bookLists.forEach(System.out::println);
     }
 
     /**
-     * Load users khi chay login, dung da luong
+     * Load users khi chạy login, dùng đa lượng.
      */
     public static void loadUsers() {
         try {
@@ -133,7 +178,6 @@ public class Library {
                         String member_id = memberSet.getString("member_id");
                         boolean isPremiumMember = memberSet.getString("isPremiumMember").equals("1");
 
-
                         User user = new Member(account_id,username, password, firstname, lastname, email, role, member_id, isPremiumMember);
                         usersList.put(user.getAccount_id(), user);
                     } else {
@@ -149,7 +193,7 @@ public class Library {
     }
 
     /**
-     * de check xem load user chua.
+     * In thông tin chi tiết người dùng.
      */
     public static void printUsers() {
         usersList.forEach((k, v) -> {
@@ -184,8 +228,11 @@ public class Library {
     }
 
 
+    /**
+     * thêm sách vào database.
+     * @param book thông tin cuốn sách.
+     */
     public static void add_document(Book book) {
-
         String insertFields = "INSERT INTO book(book_id,available,borrowed_user_id,borrowed_date,required_date) VALUES (";
         String insertValues = "'" + book.getBook_id() + "'," +
                 (book.isAvailable() ? 1 : 0) + "," +
@@ -193,8 +240,10 @@ public class Library {
                 book.getBorrowed_date() + "','" +
                 book.getRequired_date() + "')";
         String insertToDownloadBooks = insertFields + insertValues;
+
         System.out.println(insertToDownloadBooks);
         System.out.println(book.getBook_id());
+
         try {
             Statement stmt = connectDB.createStatement();
             stmt.executeUpdate(insertToDownloadBooks);
@@ -283,6 +332,12 @@ public class Library {
         return userToRemove != null;
     }
 
+    /**
+     * Tìm tài liệu theo tên.
+     *
+     * @param name Tên tài liệu cần tìm.
+     * @return Chuỗi kết quả tìm kiếm tài liệu hoặc thông báo lỗi.
+     */
     public static String find_document(String name) {
         try {
             return GoogleBooksAPI.searchMultiBooks(name);
@@ -291,7 +346,13 @@ public class Library {
         }
     }
 
-
+    /**
+     * Mượn sách từ danh sách và cập nhật cơ sở dữ liệu.
+     *
+     * @param id id của cuốn sách.
+     * @param user_id id của người dùng.
+     * @return true nếu mượn thành công, false nếu sách không có sẵn.
+     */
     public static boolean borrow_books(String id, String user_id) {
         for (Book book : bookLists) {
             if (id.equals(book.getBook_id())) {
@@ -323,10 +384,10 @@ public class Library {
     }
 
     /**
-     * Khi co user rating, them record
+     * Khi có user rating, thêm record vào bảng borrow_record.
      *
-     * @param book
-     * @param userRating
+     * @param book        Cuốn sách người dùng mượn.
+     * @param userRating  Đánh giá của người dùng.
      */
     public static void add_record(Book book, double userRating) {
         LocalDate today = LocalDate.now();
@@ -346,9 +407,9 @@ public class Library {
     }
 
     /**
-     * Khi khong co user_rating.
+     * Khi có user rating, thêm record vào bảng borrow_record.
      *
-     * @param book book.
+     * @param book Cuốn sách người dùng mượn.
      */
     public static void add_record(Book book) {
         LocalDate today = LocalDate.now();
@@ -368,6 +429,10 @@ public class Library {
             e.getCause();
         }
     }
+
+    /**
+     * Tải các bản ghi mượn từ cơ sở dữ liệu và thêm vào recordsLists.
+     */
     public static void load_record () {
             try {
                 Statement stmt = connectDB.createStatement();
@@ -388,9 +453,14 @@ public class Library {
                 e.printStackTrace();
             }
     }
+
+    /**
+     * in ra các bản ghi trên terminal.
+     */
     public static void printRecords() {
         System.out.println(recordsLists);
     }
+
     /**
      * Converts a string in "yyyy-MM-dd" format to java.sql.Date.
      *
