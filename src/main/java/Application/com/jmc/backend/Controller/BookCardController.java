@@ -33,24 +33,8 @@ public class BookCardController implements Initializable {
     private Label title;
     @FXML
     private void openBookDetails() {
-        try {
-            Model.getInstance().setSelectedBook(book);
-            // Load the Book.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/Book.fxml"));
-            AnchorPane bookDetailRoot = loader.load();
-
-            // Get the BookController and pass the book data
-            BookController bookController = loader.getController();
-            bookController.setBookData(book);
-
-            // Create a new Stage (or switch scene)
-            Stage stage = new Stage();
-            stage.setScene(new Scene(bookDetailRoot));
-            stage.setTitle(book.getTitle());
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Model.getInstance().setSelectedBook(book);
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Book");
     }
 
 

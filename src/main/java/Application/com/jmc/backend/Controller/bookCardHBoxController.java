@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 public class bookCardHBoxController implements Initializable {
-
+    private Book book;
     @FXML
     private Label exprired_date;
 
@@ -54,27 +54,6 @@ public class bookCardHBoxController implements Initializable {
           Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Book");
     }
 
-    private Book book;
-
-    private void openBookDetails() {
-        try {
-            // Load the Book.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/Book.fxml"));
-            AnchorPane bookDetailRoot = loader.load();
-
-            // Get the BookController and pass the book data
-            BookController bookController = loader.getController();
-            bookController.setBookData(book);
-
-            // Create a new Stage (or switch scene)
-            Stage stage = new Stage();
-            stage.setScene(new Scene(bookDetailRoot));
-            stage.setTitle(book.getTitle());
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
