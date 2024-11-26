@@ -1,11 +1,20 @@
 package Application.com.jmc.backend.Model;
 
+import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Views.FactoryViews;
 
 public class Model {
     private static Model model;
     private final FactoryViews factoryViews;
+    private Book selectedBook;
 
+    public Book getSelectedBook() {
+        return selectedBook;
+    }
+
+    public void setSelectedBook(Book book) {
+        this.selectedBook = book;
+    }
 
     public Model() {
         this.factoryViews = new FactoryViews();

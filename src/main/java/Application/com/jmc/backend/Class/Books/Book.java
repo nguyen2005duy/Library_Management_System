@@ -23,6 +23,9 @@ public class Book {
     private java.sql.Date borrowed_date;
     private java.sql.Date required_date;
     private String imageSrc;
+    private String description;
+    private String rating;
+
 
     public String getImageSrc() {
         return imageSrc;
@@ -39,6 +42,8 @@ public class Book {
         LocalDate borrowedLocalDate = borrowed_date.toLocalDate();
         LocalDate requiredLocalDate = borrowedLocalDate.plusDays(30);
         this.required_date = java.sql.Date.valueOf(requiredLocalDate);
+        this.rating = "Not rated";
+
     }
 
     public Book(String book_id, String title, String author, String[] categories,
@@ -53,6 +58,8 @@ public class Book {
         this.borrow_user_id = borrow_user_id;
         this.borrowed_date = borrowed_date;
         this.required_date = required_date;
+        this.rating = "Not rated";
+
     }
 
     public Book(String book_id, String title, String author, String pages, String[] categories, String published_date) {
@@ -61,6 +68,40 @@ public class Book {
         this.author = author;
         this.pages = pages;
         this.categories = categories;
+        this.published_date = published_date;
+         this.rating = "Not rated";
+
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPages() {
+        return pages;
+    }
+
+    public void setPages(String pages) {
+        this.pages = pages;
+    }
+
+    public String getPublished_date() {
+        return published_date;
+    }
+
+    public void setPublished_date(String published_date) {
         this.published_date = published_date;
     }
 
@@ -155,6 +196,7 @@ public class Book {
         this.published_date = published_date;
         this.pages = pages;
         this.available = true;
+        this.rating = "Not rated";
     }
 
     /**

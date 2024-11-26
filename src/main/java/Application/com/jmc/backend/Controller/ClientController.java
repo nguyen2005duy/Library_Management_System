@@ -1,5 +1,6 @@
 package Application.com.jmc.backend.Controller;
 
+import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Model.Model;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
@@ -17,7 +18,10 @@ public class ClientController implements Initializable
                 case "Trending": client_parent.setCenter(Model.getInstance().getFactoryViews().getTrendingView()); break;
                 case "Library" : client_parent.setCenter(Model.getInstance().getFactoryViews().getLibraryView()); break;
                 case "Category" : client_parent.setCenter(Model.getInstance().getFactoryViews().getCategoryView()); break;
-                case "Book" :client_parent.setCenter(Model.getInstance().getFactoryViews().getBookView()); break;
+                case "Book" :
+                    Book selectedBook = Model.getInstance().getSelectedBook(); // Adjust as needed
+                    client_parent.setCenter(Model.getInstance().getFactoryViews().getBookView(selectedBook));
+                   break;
                 default: client_parent.setCenter(Model.getInstance().getFactoryViews().getDiscoverView()); break;
             }
         });

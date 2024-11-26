@@ -291,6 +291,8 @@ public class GoogleBooksAPI {
                 doc = new Book(book_id,title,author,categories,publishedDate, pageCount);
                 doc.setAvailable(true);
             }
+            doc.setRating("Not rated");
+            doc.setDescription((description));
             doc.setCategories(getCategories(id));
             // Print out the book's details
 
