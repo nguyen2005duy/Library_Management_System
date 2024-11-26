@@ -36,8 +36,8 @@ public class Member extends User {
         return favourite_books;
     }
 
-    public void addFavouriteBooks (String id) {
-
+    public void addFavouriteBooks (Book book) {
+        favourite_books.add(book);
     }
     public void generateMemberType(){
         member_id = "M_"+account_id;
@@ -47,6 +47,9 @@ public class Member extends User {
         isPremiumMember = false;
     }
 
+    public void add_borrowed_documents(Book book) {
+        borrowed_documents.add(book);
+    }
     public List<Book> getBorrowed_documents() {
         return borrowed_documents;
     }
