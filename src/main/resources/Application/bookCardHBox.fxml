@@ -13,7 +13,7 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#loadBook" prefHeight="330.0" prefWidth="879.0" styleClass="card-border" stylesheets="@../Styles/trending.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.bookCardHBoxController">
    <children>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="327.0" prefWidth="180.0" style="-fx-background-radius: 15;" stylesheets="@../Styles/trending.css">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="319.0" prefWidth="180.0" style="-fx-background-radius: 15;" stylesheets="@../Styles/trending.css">
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
@@ -55,9 +55,9 @@
             <Insets left="5.0" />
          </HBox.margin>
       </VBox>
-      <VBox prefHeight="330.0" prefWidth="701.0" style="-fx-background-radius: 15;" styleClass="white-background" stylesheets="@../Styles/trending.css">
+      <VBox prefHeight="329.0" prefWidth="692.0" style="-fx-background-radius: 15;" styleClass="white-background" stylesheets="@../Styles/trending.css">
          <children>
-            <Label prefHeight="129.0" prefWidth="699.0" text="Date Expired:">
+            <Label fx:id="exprired_date" prefHeight="129.0" prefWidth="699.0" text="Date Expired:">
                <font>
                   <Font name="Berlin Sans FB" size="23.0" />
                </font>
@@ -65,7 +65,7 @@
                   <Insets left="150.0" />
                </padding>
             </Label>
-            <Label layoutX="10.0" layoutY="10.0" prefHeight="102.0" prefWidth="699.0" text="Time Remaining:">
+            <Label fx:id="time_remaining" layoutX="10.0" layoutY="10.0" prefHeight="102.0" prefWidth="699.0" text="Time Remaining:">
                <font>
                   <Font name="Berlin Sans FB" size="23.0" />
                </font>

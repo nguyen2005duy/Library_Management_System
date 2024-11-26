@@ -1,5 +1,7 @@
 package Application.com.jmc.backend.Controller;
 import Application.com.jmc.backend.Class.Books.Book;
+import Application.com.jmc.backend.Class.Library.Library;
+import Application.com.jmc.backend.Class.User_Information.Member;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -66,42 +68,12 @@ public class TrendingController implements Initializable {
 
     //Lay borrowed_documents tu Member
     private List<Book> currentlyReading(){
-        List<Book> BorrowedBooks = new ArrayList<>();
-        Book book1 = new Book("ass","ass");
-        Book book2 = new Book("asd","asd");
-        Book book3 = new Book("asd1","asd");
-        book1.setTitle("RDPD");
-        book1.setAuthor("KIM");
-        book1.setImageSrc("/Img/content.jpg");
-        book2.setTitle("RDPD");
-        book2.setAuthor("KIM");
-        book2.setImageSrc("/Img/content.jpg");
-        book3.setTitle("RDPD");
-        book3.setAuthor("KIM");
-        book3.setImageSrc("/Img/content.jpg");
-        BorrowedBooks.add(book1);
-        BorrowedBooks.add(book2);
-        BorrowedBooks.add(book3);
-        return BorrowedBooks;
+        Member current_member = (Member) Library.current_user;
+        return current_member.getBorrowed_documents();
     }
 
     private List<Book> RecommendedBooks(){
-        List<Book> RecommendedBooks = new ArrayList<>();
-        Book book1 = new Book("ass","ass");
-        Book book2 = new Book("asd","asd");
-        Book book3 = new Book("asd1","asd");
-        book1.setTitle("RDPD");
-        book1.setAuthor("KIM");
-        book1.setImageSrc("/Img/content.jpg");
-        book2.setTitle("RDPD");
-        book2.setAuthor("KIM");
-        book2.setImageSrc("/Img/content.jpg");
-        book3.setTitle("RDPD");
-        book3.setAuthor("KIM");
-        book3.setImageSrc("/Img/content.jpg");
-        RecommendedBooks.add(book1);
-        RecommendedBooks.add(book2);
-        RecommendedBooks.add(book3);
-        return RecommendedBooks;
+        Member current_member = (Member) Library.current_user;
+        return current_member.getBorrowed_documents();
     }
 }

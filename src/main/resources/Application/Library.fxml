@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="896.0" styleClass="white-background" stylesheets="@../Styles/trending.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.LibraryController">
    <children>
-      <VBox layoutY="3.0" prefHeight="798.0" prefWidth="894.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutY="3.0" prefHeight="798.0" prefWidth="894.0" spacing="15.0" stylesheets="@../Styles/trending.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="title" text="Currently Reading">
                <VBox.margin>
@@ -22,7 +22,7 @@
             </Label>
             <ScrollPane prefHeight="174.0" prefWidth="896.0" stylesheets="@../Styles/trending.css" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox fx:id="cardLayout" prefHeight="852.0" prefWidth="879.0" stylesheets="@../Styles/trending.css">
+                  <VBox fx:id="cardLayout" prefHeight="852.0" prefWidth="866.0" spacing="20.0" stylesheets="@../Styles/trending.css">
                      <styleClass>
                         <String fx:value="transparent" />
                         <String fx:value="white-background" />
@@ -34,6 +34,10 @@
                </styleClass>
             </ScrollPane>
          </children>
+         <styleClass>
+            <String fx:value="transparent" />
+            <String fx:value="white-background" />
+         </styleClass>
       </VBox>
    </children>
 </AnchorPane>

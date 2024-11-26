@@ -16,36 +16,38 @@ public class GoogleBooksAPI {
 
     public static void main(String[] args) {
         // Replace YOUR_API_KEY with your actual API key
-        Library.init_Library();
-        System.out.println("What kind of books are you looking for?");
-        String query = new Scanner(System.in).next();  // Example search query
-        System.out.println("Current user id?");
-        String currentUserId = new Scanner(System.in).next();
-        try {
-            String response = searchMultiBooks(query);
-            Thread getListOfBooksThread = new Thread(() -> {
-                // Call your function here
-                getBookInfo(response);
-                try {
-                    // Wait for 1 second (1000 milliseconds) before running again
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    System.out.println("Thread was interrupted");
-                }
-            });
-
-            getListOfBooksThread.start();
+        while (true) {
+            Library.init_Library();
+            System.out.println("What kind of books are you looking for?");
+            String query = new Scanner(System.in).next();  // Example search query
+            System.out.println("Current user id?");
+            String currentUserId = new Scanner(System.in).next();
             try {
-            getListOfBooksThread.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                String response = searchMultiBooks(query);
+                Thread getListOfBooksThread = new Thread(() -> {
+                    // Call your function here
+                    getBookInfo(response);
+                    try {
+                        // Wait for 1 second (1000 milliseconds) before running again
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        System.out.println("Thread was interrupted");
+                    }
+                });
+
+                getListOfBooksThread.start();
+                try {
+                    getListOfBooksThread.join();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                int pos = new Scanner(System.in).nextInt();
+                System.out.println();
+                System.out.println(Library.bookLists);
+                Library.borrow_books(get_book_ID(pos, response), currentUserId);
+            } catch (IOException e) {
+                System.err.println("Error during API request: " + e.getMessage());
             }
-            int pos = new Scanner(System.in).nextInt();
-            System.out.println();
-            System.out.println(Library.bookLists);
-            Library.borrow_books(get_book_ID(pos, response), currentUserId);
-        } catch (IOException e) {
-            System.err.println("Error during API request: " + e.getMessage());
         }
     }
 
