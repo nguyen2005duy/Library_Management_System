@@ -75,10 +75,10 @@
                <children>
                   <Pane prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
                      <children>
-                        <FontAwesomeIconView fill="#808191" glyphName="LIST" layoutX="9.0" layoutY="22.0" size="15" />
+                        <FontAwesomeIconView fill="#808191" glyphName="HEART" layoutX="9.0" layoutY="22.0" size="15" />
                      </children>
                   </Pane>
-                  <Label prefHeight="32.0" prefWidth="142.0" style="-fx-padding: 0 0 0 20;" text="Category" textFill="#808191">
+                  <Label prefHeight="32.0" prefWidth="142.0" style="-fx-padding: 0 0 0 20;" text="Favourite" textFill="#808191">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

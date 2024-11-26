@@ -16,15 +16,15 @@
          </image></ImageView>
       <VBox alignment="CENTER" prefHeight="186.0" prefWidth="215.0">
          <children>
-            <Label fx:id="bookName" prefHeight="96.0" prefWidth="218.0" text="Book &#10;Title">
+            <Label fx:id="bookName" prefHeight="96.0" prefWidth="218.0" text="Book Title" wrapText="true">
                <font>
-                  <Font name="Berlin Sans FB Bold" size="24.0" />
+                  <Font name="Berlin Sans FB Demi Bold" size="24.0" />
                </font>
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label fx:id="authorName" layoutX="10.0" layoutY="55.0" prefHeight="16.0" prefWidth="215.0" text="Author Name">
+            <Label fx:id="authorName" layoutX="10.0" layoutY="55.0" prefHeight="16.0" prefWidth="215.0" text="Author Name" wrapText="true">
                <font>
                   <Font name="Berlin Sans FB" size="18.0" />
                </font>

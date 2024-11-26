@@ -31,6 +31,14 @@ public class Member extends User {
         BorrowedHistory = new ArrayList<>();
         favourite_genres = new ArrayList<>();
     }
+
+    public List<Book> getfavourite_books() {
+        return favourite_books;
+    }
+
+    public void addFavouriteBooks (String id) {
+
+    }
     public void generateMemberType(){
         member_id = "M_"+account_id;
         BorrowedHistory = new ArrayList<>();

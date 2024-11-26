@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="879.0" styleClass="white-background" stylesheets="@../Styles/trending.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.BookController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="879.0" styleClass="white-background" stylesheets="@../Styles/trending.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.BookController">
    <children>
       <VBox alignment="CENTER" layoutX="17.0" layoutY="33.0" prefHeight="360.0" prefWidth="879.0" style="-fx-background-color: #EFEDE2;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -133,12 +133,12 @@
             <Font name="Berlin Sans FB Demi Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="favourite_button" layoutX="445.0" layoutY="721.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="223.0" stylesheets="@../Styles/trending.css" text="Add to favourite" textFill="#808191">
+      <Button fx:id="favourite_button" layoutX="445.0" layoutY="721.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="223.0" style="-fx-border-color: #b79738;" stylesheets="@../Styles/trending.css" text="Add to favourite" textFill="#b79738">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="20.0" />
          </font>
          <graphic>
-            <FontAwesomeIconView fill="#808191" glyphName="HEART" selectionFill="#808191" />
+            <FontAwesomeIconView fill="#b79738" glyphName="HEART" selectionFill="#808191" />
          </graphic>
          <styleClass>
             <String fx:value="round-layout" />

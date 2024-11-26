@@ -7,9 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,13 +26,16 @@ public class CardController implements Initializable {
     @FXML
     private HBox box;
 
+    private String[] colors = {"C5705D","D0B8A8","F8EDE3", "DFD3C3" };
+
+    public static int num = 0;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
     }
 
 
-
+    //Favourite && Trending
     public void setData(Book book){
         //ImageView lay anh
         try {
@@ -42,9 +43,11 @@ public class CardController implements Initializable {
             bookImage.setImage(image);
             bookName.setText(book.getTitle());
             authorName.setText(book.getAuthor());
-            box.setStyle("-fx-background-color: #" + "000000" + ";"
+            box.setStyle("-fx-background-color: #" + colors[num] + ";"
                     + "-fx-background-radius: 15;"
                     + "-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0),10,0,0,10);");
+            if (num == 3) num = 0;
+            else num ++;
         } catch (IOException e) {
             System.out.println("Loi load image trong CardController");
         }

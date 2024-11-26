@@ -17,9 +17,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 public class bookCardHBoxController implements Initializable {
+
+    @FXML
+    private Label exprired_date;
+
+    @FXML
+    private Label time_remaining;
 
     @FXML
     private Label author;
@@ -72,6 +80,7 @@ public class bookCardHBoxController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
 
 
     public void setData(Book book) {

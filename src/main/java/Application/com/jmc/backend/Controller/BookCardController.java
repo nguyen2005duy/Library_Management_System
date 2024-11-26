@@ -59,6 +59,7 @@ public class BookCardController implements Initializable {
 
     }
 
+    //Trending
     public void setData(Book book) {
         try {
             this.book = book;
