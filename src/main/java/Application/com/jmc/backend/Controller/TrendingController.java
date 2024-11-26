@@ -1,7 +1,11 @@
 package Application.com.jmc.backend.Controller;
+
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -10,11 +14,8 @@ import javafx.scene.layout.HBox;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class TrendingController implements Initializable {
@@ -22,58 +23,88 @@ public class TrendingController implements Initializable {
     private HBox cardLayout;
     @FXML
     private GridPane bookContainer;
-    private List<Book> books;
-    private List<Book> recommededBooks;
 
+    // Change from List to ObservableList
+    private ObservableList<Book> books;
+    private ObservableList<Book> recommendedBooks;
 
     @Override
-    public void initialize (URL url, ResourceBundle rb) {
-        books = new ArrayList<>(currentlyReading());
-        recommededBooks = new ArrayList<>(RecommendedBooks());
+    public void initialize(URL url, ResourceBundle rb) {
+        // Initialize ObservableLists
+        books = FXCollections.observableArrayList(currentlyReading());
+        recommendedBooks = FXCollections.observableArrayList(RecommendedBooks());
+
+        // Listen for changes in the books list
+        books.addListener((ListChangeListener<Book>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    for (Book addedBook : change.getAddedSubList()) {
+                        addBookToLayout(addedBook, cardLayout);
+                    }
+                }
+                if (change.wasRemoved()) {
+                    // Handle removed books if needed
+                    // For now, the removed books are just not displayed in the layout
+                }
+            }
+        });
+
+        // Initial layout update for books
+        for (Book book : books) {
+            addBookToLayout(book, cardLayout);
+        }
+
+        // Similarly handle recommendedBooks if necessary (following the same pattern)
         int column = 0;
         int row = 1;
-        try {
-            for (Book book : books) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/Application/card.fxml"));
-                HBox cardBox = fxmlLoader.load();
-                CardController cardController = fxmlLoader.getController();
-                cardController.setData(book);
-                cardLayout.getChildren().add(cardBox);
-            }
-
-            for (Book recommendedBook : recommededBooks) {
+        for (Book recommendedBook : recommendedBooks) {
+            try {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/Application/BookCard.fxml"));
                 VBox bookBox = fxmlLoader.load();
                 BookCardController bookCardController = fxmlLoader.getController();
                 bookCardController.setData(recommendedBook);
 
-                if (column == 6){
+                if (column == 6) {
                     column = 0;
                     row++;
                 }
 
                 bookContainer.add(bookBox, column++, row);
                 GridPane.setMargin(bookBox, new Insets(10));
+            } catch (IOException e) {
+                System.out.println("Error loading book card: " + e.getMessage());
             }
         }
-        catch (IOException e) {
-            System.out.println("CSS");
+    }
 
+    private void addBookToLayout(Book book, HBox container) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/Application/card.fxml"));
+            HBox cardBox = fxmlLoader.load();
+            CardController cardController = fxmlLoader.getController();
+            cardController.setData(book);
+            container.getChildren().add(cardBox);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-
-
-    //Lay borrowed_documents tu Member
-    private List<Book> currentlyReading(){
-        Member current_member = (Member) Library.current_user;
-        return current_member.getBorrowed_documents();
+    // Refresh the currently reading list and update UI
+    public void refreshCurrentlyReading() {
+        books.setAll(currentlyReading()); // This triggers the ObservableList listener
     }
 
-    private List<Book> RecommendedBooks(){
-        Member current_member = (Member) Library.current_user;
-        return current_member.getBorrowed_documents();
+    // Get currently reading books from the Member
+    private ObservableList<Book> currentlyReading() {
+        Member currentMember = (Member) Library.current_user;
+        return FXCollections.observableArrayList(currentMember.getBorrowed_documents());
+    }
+
+    // Recommended books can be similarly managed
+    private ObservableList<Book> RecommendedBooks() {
+        Member currentMember = (Member) Library.current_user;
+        return FXCollections.observableArrayList(currentMember.getBorrowed_documents());
     }
 }

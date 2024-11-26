@@ -165,7 +165,7 @@ public class Book {
         try {
             java.util.Date utilDate = formatter.parse(required_date);
             Date sqlDate = new Date(utilDate.getTime());
-            setBorrowed_date(sqlDate);
+            setRequired_date(sqlDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -243,13 +243,11 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +  "borrowed_id'" + borrow_user_id + '\'' +
-                "title='" + title + '\'' +
-                ", published_date='" + published_date + '\'' +
-                ", pages=" + pages +
-                ", categories=" + Arrays.toString(categories) +
-                ", book_id='" + book_id + '\'' +
-                ", author='" + author + '\'' +
+        return "Book{" +
+                "book_id='" + book_id + '\'' +
+                ", borrow_user_id='" + borrow_user_id + '\'' +
+                ", borrowed_date=" + borrowed_date +
+                ", required_date=" + required_date +
                 '}';
     }
 
