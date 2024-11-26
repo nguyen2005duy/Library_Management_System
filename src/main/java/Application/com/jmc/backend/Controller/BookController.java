@@ -2,6 +2,9 @@ package Application.com.jmc.backend.Controller;
 
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.GoogleBooksAPI;
+import Application.com.jmc.backend.Class.Library.Library;
+import Application.com.jmc.backend.Class.User_Information.Member;
+import Application.com.jmc.backend.Model.Model;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -9,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -64,4 +68,7 @@ public class BookController implements Initializable {
             System.out.println("Couldnt find book image in book controller");
         }
     }
+
+
+   
 }
