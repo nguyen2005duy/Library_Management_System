@@ -3,6 +3,7 @@ import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
+import Application.com.jmc.backend.Model.Model;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,7 +13,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -40,6 +43,12 @@ public class DiscoverController implements Initializable {
 
     @FXML
     private MenuButton search_menu;
+
+    @FXML
+    void search(MouseEvent event) {
+        Model.getInstance().setSearchString(search_bar.getText());
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Search");
+    }
 
     public void setImageViewImage() throws IOException {
         // Create an Image object from a URL

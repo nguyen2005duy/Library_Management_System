@@ -65,7 +65,7 @@ public class TrendingController implements Initializable {
                 BookCardController bookCardController = fxmlLoader.getController();
                 bookCardController.setData(recommendedBook);
 
-                if (column == 6) {
+                if (column == 4) {
                     column = 0;
                     row++;
                 }

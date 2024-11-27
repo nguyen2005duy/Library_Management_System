@@ -1,0 +1,17 @@
+.avatar {
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+}
+
+
+.Button{
+    -fx-background-color: white;
+    -fx-border-color:  #808191;
+    -fx-border-radius: 10;
+}
+
+.Button :hover{
+    -fx-cursor: hand;
+    -fx-border-color:  red;
+    -fx-padding: 10 10 10 10;
+}

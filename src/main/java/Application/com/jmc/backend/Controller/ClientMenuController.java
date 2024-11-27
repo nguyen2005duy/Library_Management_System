@@ -42,9 +42,15 @@ public class ClientMenuController implements Initializable {
         Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Discover");
     }
 
+    @FXML
+    void loadProfile(MouseEvent event) {
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Profile");
+    }
+
     public void loadCategory(MouseEvent mouseEvent) {
         Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Favourite");
     }
+
 
     public void quit(MouseEvent mouseEvent) {
 

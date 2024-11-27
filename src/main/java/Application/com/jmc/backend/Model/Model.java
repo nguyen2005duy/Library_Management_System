@@ -5,11 +5,20 @@ import Application.com.jmc.backend.Views.FactoryViews;
 
 public class Model {
     private static Model model;
+    private String search;
     private final FactoryViews factoryViews;
     private Book selectedBook;
 
     public Book getSelectedBook() {
         return selectedBook;
+    }
+
+    public void setSearchString(String search) {
+        this.search = search;
+    }
+
+    public String getSearchString() {
+        return search;
     }
 
     public void setSelectedBook(Book book) {

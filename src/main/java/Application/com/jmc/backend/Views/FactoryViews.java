@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class FactoryViews {
     //Customer views
     private final SimpleStringProperty clientSelectedMenuItem;
@@ -20,12 +22,25 @@ public class FactoryViews {
     private AnchorPane LibraryView;
     private AnchorPane FavouriteView;
     private AnchorPane BookView;
+    private AnchorPane ProfileView;
+    private AnchorPane SearchView;
     public FactoryViews() {
         this.clientSelectedMenuItem = new SimpleStringProperty("");
     }
 
     public StringProperty getClientSelectedMenuItem() {
         return clientSelectedMenuItem;
+    }
+
+    public AnchorPane getSearchView(){
+        if (SearchView == null) {
+            try{
+                SearchView = new FXMLLoader(getClass().getResource("/Application/search_results.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return SearchView;
     }
 
     public AnchorPane getLibraryView() {
@@ -60,6 +75,17 @@ public class FactoryViews {
             }
         }
         return TrendingView;
+    }
+
+    public AnchorPane getProfileView() {
+        if (ProfileView == null) {
+            try{
+                ProfileView = new FXMLLoader(getClass().getResource("/Application/profile.fxml")).load();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return ProfileView;
     }
 
     public AnchorPane getBookView(Book book) {
