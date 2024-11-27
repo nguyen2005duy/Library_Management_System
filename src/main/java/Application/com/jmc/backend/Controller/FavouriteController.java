@@ -27,13 +27,13 @@ public class FavouriteController  implements Initializable {
     @FXML
     private Label message;
 
-    private List<Book> favorite_books;
 
 
 
     @Override
     public void initialize (URL url, ResourceBundle rb) {
-        favorite_books = new ArrayList<>(favouriteBooks());
+        List <Book> favorite_books = new ArrayList<>(favouriteBooks());
+        message = new Label();
         int column = 0;
         int row = 1;
         if (favorite_books.isEmpty()) {

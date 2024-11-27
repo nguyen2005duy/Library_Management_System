@@ -32,3 +32,9 @@
 .shadow{
     -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0), 10, 0, 0 , 10);
 }
+
+.mouse:hover{
+    -fx-border-radius: 15;
+    -fx-border-width: 5;
+    -fx-border-color: #B79738;
+}

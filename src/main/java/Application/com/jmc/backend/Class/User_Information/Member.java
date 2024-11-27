@@ -20,6 +20,7 @@ public class Member extends User {
         borrowed_documents = new ArrayList<>();
         BorrowedHistory = new ArrayList<>();
         favourite_genres = new ArrayList<>();
+        favourite_books = new ArrayList<>();
     }
 
     public Member(int account_id, String username, String password, String firstName, String lastName, String email, String role, String member_id, boolean isPremiumMember) {
@@ -30,6 +31,7 @@ public class Member extends User {
         borrowed_documents = new ArrayList<>();
         BorrowedHistory = new ArrayList<>();
         favourite_genres = new ArrayList<>();
+        favourite_books = new ArrayList<>();
     }
 
     public List<Book> getfavourite_books() {

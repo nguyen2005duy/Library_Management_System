@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class BookController implements Initializable {
@@ -50,7 +51,26 @@ public class BookController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        Book currentViewing = Model.getInstance().getSelectedBook();
+        Member cur = (Member) Library.current_user;
+        for (Book a : cur.getfavourite_books()){
+            if (Objects.equals(a.getBook_id(), currentViewing.getBook_id())){
+                favourite_button.setDisable(true);
+                favourite_button.setText("Added to Favourites");
+            }
+        }
+        if (!currentViewing.isAvailable()){
+            read_button.setDisable(true);
+            read_button.setText("Borrowed");
+        }
+        else {
+            for (Book a : cur.getBorrowed_documents()){
+                if (Objects.equals(a.getBook_id(), currentViewing.getBook_id())){
+                    read_button.setDisable(true);
+                    read_button.setText("Borrowing");
+                }
+            }
+        }
     }
 
     public void setBookData(Book book) {
@@ -70,5 +90,22 @@ public class BookController implements Initializable {
     }
 
 
+
+    @FXML
+    void add_to_favourite(MouseEvent event) {
+        Member cur = (Member) Library.current_user;
+        cur.addFavouriteBooks(Model.getInstance().getSelectedBook());
+        favourite_button.setDisable(true);
+        favourite_button.setText("Added to favourite");
+    }
+
+    @FXML
+    void add_to_library(MouseEvent event) {
+        Member cur = (Member) Library.current_user;
+        cur.add_borrowed_documents(Model.getInstance().getSelectedBook());
+        read_button.setDisable(true);
+        read_button.setText("Borrowing");
+
+    }
    
 }
