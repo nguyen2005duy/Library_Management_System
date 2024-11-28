@@ -1,6 +1,8 @@
 package Application.com.jmc.backend.Views;
 
 import Application.com.jmc.backend.Class.Books.Book;
+import Application.com.jmc.backend.Class.Library.Library;
+import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Controller.*;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -22,6 +24,10 @@ public class FactoryViews {
     private AnchorPane BookView;
     private AnchorPane ProfileView;
     private AnchorPane SearchView;
+    private int LibrarySize;
+    private int FavouriteSize;
+    private int TrendingSize;
+
 
     public FactoryViews() {
         this.clientSelectedMenuItem = new SimpleStringProperty("");
@@ -31,45 +37,66 @@ public class FactoryViews {
         return clientSelectedMenuItem;
     }
 
+    public void setFavouriteSize(int favouriteSize) {
+        FavouriteSize = favouriteSize;
+    }
+
+    public void setLibrarySize(int librarySize) {
+        LibrarySize = librarySize;
+    }
+
+    public void setTrendingSize(int trendingSize) {
+        TrendingSize = trendingSize;
+    }
+
     public AnchorPane getSearchView() {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results.fxml"));
-                SearchView = loader.load();
-                SearchResultsController controller = loader.getController();
-                controller.refreshSearchResults();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results.fxml"));
+            SearchView = loader.load();
+            SearchResultsController controller = loader.getController();
+            controller.refreshSearchResults();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return SearchView;
     }
 
     public AnchorPane getLibraryView() {
-        if (LibraryView == null) {
+        if (LibraryView == null||LibrarySize!=
+                ((Member) Library.current_user).getBorrowed_documents().size()) {
             try {
+                LibrarySize= ((Member) Library.current_user).getBorrowed_documents().size();
                 LibraryView = new FXMLLoader(getClass().getResource("/Application/Library.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+
         }
         return LibraryView;
     }
 
     public AnchorPane getFavouriteView() {
-
+        if (FavouriteView == null || FavouriteSize !=
+                ((Member) Library.current_user).getfavourite_books().size()) {
             try {
+                FavouriteSize =  ((Member) Library.current_user).getfavourite_books().size();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/favourite.fxml"));
-                FavouriteView  = loader.load();
+                FavouriteView = loader.load();
                 FavouriteController controller = loader.getController();
                 controller.refreshFavouriteBooks();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
         return FavouriteView;
     }
 
     public AnchorPane getTrendingView() {
-        if (TrendingView == null) {
+        if (TrendingView == null || LibrarySize !=
+                ((Member) Library.current_user).getBorrowed_documents().size()) {
             try {
+                LibrarySize= ((Member) Library.current_user).getBorrowed_documents().size();
                 TrendingView = new FXMLLoader(getClass().getResource("/Application/trending.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
