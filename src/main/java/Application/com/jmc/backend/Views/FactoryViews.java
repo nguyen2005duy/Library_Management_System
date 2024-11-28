@@ -1,9 +1,7 @@
 package Application.com.jmc.backend.Views;
 
 import Application.com.jmc.backend.Class.Books.Book;
-import Application.com.jmc.backend.Controller.BookCardController;
-import Application.com.jmc.backend.Controller.BookController;
-import Application.com.jmc.backend.Controller.ClientController;
+import Application.com.jmc.backend.Controller.*;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -24,6 +22,7 @@ public class FactoryViews {
     private AnchorPane BookView;
     private AnchorPane ProfileView;
     private AnchorPane SearchView;
+
     public FactoryViews() {
         this.clientSelectedMenuItem = new SimpleStringProperty("");
     }
@@ -32,14 +31,15 @@ public class FactoryViews {
         return clientSelectedMenuItem;
     }
 
-    public AnchorPane getSearchView(){
-        if (SearchView == null) {
-            try{
-                SearchView = new FXMLLoader(getClass().getResource("/Application/search_results.fxml")).load();
+    public AnchorPane getSearchView() {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results.fxml"));
+                SearchView = loader.load();
+                SearchResultsController controller = loader.getController();
+                controller.refreshSearchResults();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
         return SearchView;
     }
 
@@ -47,7 +47,7 @@ public class FactoryViews {
         if (LibraryView == null) {
             try {
                 LibraryView = new FXMLLoader(getClass().getResource("/Application/Library.fxml")).load();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -55,22 +55,23 @@ public class FactoryViews {
     }
 
     public AnchorPane getFavouriteView() {
-        if (FavouriteView == null) {
+
             try {
-                FavouriteView = new FXMLLoader(getClass().getResource("/Application/favourite.fxml")).load();
-            }catch (Exception e){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/favourite.fxml"));
+                FavouriteView  = loader.load();
+                FavouriteController controller = loader.getController();
+                controller.refreshFavouriteBooks();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
         return FavouriteView;
     }
 
-    public AnchorPane getTrendingView(){
+    public AnchorPane getTrendingView() {
         if (TrendingView == null) {
             try {
                 TrendingView = new FXMLLoader(getClass().getResource("/Application/trending.fxml")).load();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -79,9 +80,9 @@ public class FactoryViews {
 
     public AnchorPane getProfileView() {
         if (ProfileView == null) {
-            try{
+            try {
                 ProfileView = new FXMLLoader(getClass().getResource("/Application/profile.fxml")).load();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -106,20 +107,21 @@ public class FactoryViews {
         if (DiscoverView == null) {
             try {
                 DiscoverView = new FXMLLoader(getClass().getResource("/Application/discover.fxml")).load();
-            }  catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return DiscoverView;
     }
-    public void showLoginView(){
+
+    public void showLoginView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/Login.fxml"));
         createStage(loader);
 
     }
 
 
-    public void showClientView(){
+    public void showClientView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/Client.fxml"));
         ClientController clientController = new ClientController();
         loader.setController(clientController);
@@ -129,10 +131,10 @@ public class FactoryViews {
     private void createStage(FXMLLoader loader) {
         Scene scene = null;
 
-        try{
+        try {
             scene = new Scene(loader.load());
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("cc");
         }
@@ -142,11 +144,11 @@ public class FactoryViews {
         stage.show();
     }
 
-    public void closeStage(Stage stage){
+    public void closeStage(Stage stage) {
         stage.close();
     }
 
-    public void showTrendingView(){
+    public void showTrendingView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/trending.fxml"));
         createStage(loader);
     }

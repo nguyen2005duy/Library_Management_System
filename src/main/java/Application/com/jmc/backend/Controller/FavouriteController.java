@@ -32,6 +32,9 @@ public class FavouriteController  implements Initializable {
 
     @Override
     public void initialize (URL url, ResourceBundle rb) {
+
+    }
+    public void refreshFavouriteBooks () {
         List <Book> favorite_books = new ArrayList<>(favouriteBooks());
         int column = 0;
         int row = 1;

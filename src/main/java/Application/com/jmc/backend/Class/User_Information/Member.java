@@ -11,7 +11,7 @@ public class Member extends User {
     private List<BorrowRecord> BorrowedHistory;
     private List<Book> borrowed_documents;
     private List<String> favourite_genres;
-    private List<Book> favourite_books;
+    private final List<Book> favourite_books;
     private boolean isPremiumMember;
     public Member(String username, String password, String firstName,
                   String lastName, String email, String role) {

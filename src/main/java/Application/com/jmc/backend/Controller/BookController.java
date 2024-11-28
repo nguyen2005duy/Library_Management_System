@@ -53,23 +53,18 @@ public class BookController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Book currentViewing = Model.getInstance().getSelectedBook();
         Member cur = (Member) Library.current_user;
-        for (Book a : cur.getfavourite_books()){
-            if (Objects.equals(a.getBook_id(), currentViewing.getBook_id())){
+        for (Book a : cur.getfavourite_books()) {
+            if (Objects.equals(a.getBook_id(), currentViewing.getBook_id())) {
                 favourite_button.setDisable(true);
                 favourite_button.setText("Added to Favourites");
             }
         }
-        if (!currentViewing.isAvailable()){
+        if (!currentViewing.isAvailable() && Integer.parseInt(currentViewing.getBorrow_user_id()) == Library.current_user.getAccount_id()) {
             read_button.setDisable(true);
-            read_button.setText("Borrowed");
-        }
-        else {
-            for (Book a : cur.getBorrowed_documents()){
-                if (Objects.equals(a.getBook_id(), currentViewing.getBook_id())){
-                    read_button.setDisable(true);
-                    read_button.setText("Borrowing");
-                }
-            }
+            read_button.setText("Borrowing");
+        } else {
+            read_button.setDisable(true);
+            read_button.setText("Not available");
         }
     }
 
@@ -90,7 +85,6 @@ public class BookController implements Initializable {
     }
 
 
-
     @FXML
     void add_to_favourite(MouseEvent event) {
         Member cur = (Member) Library.current_user;
@@ -105,7 +99,6 @@ public class BookController implements Initializable {
         cur.add_borrowed_documents(Model.getInstance().getSelectedBook());
         read_button.setDisable(true);
         read_button.setText("Borrowing");
-
     }
-   
+
 }

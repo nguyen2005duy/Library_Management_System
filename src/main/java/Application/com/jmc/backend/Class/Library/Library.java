@@ -136,7 +136,7 @@ public class Library {
         }
     }
 
-    
+
     /**
      * Gán danh sách sách đã mượn cho từng thành viên.
      */
@@ -236,7 +236,7 @@ public class Library {
      * thêm sách vào database.
      * @param book thông tin cuốn sách.
      */
-    public static void add_document(Book book) {
+    public static void add_book(Book book) {
         String insertFields = "INSERT INTO book(book_id,available,borrowed_user_id,borrowed_date,required_date) VALUES (";
         String insertValues = "'" + book.getBook_id() + "'," +
                 (book.isAvailable() ? 1 : 0) + "," +
@@ -383,7 +383,7 @@ public class Library {
             }
         }
         Book book = new Book(id, user_id);
-        add_document(book);
+        add_book(book);
         return true;
     }
 
@@ -483,5 +483,18 @@ public class Library {
             System.out.println("Invalid date format: " + e.getMessage());
             return null; // Return null if parsing fails
         }
+
+    }
+    public static List<Book> searchFor(String queueFor) {
+        List<String> IdsList = GoogleBooksAPI.getIdList(queueFor);
+        List<Book> searchResults = new ArrayList<>();
+        for (String id :IdsList) {
+            try {
+                searchResults.add(GoogleBooksAPI.getDocumentDetails(id));
+            } catch (IOException e) {
+                System.out.println("Loi ham searchFor trong Library");
+            }
+        }
+        return  searchResults;
     }
 }
