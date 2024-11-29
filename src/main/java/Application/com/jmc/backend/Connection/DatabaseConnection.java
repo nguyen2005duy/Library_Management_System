@@ -20,6 +20,8 @@ public class DatabaseConnection {
      */
     public static Connection getConnection() {
         String databaseUser = "root";
+//        nhap database mac dinh
+//        databasePassword = "a";
         while (databasePassword == null) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Type in your database password");
