@@ -5,6 +5,7 @@ import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Controller.*;
 
+import Application.com.jmc.backend.Controller.Admin.AdminController;
 import Application.com.jmc.backend.Controller.Client.ClientController;
 import Application.com.jmc.backend.Controller.Client.FavouriteController;
 import javafx.beans.property.SimpleStringProperty;
@@ -26,6 +27,7 @@ public class FactoryViews {
     private AnchorPane BookView;
     private AnchorPane ProfileView;
     private AnchorPane SearchView;
+    private final SimpleStringProperty adminSelectedMenuItem;
     private int LibrarySize;
     private int FavouriteSize;
     private int TrendingSize;
@@ -33,10 +35,15 @@ public class FactoryViews {
 
     public FactoryViews() {
         this.clientSelectedMenuItem = new SimpleStringProperty("");
+        this.adminSelectedMenuItem = new SimpleStringProperty("");
     }
 
     public StringProperty getClientSelectedMenuItem() {
         return clientSelectedMenuItem;
+    }
+
+    public StringProperty getAdminSelectedMenuItem() {
+        return adminSelectedMenuItem;
     }
 
     public void setFavouriteSize(int favouriteSize) {
@@ -179,6 +186,13 @@ public class FactoryViews {
 
     public void showTrendingView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/trending.fxml"));
+        createStage(loader);
+    }
+
+    public void showAdminView() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/Admin.fxml"));
+        AdminController adminController = new AdminController();
+        loader.setController(adminController);
         createStage(loader);
     }
 }

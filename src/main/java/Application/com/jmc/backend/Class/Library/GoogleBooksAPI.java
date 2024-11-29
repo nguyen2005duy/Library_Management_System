@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GoogleBooksAPI {
-    public static String apiKey = "AIzaSyBuLI1dOZrUS6U78tj41hZtWr5aKo6u_j0";
-   // public static String apiKey = "AIzaSyAp9uprFh6mvLaUE_nfKhwpj86PlDuyXT8";
+    //public static String apiKey = "AIzaSyBuLI1dOZrUS6U78tj41hZtWr5aKo6u_j0";
+   public static String apiKey = "AIzaSyAp9uprFh6mvLaUE_nfKhwpj86PlDuyXT8";
 
     public static void main(String[] args) {
         // Replace YOUR_API_KEY with your actual API key

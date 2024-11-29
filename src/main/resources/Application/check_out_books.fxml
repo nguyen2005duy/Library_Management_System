@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="800.0" prefWidth="879.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.Admin.Check_out_BookController">
+   <children>
+      <VBox layoutX="120.0" layoutY="57.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox prefHeight="68.0" prefWidth="879.0" />
+            <HBox prefHeight="131.0" prefWidth="879.0">
+               <children>
+                  <VBox prefHeight="131.0" prefWidth="500.0" />
+                  <VBox alignment="CENTER" prefHeight="131.0" prefWidth="348.0">
+                     <children>
+                        <TextField fx:id="searchBar" prefHeight="35.0" prefWidth="288.0" promptText="Search Ex, ISBN, title, author,etc" styleClass="search-bar" stylesheets="@../Styles/members.css">
+                           <VBox.margin>
+                              <Insets left="60.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </TextField>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <TableView fx:id="TableViewBook" prefHeight="598.0" prefWidth="798.0">
+               <columns>
+                  <TableColumn fx:id="Member_ID" prefWidth="85.33333432674408" text="Member ID" />
+                  <TableColumn fx:id="title" prefWidth="106.66666412353516" text="Title" />
+                  <TableColumn fx:id="author" prefWidth="128.2666015625" text="Author" />
+                  <TableColumn fx:id="borrowed_date" prefWidth="108.53338623046875" text="Borrowed Date" />
+                  <TableColumn fx:id="returned_date" prefWidth="102.66659545898438" text="Returned Date" />
+                  <TableColumn fx:id="status" prefWidth="85.066650390625" text="Status" />
+                  <TableColumn fx:id="Action" prefWidth="182.93328857421875" text="Action" />
+                  <TableColumn prefWidth="288.533447265625" text="Column X" />
+                  <TableColumn fx:id="Member_name1" prefWidth="190.66667938232422" text="Member" />
+               </columns>
+               <VBox.margin>
+                  <Insets left="50.0" right="30.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,51 +1,45 @@
 package Application.com.jmc.backend.Controller.Admin;
 
-import com.mysql.cj.conf.IntegerProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public class MemberSearchModel {
-     Integer MemberID;
-    String MemberFirstName;
-    String MemberLastName;
-    String MemberEmail;
+    private final StringProperty email;  // Use StringProperty for JavaFX binding
+    private final StringProperty lastname;
+    private final IntegerProperty account_id;
 
-    public MemberSearchModel(int account_id, String member_name, String member_email) {
-        this.MemberID = account_id;
-        this.MemberLastName = member_name;
-        this.MemberEmail = member_email;
+    // Constructor
+    public MemberSearchModel(int account_id, String lastname, String email) {
+        this.account_id = new SimpleIntegerProperty(account_id);
+        this.lastname = new SimpleStringProperty(lastname);
+        this.email = new SimpleStringProperty(email);
     }
 
-    public Integer getMemberID() {
-        return MemberID;
+    // Getters for properties
+    public String getEmail() {
+        return email.get();  // Return the value of the email property
     }
 
-    public void setMemberID(Integer memberID) {
-        MemberID = memberID;
+    public String getLastname() {  // Corrected method name
+        return lastname.get();
     }
 
-    public String getMemberFirstName() {
-        return MemberFirstName;
+    public int getAccount_id() {
+        return account_id.get();
     }
 
-    public void setMemberFirstName(String memberFirstName) {
-        MemberFirstName = memberFirstName;
+    // Property getters for use with PropertyValueFactory
+    public StringProperty emailProperty() {
+        return email;
     }
 
-    public String getMemberEmail() {
-        return MemberEmail;
+    public StringProperty lastnameProperty() {  // Corrected method name
+        return lastname;
     }
 
-    public void setMemberEmail(String memberEmail) {
-        MemberEmail = memberEmail;
-    }
-
-    public String getMemberLastName() {
-        return MemberLastName;
-    }
-
-    public void setMemberLastName(String memberLastName) {
-        MemberLastName = memberLastName;
+    public IntegerProperty account_idProperty() {
+        return account_id;
     }
 }
