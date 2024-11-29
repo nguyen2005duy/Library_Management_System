@@ -1,19 +1,14 @@
 package Application.com.jmc.backend.Views;
 
 import Application.com.jmc.backend.Class.Books.Book;
-<<<<<<< HEAD
-import Application.com.jmc.backend.Controller.Admin.AdminController;
-import Application.com.jmc.backend.Controller.BookController;
-import Application.com.jmc.backend.Controller.Client.ClientController;
-=======
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Controller.*;
->>>>>>> e3a0fa03e55dc15e116a1f2cfac6ec9dba03a2f7
 
+import Application.com.jmc.backend.Controller.Client.ClientController;
+import Application.com.jmc.backend.Controller.Client.FavouriteController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -31,50 +26,19 @@ public class FactoryViews {
     private AnchorPane BookView;
     private AnchorPane ProfileView;
     private AnchorPane SearchView;
-<<<<<<< HEAD
-
-    private SimpleStringProperty AdminSelectedMenuItem;
-    private AnchorPane MembersView;
-=======
     private int LibrarySize;
     private int FavouriteSize;
     private int TrendingSize;
 
 
->>>>>>> e3a0fa03e55dc15e116a1f2cfac6ec9dba03a2f7
     public FactoryViews() {
         this.clientSelectedMenuItem = new SimpleStringProperty("");
-        this.AdminSelectedMenuItem = new SimpleStringProperty("");
     }
 
     public StringProperty getClientSelectedMenuItem() {
         return clientSelectedMenuItem;
     }
 
-<<<<<<< HEAD
-    public StringProperty getAdminSelectedMenuItem() {
-        return AdminSelectedMenuItem;
-    }
-
-    public AnchorPane getMembersView() {
-        if (MembersView == null) {
-            try{
-                MembersView = new FXMLLoader(getClass().getResource("/Application/Members.fxml")).load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return MembersView;
-    }
-
-    public AnchorPane getSearchView(){
-        if (SearchView == null) {
-            try{
-                SearchView = new FXMLLoader(getClass().getResource("/Application/search_results.fxml")).load();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-=======
     public void setFavouriteSize(int favouriteSize) {
         FavouriteSize = favouriteSize;
     }
@@ -95,7 +59,6 @@ public class FactoryViews {
             controller.refreshSearchResults();
         } catch (Exception e) {
             e.printStackTrace();
->>>>>>> e3a0fa03e55dc15e116a1f2cfac6ec9dba03a2f7
         }
         return SearchView;
     }
@@ -114,8 +77,6 @@ public class FactoryViews {
         }
         return LibraryView;
     }
-
-
 
     public AnchorPane getFavouriteView() {
         if (FavouriteView == null || FavouriteSize !=
@@ -193,13 +154,6 @@ public class FactoryViews {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/Client.fxml"));
         ClientController clientController = new ClientController();
         loader.setController(clientController);
-        createStage(loader);
-    }
-
-    public void showAdminView (){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/Admin.fxml"));
-        AdminController AdminController = new AdminController();
-        loader.setController(AdminController);
         createStage(loader);
     }
 

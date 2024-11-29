@@ -6,46 +6,46 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class MemberSearchModel {
-     IntegerProperty MemberID;
-    StringProperty MemberFirstName;
-    StringProperty MemberLastName;
-    StringProperty MemberEmail;
+     Integer MemberID;
+    String MemberFirstName;
+    String MemberLastName;
+    String MemberEmail;
 
     public MemberSearchModel(int account_id, String member_name, String member_email) {
-        this.MemberID = new IntegerProperty(account_id);
-        this.MemberLastName = new SimpleStringProperty(member_name);
-        this.MemberEmail = new SimpleStringProperty(member_email);
+        this.MemberID = account_id;
+        this.MemberLastName = member_name;
+        this.MemberEmail = member_email;
     }
 
-    public IntegerProperty getMemberID() {
+    public Integer getMemberID() {
         return MemberID;
     }
 
-    public void setMemberID(IntegerProperty memberID) {
+    public void setMemberID(Integer memberID) {
         MemberID = memberID;
     }
 
-    public StringProperty getMemberFirstName() {
+    public String getMemberFirstName() {
         return MemberFirstName;
     }
 
-    public void setMemberFirstName(StringProperty memberFirstName) {
+    public void setMemberFirstName(String memberFirstName) {
         MemberFirstName = memberFirstName;
     }
 
-    public StringProperty getMemberEmail() {
+    public String getMemberEmail() {
         return MemberEmail;
     }
 
-    public void setMemberEmail(StringProperty memberEmail) {
+    public void setMemberEmail(String memberEmail) {
         MemberEmail = memberEmail;
     }
 
-    public StringProperty getMemberLastName() {
+    public String getMemberLastName() {
         return MemberLastName;
     }
 
-    public void setMemberLastName(StringProperty memberLastName) {
+    public void setMemberLastName(String memberLastName) {
         MemberLastName = memberLastName;
     }
 }

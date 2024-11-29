@@ -53,8 +53,8 @@ public class MembersController implements Initializable {
 
             while (rs.next()) {
                 Integer query_member_id = rs.getInt("account_id");
-                StringProperty query_member_name = rs.getString("lastname");
-                StringProperty query_member_email = rs.getString("email");
+                String query_member_name = rs.getString("lastname");
+                String query_member_email = rs.getString("email");
 
                 MemberSearchModelObservableList.add(new MemberSearchModel(query_member_id,query_member_name, query_member_email));
             }
