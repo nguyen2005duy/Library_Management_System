@@ -31,10 +31,18 @@ public class SearchResultsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+         refreshSearchResults();
+    }
+    public void refreshSearchResults () {
         results.setText("Results for '" + Model.getInstance().getSearchString() + "'");
-        List<Book> searchResults = new ArrayList<>(getSearchResults());
+        List<Book> searchResults = new ArrayList<>(getSearchResults(Model.getInstance().getSearchString()));
         int column = 0;
         int row = 1;
+        if (!searchResults.isEmpty()) {
+            number_of_results.setText(String.valueOf(searchResults.size()));
+        } else {
+            number_of_results.setText("Nothing to show");
+        }
         try {
             for (Book res : searchResults) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -56,10 +64,8 @@ public class SearchResultsController implements Initializable {
 
         }
     }
-
     //load kq tu gg api
-    private List<Book> getSearchResults() {
-        Member cur = (Member) Library.current_user;
-        return cur.getBorrowed_documents();
+    private List<Book> getSearchResults(String queueFor) {
+        return Library.searchFor(queueFor);
     }
 }

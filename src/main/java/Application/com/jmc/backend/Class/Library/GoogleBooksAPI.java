@@ -10,11 +10,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GoogleBooksAPI {
-    //public static String apiKey = "AIzaSyBuLI1dOZrUS6U78tj41hZtWr5aKo6u_j0";
-    public static String apiKey = "AIzaSyAp9uprFh6mvLaUE_nfKhwpj86PlDuyXT8";
+    public static String apiKey = "AIzaSyBuLI1dOZrUS6U78tj41hZtWr5aKo6u_j0";
+   // public static String apiKey = "AIzaSyAp9uprFh6mvLaUE_nfKhwpj86PlDuyXT8";
 
     public static void main(String[] args) {
         // Replace YOUR_API_KEY with your actual API key
@@ -118,6 +120,34 @@ public class GoogleBooksAPI {
         }
     }
 
+    public static List<String> getIdList(String queueFor) {
+        List<String> IdsList = new ArrayList<>();
+
+        try {
+            String jsonResponse = searchMultiBooks(queueFor);
+            try {
+                // Create an ObjectMapper
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                // Parse the JSON string into a JsonNode object
+                JsonNode rootNode = objectMapper.readTree(jsonResponse);
+
+                // Get the first book item (if exists)
+                int querySize = rootNode.path("items").size();
+
+                for (int i = 0; i < Math.min(querySize,4); i++) {
+                    JsonNode book = rootNode.path("items").get(i);
+                    IdsList.add(book.path("id").asText());
+                }
+            } catch (IOException e) {
+                System.err.println("Error parsing JSON response: " + e.getMessage());
+            }
+        } catch (IOException e) {
+            System.out.println("Loi khi tim ID trong getIdList googleapi");
+        }
+        return IdsList;
+    }
+
 
     /**
      * lay thong tin mot cuon sach.
@@ -196,7 +226,7 @@ public class GoogleBooksAPI {
     /**
      * Lấy ID của cuốn sách từ JSON phản hồi.
      *
-     * @param pos Vị trí của cuốn sách trong danh sách items.
+     * @param pos          Vị trí của cuốn sách trong danh sách items.
      * @param jsonResponse Chuỗi JSON phản hồi từ API.
      * @return trả về ID của cuốn sách hoặc error.
      */
@@ -285,14 +315,13 @@ public class GoogleBooksAPI {
 
             String[] dataBaseInfos = Library.loadBookBorrowedId(book_id);
             if (dataBaseInfos.length > 1) {
-                doc = new Book(book_id,title,author,categories,publishedDate, pageCount);
+                doc = new Book(book_id, title, author, categories, publishedDate, pageCount);
                 doc.setAvailable(false);
                 doc.setBorrow_user_id(dataBaseInfos[1]);
                 doc.setBorrowed_Date(dataBaseInfos[2]);
                 doc.setRequired_date(dataBaseInfos[3]);
-            }
-            else {
-                doc = new Book(book_id,title,author,categories,publishedDate, pageCount);
+            } else {
+                doc = new Book(book_id, title, author, categories, publishedDate, pageCount);
                 doc.setAvailable(true);
             }
             doc.setRating("Not rated");
@@ -309,10 +338,11 @@ public class GoogleBooksAPI {
 
     /**
      * Tra lai categories, phuc vu cho viec recommend book va luu vao BookRecord.
+     *
      * @param book_id book_id.
      * @return w.
      */
-    public static String [] getCategories  (String book_id) throws IOException{
+    public static String[] getCategories(String book_id) throws IOException {
         String jsonResponse = searchOneBook(book_id);
         try {
             // Create an ObjectMapper

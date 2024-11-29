@@ -56,11 +56,12 @@ public class Library {
             System.out.println(e.getMessage());
         }
     }
+
     public static void init_current_user(String username, String password) {
         System.out.println("Initializing current user...");
-        System.out.println(username+" "+password);
+        System.out.println(username + " " + password);
         usersList.forEach((k, v) -> {
-            System.out.println(v.getUsername()+" "+v.getPassword());
+            System.out.println(v.getUsername() + " " + v.getPassword());
             if (v.getUsername().equals(username) && v.getPassword().equals(password)) {
                 current_user = v;
             }
@@ -73,13 +74,10 @@ public class Library {
      * @return Chuỗi các thể loại yêu thích (tối đa 4 thể loại), cách nhau bởi dấu cách.
      * @throws IOException in ra lỗi.
      */
-    public String get_user_favourite() throws IOException {
+    public static String[] get_user_favourite() throws IOException {
         Member member = (Member) Library.current_user;
-        if (member == null || member.getBorrowedHistory().isEmpty()) {
-            return "Không có dữ liệu lịch sử mượn!";
-        }
 
-        Map<String, Integer> categoryCount=new HashMap<>();
+        Map<String, Integer> categoryCount = new HashMap<>();
 
         for (BorrowRecord record : member.getBorrowedHistory()) {
             String[] categories = GoogleBooksAPI.getCategories(record.getBook_id());
@@ -94,11 +92,11 @@ public class Library {
         List<Map.Entry<String, Integer>> sortedCategories = new ArrayList<>(categoryCount.entrySet());
         sortedCategories.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
-        List<String> topcCategory =new ArrayList<>();
-        for (int i=0;i<Math.min(4, sortedCategories.size());i++) {
+        List<String> topcCategory = new ArrayList<>();
+        for (int i = 0; i < Math.min(4, sortedCategories.size()); i++) {
             topcCategory.add(sortedCategories.get(i).getKey());
         }
-        return String.join(" ", topcCategory);
+        return topcCategory.toArray(new String[0]);
     }
 
     /**
@@ -136,7 +134,7 @@ public class Library {
         }
     }
 
-    
+
     /**
      * Gán danh sách sách đã mượn cho từng thành viên.
      */
@@ -182,7 +180,7 @@ public class Library {
                         String member_id = memberSet.getString("member_id");
                         boolean isPremiumMember = memberSet.getString("isPremiumMember").equals("1");
 
-                        User user = new Member(account_id,username, password, firstname, lastname, email, role, member_id, isPremiumMember);
+                        User user = new Member(account_id, username, password, firstname, lastname, email, role, member_id, isPremiumMember);
                         usersList.put(user.getAccount_id(), user);
                     } else {
                         System.out.println("No member details found for account ID: " + account_id);
@@ -234,9 +232,10 @@ public class Library {
 
     /**
      * thêm sách vào database.
-     * @param book thông tin cuốn sách.
+     *
+     * @param book thông tin cuốn sách.;;
      */
-    public static void add_document(Book book) {
+    public static void add_book(Book book) {
         String insertFields = "INSERT INTO book(book_id,available,borrowed_user_id,borrowed_date,required_date) VALUES (";
         String insertValues = "'" + book.getBook_id() + "'," +
                 (book.isAvailable() ? 1 : 0) + "," +
@@ -353,7 +352,7 @@ public class Library {
     /**
      * Mượn sách từ danh sách và cập nhật cơ sở dữ liệu.
      *
-     * @param id id của cuốn sách.
+     * @param id      id của cuốn sách.
      * @param user_id id của người dùng.
      * @return true nếu mượn thành công, false nếu sách không có sẵn.
      */
@@ -369,6 +368,8 @@ public class Library {
                             "borrowed_date = '" + book.getBorrowed_date() + "', " +
                             "required_date = '" + book.getRequired_date() + "' " +
                             "WHERE book_id = '" + book.getBook_id() + "'";
+                    Member mem = (Member) usersList.get(Integer.parseInt(user_id));
+                    mem.add_borrowed_documents(book);
                     try {
                         Statement stmt = connectDB.createStatement();
                         stmt.executeUpdate(updateQuery);
@@ -383,15 +384,15 @@ public class Library {
             }
         }
         Book book = new Book(id, user_id);
-        add_document(book);
+        add_book(book);
         return true;
     }
 
     /**
      * Khi có user rating, thêm record vào bảng borrow_record.
      *
-     * @param book        Cuốn sách người dùng mượn.
-     * @param userRating  Đánh giá của người dùng.
+     * @param book       Cuốn sách người dùng mượn.
+     * @param userRating Đánh giá của người dùng.
      */
     public static void add_record(Book book, double userRating) {
         LocalDate today = LocalDate.now();
@@ -437,25 +438,25 @@ public class Library {
     /**
      * Tải các bản ghi mượn từ cơ sở dữ liệu và thêm vào recordsLists.
      */
-    public static void load_record () {
-            try {
-                Statement stmt = connectDB.createStatement();
-                java.sql.ResultSet set = stmt.executeQuery("SELECT book_id,account_id,borrow_date,return_date,user_rating  FROM borrow_record");
-                while (set.next()) {
-                    int account_id = Integer.parseInt(set.getString("account_id"));
-                    String bookId = set.getString("book_id");
-                    String borrowDate = set.getString("borrow_date");
-                    String returnDate = set.getString("return_date");
-                    String user_ratingString = set.getString("user_rating");
-                    if (user_ratingString==null) {
-                        recordsLists.add(new BorrowRecord(account_id, bookId, convertStringToSQLDate(borrowDate), convertStringToSQLDate(returnDate)));
-                    } else {
-                        recordsLists.add(new BorrowRecord(account_id, bookId, convertStringToSQLDate(borrowDate), convertStringToSQLDate(returnDate),Double.parseDouble(user_ratingString)));
-                    }
+    public static void load_record() {
+        try {
+            Statement stmt = connectDB.createStatement();
+            java.sql.ResultSet set = stmt.executeQuery("SELECT book_id,account_id,borrow_date,return_date,user_rating  FROM borrow_record");
+            while (set.next()) {
+                int account_id = Integer.parseInt(set.getString("account_id"));
+                String bookId = set.getString("book_id");
+                String borrowDate = set.getString("borrow_date");
+                String returnDate = set.getString("return_date");
+                String user_ratingString = set.getString("user_rating");
+                if (user_ratingString == null) {
+                    recordsLists.add(new BorrowRecord(account_id, bookId, convertStringToSQLDate(borrowDate), convertStringToSQLDate(returnDate)));
+                } else {
+                    recordsLists.add(new BorrowRecord(account_id, bookId, convertStringToSQLDate(borrowDate), convertStringToSQLDate(returnDate), Double.parseDouble(user_ratingString)));
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -483,5 +484,88 @@ public class Library {
             System.out.println("Invalid date format: " + e.getMessage());
             return null; // Return null if parsing fails
         }
+
     }
+
+    public static List<Book> searchFor(String queueFor) {
+        List<String> IdsList = GoogleBooksAPI.getIdList(queueFor);
+        List<Book> searchResults = new ArrayList<>();
+        for (String id : IdsList) {
+            try {
+                searchResults.add(GoogleBooksAPI.getDocumentDetails(id));
+            } catch (IOException e) {
+                System.out.println("Loi ham searchFor trong Library");
+            }
+        }
+        return searchResults;
+    }
+
+    public static void add_user_favourite(String book_id, int account_id) {
+        Member cur = (Member) Library.current_user;
+        List<Book> favourite = cur.getfavourite_books();
+    /*    for (Book book : favourite) {
+            if (book_id.equals(book.getBook_id())) {
+                return;
+            }
+        }*/
+        String insertFields = "INSERT INTO favourite_books(account_id,book_id) VALUES (";
+        String insertValues = "'" + account_id + "','" +
+                book_id + "')";
+        String insertToFavourites = insertFields + insertValues;
+        Member mem = (Member) usersList.get(account_id);
+
+        try {
+            Statement stmt = connectDB.createStatement();
+            stmt.executeUpdate(insertToFavourites);
+            mem.addFavouriteBooks(GoogleBooksAPI.getDocumentDetails(book_id));
+        } catch (SQLException e) {
+            System.out.println("Loi khi them favourite vao database.");////
+            e.getCause();
+            return;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void load_current_user_favourite() {
+        Member cur = (Member) Library.current_user;
+        try {
+            Statement stmt = connectDB.createStatement();
+            java.sql.ResultSet
+                    set = stmt.executeQuery("SELECT book_id FROM favourite_books WHERE account_id='"
+                    + cur.getAccount_id() + "'");
+            while (set.next()) {
+                try {
+                    cur.addFavouriteBooks(GoogleBooksAPI.getDocumentDetails(set.getString("book_id")));
+                } catch (IOException e) {
+                    System.out.println("Loi khi add favourite vao current user");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("load user favourite khong chay");
+        }
+    }
+
+    public static String getBookRating(String bookId) {
+        double totalRating = 0;
+        int ratingCount = 0;
+
+        for (BorrowRecord record : recordsLists) {
+            if (record.getBook_id().equals(bookId)) {
+                Double userRating = record.getUserRating();
+                if (userRating != null && userRating >= 0 && userRating <= 5) {
+                    totalRating += userRating;
+                    ratingCount++;
+                }
+            }
+        }
+
+        if (ratingCount > 0) {
+            double averageRating = totalRating / ratingCount;
+            return String.format("%.2f", averageRating);
+        }
+
+        return "Not rated";
+    }
+
 }

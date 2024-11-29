@@ -1,8 +1,10 @@
-package Application.com.jmc.backend.Controller;
+package Application.com.jmc.backend.Controller.Client;
 
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
+import Application.com.jmc.backend.Controller.BookCardController;
+import Application.com.jmc.backend.Controller.CardController;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

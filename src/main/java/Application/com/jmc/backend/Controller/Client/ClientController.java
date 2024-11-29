@@ -1,4 +1,4 @@
-package Application.com.jmc.backend.Controller;
+package Application.com.jmc.backend.Controller.Client;
 
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Model.Model;
@@ -17,7 +17,8 @@ public class ClientController implements Initializable
             switch (newVal){
                 case "Trending": client_parent.setCenter(Model.getInstance().getFactoryViews().getTrendingView()); break;
                 case "Library" : client_parent.setCenter(Model.getInstance().getFactoryViews().getLibraryView()); break;
-                case "Search": client_parent.setCenter(Model.getInstance().getFactoryViews().getSearchView()); break;
+                case "Search":
+                    client_parent.setCenter(Model.getInstance().getFactoryViews().getSearchView()); break;
                 case "Favourite" : client_parent.setCenter(Model.getInstance().getFactoryViews().getFavouriteView()); break;
                 case "Profile" : client_parent.setCenter(Model.getInstance().getFactoryViews().getProfileView()); break;
                 case "Book" :

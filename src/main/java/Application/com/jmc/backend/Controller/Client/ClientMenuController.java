@@ -1,4 +1,4 @@
-package Application.com.jmc.backend.Controller;
+package Application.com.jmc.backend.Controller.Client;
 
 import Application.com.jmc.backend.Model.Model;
 import javafx.fxml.FXML;

@@ -1,17 +1,16 @@
-package Application.com.jmc.backend.Controller;
+package Application.com.jmc.backend.Controller.Client;
 
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
+import Application.com.jmc.backend.Controller.bookCardHBoxController;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;

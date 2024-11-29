@@ -75,6 +75,14 @@ public class LoginController implements Initializable {
                     Library.init_current_user(UsernameField.getText(),passwordField.getText());
                     System.out.println(UsernameField.getText()+" "+passwordField.getText());
                     System.out.println(Library.current_user);
+                    Thread thread = new Thread(Library::load_current_user_favourite);
+                    thread.start();
+                    Member cur = (Member) Library.current_user;
+                    try {
+                        thread.join();
+                    } catch (InterruptedException e) {
+                        System.out.println(e.getMessage());
+                    }
                     onLogin();
                 } else {
                     LoginMessage.setText("Invalid username or password");

@@ -20,5 +20,9 @@ module org.example.library_management_system {
     opens Application.frontend to javafx.fxml;
     exports Application.com.jmc.backend.Class.Books;
     exports Application.com.jmc.backend.Class.User_Information;
+    exports Application.com.jmc.backend.Controller.Client;
+    opens Application.com.jmc.backend.Controller.Client to javafx.fxml;
+    exports Application.com.jmc.backend.Controller.Admin;
+    opens Application.com.jmc.backend.Controller.Admin to javafx.fxml;
     // Export and open the frontend packages
 }

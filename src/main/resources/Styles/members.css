@@ -1,0 +1,12 @@
+.search-bar {
+    -fx-background-radius: 50;
+    -fx-background-color: transparent;
+    -fx-border-radius: 50;
+    -fx-border-color: #9f9f9f;
+}
+
+.add-member{
+    -fx-background-color: #72BD76;
+    -fx-background-radius: 50;
+
+}

@@ -1,14 +1,14 @@
-package Application.com.jmc.backend.Controller;
+package Application.com.jmc.backend.Controller.Client;
 
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
+import Application.com.jmc.backend.Controller.BookCardController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 
@@ -32,6 +32,9 @@ public class FavouriteController  implements Initializable {
 
     @Override
     public void initialize (URL url, ResourceBundle rb) {
+
+    }
+    public void refreshFavouriteBooks () {
         List <Book> favorite_books = new ArrayList<>(favouriteBooks());
         int column = 0;
         int row = 1;
