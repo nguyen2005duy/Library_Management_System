@@ -1,14 +1,27 @@
 package Application.com.jmc.backend.Class.Books;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.mockito.Mock;
+
 import static org.junit.jupiter.api.Assertions.*;
-        import java.sql.Date;
+import static org.mockito.Mockito.mock;
+
+import java.sql.Date;
 
 class BookTest {
 
+    @Mock
+    private Book book = mock(Book.class);
+
+    @AfterEach
+    void afterAll() {
+        System.out.println(book.toString());
+    }
+
     @Test
     void testConstructorWithBorrower() {
-        Book book = new Book("1", "1");
+        book = new Book("1", "1");
+        System.out.println(book);
 
         assertEquals("1", book.getBook_id());
         assertEquals("1", book.getBorrow_user_id());
@@ -23,7 +36,7 @@ class BookTest {
         Date borrowedDate = new Date(System.currentTimeMillis());
         Date requiredDate = new Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000);
 
-        Book book = new Book(
+        book = new Book(
                 "2",
                 "Harry Potter",
                 "J.K. Rowling",
@@ -51,7 +64,7 @@ class BookTest {
     void testConstructorWithoutBorrower() {
         String[] categories = {"Science Fiction", "Drama"};
 
-        Book book = new Book(
+        book = new Book(
                 "3",
                 "Dune",
                 "Frank Herbert",
@@ -71,7 +84,7 @@ class BookTest {
 
     @Test
     void testCheckIn() {
-        Book book = new Book("4", "4");
+        book = new Book("4", "4");
         book.check_in("4");
 
         assertFalse(book.isAvailable());
@@ -82,7 +95,7 @@ class BookTest {
 
     @Test
     void testCheckOut() {
-        Book book = new Book("5", "5");
+        book = new Book("5", "5");
         book.check_out();
 
         assertTrue(book.isAvailable());
@@ -93,7 +106,7 @@ class BookTest {
 
     @Test
     void testSetAndGetImageSrc() {
-        Book book = new Book("6", "6");
+        book = new Book("6", "6");
         book.setImageSrc("images/book_cover.png");
 
         assertEquals("images/book_cover.png", book.getImageSrc());
@@ -103,7 +116,7 @@ class BookTest {
     void testToString() {
         String[] categories = {"Mystery", "Thriller"};
 
-        Book book = new Book(
+        book = new Book(
                 "7",
                 "The Da Vinci Code",
                 "Dan Brown",
@@ -121,5 +134,17 @@ class BookTest {
                 "author='Dan Brown'}";
 
         assertEquals(expected, book.toString());
+    }
+
+    @Test
+    void testMock() {
+        Book mockBook = mock(Book.class);
+        mockBook = new Book("1", "1");
+
+        assertEquals("1", mockBook.getBook_id());
+        assertEquals("1", mockBook.getBorrow_user_id());
+        assertNotNull(mockBook.getBorrowed_date());
+        assertNotNull(mockBook.getRequired_date());
+        assertTrue(mockBook.getRequired_date().after(mockBook.getBorrowed_date()));
     }
 }
