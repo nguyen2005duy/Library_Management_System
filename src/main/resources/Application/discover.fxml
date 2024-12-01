@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.Client.DiscoverController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.DiscoverController">
    <children>
       <AnchorPane layoutY="-1.0" prefHeight="387.5" prefWidth="896.0" style="-fx-background-color: #EAE6D7; -fx-background-radius: 0 0 0 70;" AnchorPane.bottomAnchor="412.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -38,79 +28,12 @@
                   <Button fx:id="search_button" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#search" prefHeight="33.0" prefWidth="91.0" style="-fx-background-color: #1C3F3A; -fx-translate-x: 30; -fx-translate-y: 8; -fx-background-radius: 7 7 7 7;" text="Search" textFill="WHITE" />
                </children>
             </HBox>
-            <Label layoutX="64.0" layoutY="216.0" prefHeight="30.0" prefWidth="230.0" text="Book Recommendation" textFill="#545454">
+            <Label layoutX="57.0" layoutY="194.0" prefHeight="30.0" prefWidth="230.0" text="Book Category" textFill="#545454">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <Label layoutX="74.0" layoutY="532.0" prefHeight="30.0" prefWidth="230.0" text="Book Category" textFill="#545454">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="book1" fitHeight="180.0" fitWidth="150.0" layoutX="75.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
-         <viewport>
-            <Rectangle2D width="1221.0" />
-         </viewport>
-         <effect>
-            <DropShadow height="13.44" offsetY="10.0" radius="6.369999999999999" spread="0.07" width="14.04">
-               <color>
-                  <Color red="0.9176470637321472" green="0.9215686321258545" blue="0.9254902005195618" />
-               </color>
-            </DropShadow>
-         </effect>
-
-      </ImageView>
-      <ImageView fx:id="book2" fitHeight="180.0" fitWidth="150.0" layoutX="270.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
-         
-            
-         
-         <viewport>
-            <Rectangle2D width="1221.0" />
-         </viewport>
-         <effect>
-            <DropShadow height="13.44" offsetY="10.0" radius="6.369999999999999" spread="0.07" width="14.04">
-               <color>
-                  <Color red="0.9176470637321472" green="0.9215686321258545" blue="0.9254902005195618" />
-               </color>
-            </DropShadow>
-         </effect>
-      </ImageView>
-      <ImageView fx:id="book3" fitHeight="180.0" fitWidth="150.0" layoutX="482.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
-         
-            
-         
-         <viewport>
-            <Rectangle2D width="1221.0" />
-         </viewport>
-         <effect>
-            <DropShadow height="13.44" offsetY="10.0" radius="6.369999999999999" spread="0.07" width="14.04">
-               <color>
-                  <Color red="0.9176470637321472" green="0.9215686321258545" blue="0.9254902005195618" />
-               </color>
-            </DropShadow>
-         </effect>
-      </ImageView>
-      <ImageView fx:id="book4" fitHeight="180.0" fitWidth="150.0" layoutX="688.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
-         
-            
-         
-         <viewport>
-            <Rectangle2D width="1221.0" />
-         </viewport>
-         <effect>
-            <DropShadow height="13.44" offsetY="10.0" radius="6.369999999999999" spread="0.07" width="14.04">
-               <color>
-                  <Color red="0.9176470637321472" green="0.9215686321258545" blue="0.9254902005195618" />
-               </color>
-            </DropShadow>
-         </effect>
-      </ImageView>
-      <Text fx:id="text1" layoutX="113.0" layoutY="624.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="text2" layoutX="190.0" layoutY="624.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="text3" layoutX="270.0" layoutY="633.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="text4" layoutX="334.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
    </children>
 </AnchorPane>

@@ -4,6 +4,9 @@ import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Controller.BookCardController;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,13 +29,20 @@ public class FavouriteController  implements Initializable {
 
     @FXML
     private Label message;
-
+    public static ObservableList<Book> books;
 
 
 
     @Override
     public void initialize (URL url, ResourceBundle rb) {
-
+        books = FXCollections.observableArrayList(favouriteBooks());
+        books.addListener((ListChangeListener<Book>) change -> {
+            while (change.next()) {
+                if (change.wasAdded() || change.wasRemoved()) {
+                    refreshFavouriteBooks();  // Call the refresh method on any change
+                }
+            }
+        });
     }
     public void refreshFavouriteBooks () {
         List <Book> favorite_books = new ArrayList<>(favouriteBooks());

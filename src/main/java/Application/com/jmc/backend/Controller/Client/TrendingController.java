@@ -27,7 +27,7 @@ public class TrendingController implements Initializable {
     private GridPane bookContainer;
 
     // Change from List to ObservableList
-    private ObservableList<Book> books;
+    public static ObservableList<Book>  books;
     private ObservableList<Book> recommendedBooks;
 
     @Override
@@ -45,8 +45,24 @@ public class TrendingController implements Initializable {
                     }
                 }
                 if (change.wasRemoved()) {
-                    // Handle removed books if needed
-                    // For now, the removed books are just not displayed in the layout
+                    for (Book removedBook : change.getRemoved()) {
+                        HBox targetBox = null;
+
+                        for (javafx.scene.Node node : cardLayout.getChildren()) {
+                            if (node instanceof HBox) {
+                                FXMLLoader loader = (FXMLLoader) node.getProperties().get("loader");
+                                bookCardHBoxController controller = loader.getController();
+                                if (controller.getBook().equals(removedBook)) {
+                                    targetBox = (HBox) node;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (targetBox != null) {
+                            cardLayout.getChildren().remove(targetBox);
+                        }
+                    }
                 }
             }
         });

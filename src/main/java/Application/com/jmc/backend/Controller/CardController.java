@@ -64,5 +64,8 @@ public class CardController implements Initializable {
         Model.getInstance().setSelectedBook(book);
         Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Book");
     }
+    public Book getBook() {
+        return book;
+    }
 
 }
