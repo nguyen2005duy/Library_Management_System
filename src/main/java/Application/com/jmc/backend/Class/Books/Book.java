@@ -1,6 +1,7 @@
 package Application.com.jmc.backend.Class.Books;
 
 
+import Application.com.jmc.backend.Class.Library.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.Library.Library;
 
 import java.sql.Date;
@@ -45,6 +46,7 @@ public class Book {
         this.book_id = GoogleApiBooks.book_id;
         this.borrow_user_id = borrow_user_id;
         this.borrowed_date = new Date(System.currentTimeMillis());
+        this.description = GoogleApiBooks.description;
         LocalDate borrowedLocalDate = borrowed_date.toLocalDate();
         LocalDate requiredLocalDate = borrowedLocalDate.plusDays(30);
         this.required_date = java.sql.Date.valueOf(requiredLocalDate);

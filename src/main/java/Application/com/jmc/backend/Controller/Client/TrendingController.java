@@ -5,6 +5,7 @@ import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Controller.BookCardController;
 import Application.com.jmc.backend.Controller.CardController;
+import Application.com.jmc.backend.Controller.bookCardHBoxController;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -15,7 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-
+import Application.com.jmc.backend.Controller.bookCardHBoxController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
