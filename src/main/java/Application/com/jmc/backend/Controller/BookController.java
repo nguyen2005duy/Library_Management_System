@@ -95,10 +95,9 @@ public class BookController implements Initializable {
     @FXML
     void add_to_library(MouseEvent event) {
         Member cur = (Member) Library.current_user;
-        cur.add_borrowed_documents(Model.getInstance().getSelectedBook());
         Library.borrow_books(Model.getInstance().getSelectedBook().getBook_id(),String.valueOf(cur.getAccount_id()));
         read_button.setDisable(true);
         read_button.setText("Borrowing");
-    }
+    }                               
 
 }

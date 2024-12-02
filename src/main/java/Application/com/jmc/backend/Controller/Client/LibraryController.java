@@ -25,7 +25,7 @@ public class LibraryController implements Initializable {
     private Label title;
     @FXML
     private VBox cardLayout;
-    private ObservableList<Book> books;
+    public static ObservableList<Book> books;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         books = FXCollections.observableArrayList(currentlyReading());
@@ -37,7 +37,24 @@ public class LibraryController implements Initializable {
                     }
                 }
                 if (change.wasRemoved()) {
-                    // Optionally handle removed books if necessary
+                    for (Book removedBook : change.getRemoved()) {
+                        HBox targetBox = null;
+
+                        for (javafx.scene.Node node : cardLayout.getChildren()) {
+                            if (node instanceof HBox) {
+                                FXMLLoader loader = (FXMLLoader) node.getProperties().get("loader");
+                                bookCardHBoxController controller = loader.getController();
+                                if (controller.getBook().equals(removedBook)) {
+                                    targetBox = (HBox) node;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (targetBox != null) {
+                            cardLayout.getChildren().remove(targetBox);
+                        }
+                    }
                 }
             }
         });
@@ -63,6 +80,7 @@ public class LibraryController implements Initializable {
     }
     private List<Book> currentlyReading(){
         Member current_member = (Member) Library.current_user;
+        System.out.println(current_member.getBorrowed_documents());
         return current_member.getBorrowed_documents();
     }
 }

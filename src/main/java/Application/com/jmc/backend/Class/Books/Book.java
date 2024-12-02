@@ -1,6 +1,7 @@
 package Application.com.jmc.backend.Class.Books;
 
 
+import Application.com.jmc.backend.Class.Library.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.Library.Library;
 
 import java.sql.Date;
@@ -35,6 +36,23 @@ public class Book {
         this.imageSrc = imageSrc;
     }
 
+    public Book (Book GoogleApiBooks, String borrow_user_id) {
+        this.title = GoogleApiBooks.title;
+        this.author = GoogleApiBooks.author;
+        this.categories = GoogleApiBooks.categories;
+        this.published_date = GoogleApiBooks.published_date;
+        this.pages = GoogleApiBooks.pages;
+        this.available = false;
+        this.book_id = GoogleApiBooks.book_id;
+        this.borrow_user_id = borrow_user_id;
+        this.borrowed_date = new Date(System.currentTimeMillis());
+        this.description = GoogleApiBooks.description;
+        LocalDate borrowedLocalDate = borrowed_date.toLocalDate();
+        LocalDate requiredLocalDate = borrowedLocalDate.plusDays(30);
+        this.required_date = java.sql.Date.valueOf(requiredLocalDate);
+        System.out.println(required_date);
+        this.rating = "Not rated";
+    }
     public Book(String book_id, String borrow_user_id) {
         this.book_id = book_id;
         this.borrow_user_id = borrow_user_id;
@@ -42,6 +60,7 @@ public class Book {
         LocalDate borrowedLocalDate = borrowed_date.toLocalDate();
         LocalDate requiredLocalDate = borrowedLocalDate.plusDays(30);
         this.required_date = java.sql.Date.valueOf(requiredLocalDate);
+        System.out.println(required_date);
         this.rating = "Not rated";
 
     }

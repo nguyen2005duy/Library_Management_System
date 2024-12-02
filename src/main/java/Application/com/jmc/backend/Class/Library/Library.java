@@ -6,7 +6,10 @@ import Application.com.jmc.backend.Class.Exceptions.UsernameTakenException;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Class.User_Information.User;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
-import Application.com.jmc.backend.Class.Books.*;
+import Application.com.jmc.backend.Controller.Client.FavouriteController;
+import Application.com.jmc.backend.Controller.Client.LibraryController;
+import Application.com.jmc.backend.Controller.Client.TrendingController;
+import javafx.collections.ObservableList;
 
 import java.io.IOException;
 
@@ -23,12 +26,19 @@ public class Library {
     public static HashMap<Integer, User> usersList;
     public static List<BorrowRecord> recordsLists;
     public static User current_user;
-
+    public static String[] recommendCategories = {
+            "Mystery",
+            "History",
+            "Science Fiction",
+            "Fantasy"
+    };
+    public static List<Book> recommendedBooks;
     static {
         bookLists = new ArrayList<>();
         usersList = new HashMap();
         connectDB = DatabaseConnection.connection;
         recordsLists = new ArrayList<>();
+        recommendedBooks = new ArrayList<>();
     }
 
     /**
@@ -38,6 +48,7 @@ public class Library {
         Thread loadDocuments = new Thread(Library::loadBooks);
         Thread loadUsers = new Thread(Library::loadUsers);
         Thread loadRecords = new Thread(Library::load_record);
+
         loadDocuments.start();
         loadUsers.start();
         loadRecords.start();
@@ -236,6 +247,9 @@ public class Library {
      * @param book thông tin cuốn sách.;;
      */
     public static void add_book(Book book) {
+        bookLists.add(book);
+        Member cur = (Member) Library.current_user;
+        cur.getBorrowed_documents().add(book);
         String insertFields = "INSERT INTO book(book_id,available,borrowed_user_id,borrowed_date,required_date) VALUES (";
         String insertValues = "'" + book.getBook_id() + "'," +
                 (book.isAvailable() ? 1 : 0) + "," +
@@ -255,7 +269,6 @@ public class Library {
             e.getCause();
             return;
         }
-        bookLists.add(book);
     }
 
 
@@ -354,14 +367,11 @@ public class Library {
      *
      * @param id      id của cuốn sách.
      * @param user_id id của người dùng.
-     * @return true nếu mượn thành công, false nếu sách không có sẵn.
      */
-    public static boolean borrow_books(String id, String user_id) {
+    public static void borrow_books(String id, String user_id) {
         for (Book book : bookLists) {
             if (id.equals(book.getBook_id())) {
-                if (!book.isAvailable()) {
-                    return false;
-                } else {
+                if (book.isAvailable()) {
                     book.check_in(user_id);
                     String updateQuery = "UPDATE book SET available = 0, " +
                             "borrowed_user_id = " + book.getBorrow_user_id() + ", " +
@@ -369,7 +379,17 @@ public class Library {
                             "required_date = '" + book.getRequired_date() + "' " +
                             "WHERE book_id = '" + book.getBook_id() + "'";
                     Member mem = (Member) usersList.get(Integer.parseInt(user_id));
-                    mem.add_borrowed_documents(book);
+                    Book book1 = null;
+                    try {
+                        book1 =  GoogleBooksAPI.getDocumentDetails(id);
+                    } catch (IOException ignored) {
+
+                    }
+                    assert book1 != null;
+                    Book bookCurr= new Book(book1,user_id);
+                    mem.add_borrowed_documents(bookCurr);
+                    LibraryController.books.add(bookCurr);
+                    TrendingController.books.add(bookCurr);
                     try {
                         Statement stmt = connectDB.createStatement();
                         stmt.executeUpdate(updateQuery);
@@ -378,14 +398,23 @@ public class Library {
                         e.printStackTrace();
                     }
                     bookLists.add(book);
-                    return true;
                     // Cần Update phần này để khi ktra thấy available chuyển book available thành ko
                 }
+                return;
             }
         }
-        Book book = new Book(id, user_id);
+        Book book1 = null;
+        try {
+            book1 =  GoogleBooksAPI.getDocumentDetails(id);
+        } catch (IOException ignored) {
+
+        }
+        assert book1 != null;
+        Book book= new Book(book1,user_id);
+        LibraryController.books.add(book);
+        TrendingController.books.add(book);
+
         add_book(book);
-        return true;
     }
 
     /**
@@ -501,13 +530,11 @@ public class Library {
     }
 
     public static void add_user_favourite(String book_id, int account_id) {
+        System.out.println(book_id);
+        System.out.println(account_id);
         Member cur = (Member) Library.current_user;
         List<Book> favourite = cur.getfavourite_books();
-    /*    for (Book book : favourite) {
-            if (book_id.equals(book.getBook_id())) {
-                return;
-            }
-        }*/
+
         String insertFields = "INSERT INTO favourite_books(account_id,book_id) VALUES (";
         String insertValues = "'" + account_id + "','" +
                 book_id + "')";
@@ -517,10 +544,12 @@ public class Library {
         try {
             Statement stmt = connectDB.createStatement();
             stmt.executeUpdate(insertToFavourites);
-            mem.addFavouriteBooks(GoogleBooksAPI.getDocumentDetails(book_id));
+            Book currBook = GoogleBooksAPI.getDocumentDetails(book_id);
+            mem.addFavouriteBooks(currBook);
+            FavouriteController.books.add(currBook);
         } catch (SQLException e) {
             System.out.println("Loi khi them favourite vao database.");////
-            e.getCause();
+            System.out.println(e.getCause());
             return;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -566,6 +595,25 @@ public class Library {
         }
 
         return "Not rated";
+    }
+
+    public static void loadRecommendedBooks() {
+        try {
+             String []  fav = get_user_favourite();
+             if (fav.length!=0) {
+                 for (int i = 0; i < 4; i++) {
+                     recommendCategories[i] = fav[i];
+                 }
+             }
+             for (int i =0;i<4;i++) {
+                 System.out.println(recommendedBooks);
+                 Library.recommendedBooks.addAll(GoogleBooksAPI.searchBooksByCategory(recommendCategories[i],2));
+             }
+        } catch (IOException e ) {
+            System.out.println(e.getMessage());
+            System.out.println("Loi khi load recommned Books");
+        }
+
     }
 
 }

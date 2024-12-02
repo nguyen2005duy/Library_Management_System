@@ -5,6 +5,7 @@ import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Controller.BookCardController;
 import Application.com.jmc.backend.Controller.CardController;
+import Application.com.jmc.backend.Controller.bookCardHBoxController;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -15,7 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-
+import Application.com.jmc.backend.Controller.bookCardHBoxController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,8 +28,8 @@ public class TrendingController implements Initializable {
     private GridPane bookContainer;
 
     // Change from List to ObservableList
-    private ObservableList<Book> books;
-    private ObservableList<Book> recommendedBooks;
+    public static ObservableList<Book>  books;
+    public static ObservableList<Book> recommendedBooks;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -45,8 +46,24 @@ public class TrendingController implements Initializable {
                     }
                 }
                 if (change.wasRemoved()) {
-                    // Handle removed books if needed
-                    // For now, the removed books are just not displayed in the layout
+                    for (Book removedBook : change.getRemoved()) {
+                        HBox targetBox = null;
+
+                        for (javafx.scene.Node node : cardLayout.getChildren()) {
+                            if (node instanceof HBox) {
+                                FXMLLoader loader = (FXMLLoader) node.getProperties().get("loader");
+                                bookCardHBoxController controller = loader.getController();
+                                if (controller.getBook().equals(removedBook)) {
+                                    targetBox = (HBox) node;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (targetBox != null) {
+                            cardLayout.getChildren().remove(targetBox);
+                        }
+                    }
                 }
             }
         });
@@ -106,7 +123,6 @@ public class TrendingController implements Initializable {
 
     // Recommended books can be similarly managed
     private ObservableList<Book> RecommendedBooks() {
-        Member currentMember = (Member) Library.current_user;
-        return FXCollections.observableArrayList(currentMember.getBorrowed_documents());
+        return FXCollections.observableArrayList(Library.recommendedBooks);
     }
 }

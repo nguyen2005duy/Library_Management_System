@@ -113,11 +113,11 @@ public class FactoryViews {
         return SearchView;
     }
 
-    public AnchorPane getLibraryView() {
-        if (LibraryView == null||LibrarySize!=
+/*    public AnchorPane getLibraryView() {
+        if (LibraryView == null || LibrarySize !=
                 ((Member) Library.current_user).getBorrowed_documents().size()) {
             try {
-                LibrarySize= ((Member) Library.current_user).getBorrowed_documents().size();
+                LibrarySize = ((Member) Library.current_user).getBorrowed_documents().size();
                 LibraryView = new FXMLLoader(getClass().getResource("/Application/Library.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -126,13 +126,24 @@ public class FactoryViews {
 
         }
         return LibraryView;
+    }*/
+
+    public AnchorPane getLibraryView() {
+        if (LibraryView == null) {
+            try {
+                LibrarySize = ((Member) Library.current_user).getBorrowed_documents().size();
+                LibraryView = new FXMLLoader(getClass().getResource("/Application/Library.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return LibraryView;
     }
 
     public AnchorPane getFavouriteView() {
-        if (FavouriteView == null || FavouriteSize !=
-                ((Member) Library.current_user).getfavourite_books().size()) {
+        if (FavouriteView == null ) {
             try {
-                FavouriteSize =  ((Member) Library.current_user).getfavourite_books().size();
+                FavouriteSize = ((Member) Library.current_user).getfavourite_books().size();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/favourite.fxml"));
                 FavouriteView = loader.load();
                 FavouriteController controller = loader.getController();
@@ -145,10 +156,9 @@ public class FactoryViews {
     }
 
     public AnchorPane getTrendingView() {
-        if (TrendingView == null || LibrarySize !=
-                ((Member) Library.current_user).getBorrowed_documents().size()) {
+        if (TrendingView == null) {
             try {
-                LibrarySize= ((Member) Library.current_user).getBorrowed_documents().size();
+                LibrarySize = ((Member) Library.current_user).getBorrowed_documents().size();
                 TrendingView = new FXMLLoader(getClass().getResource("/Application/trending.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();

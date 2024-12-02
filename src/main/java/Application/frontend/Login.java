@@ -9,8 +9,7 @@ import java.io.IOException;
 public class Login extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Library.init_Library();
-        Model.getInstance().getFactoryViews().showAdminView();
+        Model.getInstance().getFactoryViews().showLoginView();
 
     }
 

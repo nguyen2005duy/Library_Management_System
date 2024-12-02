@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,6 +20,12 @@ public class GoogleBooksAPI {
     public static String apiKey = "AIzaSyBuLI1dOZrUS6U78tj41hZtWr5aKo6u_j0";
    //public static String apiKey = "AIzaSyAp9uprFh6mvLaUE_nfKhwpj86PlDuyXT8";
 
+    //public static String apiKey = "AIzaSyBuLI1dOZrUS6U78tj41hZtWr5aKo6u_j0";
+    //public static String apiKey = "AIzaSyAp9uprFh6mvLaUE_nfKhwpj86PlDuyXT8";
+   // public static String apiKey = "AIzaSyAjVQyWugF0uMrY9gB4otQoCPA9tkBsHIY";
+    //public static String apiKey = "AIzaSyC8qyQQ9Fs-rGJYe2CCaD3Evy5JziAR2tk";
+    //public static String apiKey = "AIzaSyBRTivCWYJ_r_MA5Upaf7bsS0f1t3okcCo";
+    //public static String apiKey = "AIzaSyDu3Jjv9le5WZ-YsHomozicJL8aw0jyY00";
     public static void main(String[] args) {
         // Replace YOUR_API_KEY with your actual API key
         while (true) {
@@ -95,6 +103,60 @@ public class GoogleBooksAPI {
 
     }
 
+    public static String searchBooksByCategory(String category) throws IOException {
+        // Construct the URL with the category query and API key
+        String urlString = "https://www.googleapis.com/books/v1/volumes?q=subject:"
+                + URLEncoder.encode(category, StandardCharsets.UTF_8)
+                + "&filter=ebooks&languageRestrict=en&key=" + apiKey;
+
+        // Create a URL object from the URL string
+        URL url = new URL(urlString);
+
+        // Open a connection to the URL
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET"); // Set the request method to GET
+        connection.setConnectTimeout(5000);  // Set timeout (optional)
+        connection.setReadTimeout(5000);     // Set read timeout (optional)
+
+        // Get the response code to check if the request was successful
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {  // HTTP 200 means success
+            // Read the response using BufferedReader
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            return response.toString();  // Return the response as a String
+        } else {
+            return "Error: Unable to get response from Google Books API. HTTP Code: " + responseCode;
+        }
+    }
+
+    public static List<Book> searchBooksByCategory(String category,int size) {
+        List<Book> return_book = new ArrayList<>();
+        try {
+            // Create an ObjectMapper
+            String jsonResponse = searchBooksByCategory(category);
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            // Parse the JSON string into a JsonNode object
+            JsonNode rootNode = objectMapper.readTree(jsonResponse);
+
+            // Get the first book item (if exists)
+            int querySize = rootNode.path("items").size();
+
+            for (int i = 0; i < Math.min(size,querySize); i++) {
+                JsonNode book = rootNode.path("items").get(i);
+                return_book.add(getDocumentDetails(book.path("id").asText()));
+            }
+        } catch (IOException e) {
+            System.err.println("Error parsing JSON response: " + e.getMessage());
+        }
+        return return_book;
+    }
     /**
      * lay thong tin nhieu quyen sach.
      *
@@ -135,7 +197,7 @@ public class GoogleBooksAPI {
                 // Get the first book item (if exists)
                 int querySize = rootNode.path("items").size();
 
-                for (int i = 0; i < Math.min(querySize,4); i++) {
+                for (int i = 0; i < Math.min(querySize, 4); i++) {
                     JsonNode book = rootNode.path("items").get(i);
                     IdsList.add(book.path("id").asText());
                 }
