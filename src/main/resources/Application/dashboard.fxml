@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="800.0" prefWidth="879.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.Admin.DashboardController">
+   <children>
+      <VBox layoutX="64.0" layoutY="107.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox prefHeight="75.0" prefWidth="879.0" />
+            <HBox layoutX="10.0" layoutY="10.0" prefHeight="143.0" prefWidth="879.0">
+               <children>
+                  <Pane prefHeight="143.0" prefWidth="294.0" styleClass="pane" stylesheets="@../Styles/dashboard.css">
+                     <children>
+                        <Pane layoutX="22.0" layoutY="23.0" prefHeight="97.0" prefWidth="97.0" style="-fx-background-color: #33D565;">
+                           <effect>
+                              <DropShadow>
+                                 <color>
+                                    <Color red="0.45629629492759705" green="0.9263157844543457" blue="0.47979727387428284" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                           <children>
+                              <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="22.0" layoutY="66.0" size="50" />
+                           </children>
+                        </Pane>
+                        <Label alignment="CENTER_RIGHT" layoutX="154.0" layoutY="41.0" prefHeight="20.0" prefWidth="120.0" text="Total Members" textFill="#716a6a">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="user_numbers" alignment="CENTER_RIGHT" layoutX="184.0" layoutY="72.0" prefHeight="34.0" prefWidth="90.0" text="203">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </HBox>
+            <VBox prefHeight="281.0" prefWidth="879.0" style="-fx-background-color: white;">
+               <VBox.margin>
+                  <Insets bottom="30.0" left="20.0" right="20.0" top="30.0" />
+               </VBox.margin>
+               <children>
+                  <HBox prefHeight="40.0" prefWidth="818.0">
+                     <children>
+                        <Label prefHeight="22.0" prefWidth="151.0" text="Recent Check-out">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Pane prefHeight="40.0" prefWidth="586.0" />
+                        <Label onMouseClicked="#loadBook" text="View all" textFill="#33d565">
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <TableView fx:id="TableViewRecent" prefHeight="198.0" prefWidth="786.0">
+                    <columns>
+                      <TableColumn fx:id="book_id" prefWidth="75.0" text="Book ID" />
+                      <TableColumn fx:id="title" prefWidth="103.20001983642578" text="Title" />
+                        <TableColumn fx:id="author" prefWidth="112.79998779296875" text="Author" />
+                        <TableColumn fx:id="member_id" prefWidth="96.0" text="Member ID" />
+                        <TableColumn fx:id="borrow_date" prefWidth="128.79995727539062" text="Borrow Date" />
+                        <TableColumn fx:id="return_date" prefWidth="157.59988403320312" text="Return date" />
+                        <TableColumn fx:id="avaiable" prefWidth="103.199951171875" text="Avaiable" />
+                    </columns>
+                  </TableView>
+               </children>
+               <padding>
+                  <Insets left="30.0" right="30.0" top="20.0" />
+               </padding>
+            </VBox>
+            <HBox prefHeight="268.0" prefWidth="879.0" style="-fx-background-color: white;">
+               <children>
+                  <VBox prefHeight="262.0" prefWidth="551.0" style="-fx-background-color: white;">
+                     <children>
+                        <HBox prefHeight="40.0" prefWidth="818.0">
+                           <children>
+                              <Label prefHeight="22.0" prefWidth="151.0" text="Overdue's History">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Pane prefHeight="40.0" prefWidth="294.0" />
+                              <Label text="View all" textFill="#33d565">
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <TableView fx:id="TableViewDue" prefHeight="159.0" prefWidth="443.0">
+                           <columns>
+                              <TableColumn fx:id="book_id_due" prefWidth="84.79998624324799" text="Book ID" />
+                              <TableColumn fx:id="title_due" prefWidth="106.40003204345703" text="Title" />
+                              <TableColumn fx:id="member_id_due" prefWidth="91.99993896484375" text="Member ID" />
+                              <TableColumn fx:id="due_date" prefWidth="106.39996337890625" text="Due date" />
+                              <TableColumn fx:id="fine" prefWidth="102.4000244140625" text="Fine" />
+                           </columns>
+                        </TableView>
+                     </children>
+                     <padding>
+                        <Insets left="30.0" right="30.0" top="20.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

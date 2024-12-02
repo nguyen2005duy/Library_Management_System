@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="143.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.Client.ClientMenuController">
+<AnchorPane prefHeight="800.0" prefWidth="143.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.Client.ClientMenuController">
    <children>
       <VBox layoutX="-1.0" layoutY="-2.0" prefHeight="800.0" prefWidth="222.0" style="-fx-border-width: 0;" styleClass="menu" stylesheets="@../Styles/side.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -22,14 +25,20 @@
                <padding>
                   <Insets left="10.0" />
                </padding></Label>
-            <HBox fx:id="discover" onMouseClicked="#loadDiscover" style="-fx-padding: 20 0 20 30; -fx-background-color: #F1F1F1;" styleClass="current">
+            <HBox fx:id="discover" onMouseClicked="#loadDiscover" style="-fx-padding: 20 0 20 30;" styleClass="pane">
                <children>
-                  <Pane prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
+                  <Pane fx:id="discover_pane" prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
                      <children>
-                        <FontAwesomeIconView fill="#808191" glyphName="HOME" layoutX="9.0" layoutY="21.0" size="15" />
+                        <FontAwesomeIconView fx:id="discover_icon" fill="#808191" glyphName="HOME" layoutX="10.0" layoutY="21.0" size="15" />
                      </children>
                   </Pane>
-                  <Label prefHeight="32.0" prefWidth="144.0" style="-fx-label-padding: 0 0 0 20;" text="Discover" textFill="#808191" />
+                  <Label prefHeight="32.0" prefWidth="144.0" text="Discover" textFill="#808191">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding></Label>
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" />
@@ -40,9 +49,9 @@
             </HBox>
             <HBox fx:id="library" layoutX="18.0" layoutY="127.0" onMouseClicked="#loadLibrary" style="-fx-padding: 20 0 20 30;" styleClass="pane">
                <children>
-                  <Pane prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
+                  <Pane fx:id="library_pane" prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
                      <children>
-                        <FontAwesomeIconView fill="#808191" glyphName="BOOKMARK" layoutX="11.0" layoutY="21.0" size="15" />
+                        <FontAwesomeIconView fx:id="library_icon" fill="#808191" glyphName="BOOKMARK" layoutX="11.0" layoutY="21.0" size="15" />
                      </children>
                   </Pane>
                   <Label prefHeight="32.0" prefWidth="143.0" style="-fx-label-padding: 0 0 0 20;" text="My Library" textFill="#808191">
@@ -55,11 +64,11 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox fx:id="trending" layoutX="18.0" layoutY="179.0" onMouseClicked="#loadTrending" style="-fx-padding: 20 0 20 30;" styleClass="pane">
+            <HBox fx:id="trending" layoutX="18.0" layoutY="179.0" onMouseClicked="#loadTrending" style="-fx-padding: 20 0 20 30;" styleClass="pane" stylesheets="@../Styles/current.css">
                <children>
-                  <Pane prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
+                  <Pane fx:id="trending_pane" prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
                      <children>
-                        <FontAwesomeIconView fill="#808191" glyphName="COMPASS" layoutX="9.0" layoutY="22.0" size="18" />
+                        <FontAwesomeIconView fx:id="trending_icon" fill="#808191" glyphName="COMPASS" layoutX="9.0" layoutY="22.0" size="18" />
                      </children>
                   </Pane>
                   <Label prefHeight="32.0" prefWidth="141.0" style="-fx-label-padding: 0 0 0 20;" text="Trending" textFill="#808191" />
@@ -68,11 +77,11 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox fx:id="category" layoutX="18.0" layoutY="231.0" onMouseClicked="#loadCategory" style="-fx-padding: 20 0 20 30;" styleClass="pane">
+            <HBox fx:id="favourite" layoutX="18.0" layoutY="231.0" onMouseClicked="#loadFavourite" style="-fx-padding: 20 0 20 30;" styleClass="pane">
                <children>
-                  <Pane prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
+                  <Pane fx:id="favourite_pane" prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
                      <children>
-                        <FontAwesomeIconView fill="#808191" glyphName="HEART" layoutX="9.0" layoutY="22.0" size="15" />
+                        <FontAwesomeIconView fx:id="favourite_icon" fill="#808191" glyphName="HEART" layoutX="9.0" layoutY="22.0" size="15" />
                      </children>
                   </Pane>
                   <Label prefHeight="32.0" prefWidth="142.0" style="-fx-padding: 0 0 0 20;" text="Favourite" textFill="#808191">

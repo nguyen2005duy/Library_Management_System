@@ -3,6 +3,7 @@ package Application.com.jmc.backend.Controller;
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.GoogleBooksAPI;
 import Application.com.jmc.backend.Model.Model;
+import Application.com.jmc.backend.Views.ClientMenuOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -62,7 +63,7 @@ public class CardController implements Initializable {
     void loadBook(MouseEvent event) {
         //openBookDetails()
         Model.getInstance().setSelectedBook(book);
-        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Book");
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set(ClientMenuOptions.BOOK);
     }
 
 }

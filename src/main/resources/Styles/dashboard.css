@@ -1,0 +1,10 @@
+.pane{
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.pane Pane {
+    -fx-background-radius: 10;
+}
+

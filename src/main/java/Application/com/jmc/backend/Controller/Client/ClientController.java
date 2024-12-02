@@ -15,13 +15,13 @@ public class ClientController implements Initializable
     public void initialize(URL location, ResourceBundle resources){
         Model.getInstance().getFactoryViews().getClientSelectedMenuItem().addListener((observationValue, oldVal, newVal) -> {
             switch (newVal){
-                case "Trending": client_parent.setCenter(Model.getInstance().getFactoryViews().getTrendingView()); break;
-                case "Library" : client_parent.setCenter(Model.getInstance().getFactoryViews().getLibraryView()); break;
-                case "Search":
+                case TRENDING: client_parent.setCenter(Model.getInstance().getFactoryViews().getTrendingView()); break;
+                case LIBRARY:  client_parent.setCenter(Model.getInstance().getFactoryViews().getLibraryView()); break;
+                case SEARCH:
                     client_parent.setCenter(Model.getInstance().getFactoryViews().getSearchView()); break;
-                case "Favourite" : client_parent.setCenter(Model.getInstance().getFactoryViews().getFavouriteView()); break;
-                case "Profile" : client_parent.setCenter(Model.getInstance().getFactoryViews().getProfileView()); break;
-                case "Book" :
+                case FAVOURITE:client_parent.setCenter(Model.getInstance().getFactoryViews().getFavouriteView()); break;
+                case PROFILE:client_parent.setCenter(Model.getInstance().getFactoryViews().getProfileView()); break;
+                case BOOK :
                     Book selectedBook = Model.getInstance().getSelectedBook(); // Adjust as needed
                     client_parent.setCenter(Model.getInstance().getFactoryViews().getBookView(selectedBook));
                    break;

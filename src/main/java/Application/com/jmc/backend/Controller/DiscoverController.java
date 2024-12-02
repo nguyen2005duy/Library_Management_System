@@ -4,6 +4,7 @@ import Application.com.jmc.backend.Class.Library.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Model.Model;
+import Application.com.jmc.backend.Views.ClientMenuOptions;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -48,7 +49,7 @@ public class DiscoverController implements Initializable {
     @FXML
     void search(MouseEvent event) {
         Model.getInstance().setSearchString(search_bar.getText());
-        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set("Search");
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set(ClientMenuOptions.SEARCH);
     }
 
 

@@ -1,0 +1,16 @@
+.pane Pane {
+    -fx-background-color: #61D4C3;
+    -fx-padding: 5 5 5 5;
+}
+
+.pane FontAwesomeIconView {
+    -fx-fill: white;
+    -fx-font-size: 10px;
+}
+
+.pane Label {
+    -fx-font-family: "UlmGrotesk";
+    -fx-font-size: 1.3em;
+    -fx-font-weight: bold ;
+    -fx-text-fill: black;
+}

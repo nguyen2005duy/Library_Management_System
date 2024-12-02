@@ -13,7 +13,7 @@
     </left>
 
     <center>
-        <fx:include source="check_out_books.fxml"/>
+        <fx:include source="dashboard.fxml"/>
     </center>
 
 </BorderPane>

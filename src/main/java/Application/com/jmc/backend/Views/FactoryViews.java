@@ -6,8 +6,11 @@ import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Controller.*;
 
 import Application.com.jmc.backend.Controller.Admin.AdminController;
+import Application.com.jmc.backend.Controller.Admin.AdminMenuController;
 import Application.com.jmc.backend.Controller.Client.ClientController;
 import Application.com.jmc.backend.Controller.Client.FavouriteController;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
@@ -15,11 +18,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import javax.sound.midi.MidiFileFormat;
 import java.io.IOException;
 
 public class FactoryViews {
     //Customer views
-    private final SimpleStringProperty clientSelectedMenuItem;
+    private final ObjectProperty<ClientMenuOptions> clientSelectedMenuItem;
     private AnchorPane DiscoverView;
     private AnchorPane TrendingView;
     private AnchorPane LibraryView;
@@ -27,22 +31,25 @@ public class FactoryViews {
     private AnchorPane BookView;
     private AnchorPane ProfileView;
     private AnchorPane SearchView;
-    private final SimpleStringProperty adminSelectedMenuItem;
+    private AnchorPane MembersView;
+    private AnchorPane Check_outView;
+    private AnchorPane DashboardView;
+    private final ObjectProperty<AdminMenuOptions> adminSelectedMenuItem;
     private int LibrarySize;
     private int FavouriteSize;
     private int TrendingSize;
 
 
     public FactoryViews() {
-        this.clientSelectedMenuItem = new SimpleStringProperty("");
-        this.adminSelectedMenuItem = new SimpleStringProperty("");
+        this.clientSelectedMenuItem = new SimpleObjectProperty<>();
+        this.adminSelectedMenuItem = new SimpleObjectProperty<>();
     }
 
-    public StringProperty getClientSelectedMenuItem() {
+    public ObjectProperty<ClientMenuOptions> getClientSelectedMenuItem() {
         return clientSelectedMenuItem;
     }
 
-    public StringProperty getAdminSelectedMenuItem() {
+    public ObjectProperty<AdminMenuOptions> getAdminSelectedMenuItem() {
         return adminSelectedMenuItem;
     }
 
@@ -58,14 +65,50 @@ public class FactoryViews {
         TrendingSize = trendingSize;
     }
 
+    public AnchorPane getMembersView(){
+        if(MembersView == null){
+            try{
+                MembersView = new FXMLLoader(getClass().getResource("/Application/Members.fxml")).load();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return MembersView;
+    }
+
+    public AnchorPane getCheckoutView(){
+        if(Check_outView == null){
+            try{
+                Check_outView = new FXMLLoader(getClass().getResource("/Application/check_out_books.fxml")).load();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return Check_outView;
+    }
+
+    public AnchorPane getDashboardView(){
+        if(DashboardView == null){
+            try{
+                DashboardView = new FXMLLoader(getClass().getResource("Application/dashboard.fxml")).load();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return DashboardView;
+    }
+
+
     public AnchorPane getSearchView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results.fxml"));
-            SearchView = loader.load();
-            SearchResultsController controller = loader.getController();
-            controller.refreshSearchResults();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(SearchView == null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results.fxml"));
+                SearchView = loader.load();
+                SearchResultsController controller = loader.getController();
+                controller.refreshSearchResults();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return SearchView;
     }

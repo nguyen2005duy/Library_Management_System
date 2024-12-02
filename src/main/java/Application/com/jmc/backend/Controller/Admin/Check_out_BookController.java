@@ -68,9 +68,9 @@ public class Check_out_BookController implements Initializable {
                 Integer query_borrower_id = rs.getInt("borrowed_user_id");
                 String query_borrow_date = rs.getString("borrowed_date");
                 String query_return_date = rs.getString("required_date");
-                Integer query_available = rs.getInt("available");  // Corrected spelling of 'available'
+                Integer query_available = rs.getInt("available");
 
-                BookSearchModelObservableList.add(new BookSearchModel(query_book_id, query_available, query_borrower_id, query_borrow_date, query_return_date));
+                BookSearchModelObservableList.add(new BookSearchModel(query_book_id, query_available, query_borrower_id, query_borrow_date,query_return_date));
             }
 
             Book_ID.setCellValueFactory(new PropertyValueFactory<>("book_id"));

@@ -27,7 +27,7 @@
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <HBox fx:id="dashboard" onMouseClicked="#loadDashboard" style="-fx-padding: 20 0 20 30; -fx-background-color: #F1F1F1;" styleClass="current">
+            <HBox fx:id="dashboard" onMouseClicked="#loadDashboard" style="-fx-padding: 20 0 20 30; -fx-background-color: #F1F1F1;" styleClass="current" stylesheets="@../Styles/admin_current.css">
                <children>
                   <Pane prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
                      <children>

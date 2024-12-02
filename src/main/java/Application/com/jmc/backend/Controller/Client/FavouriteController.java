@@ -39,7 +39,7 @@ public class FavouriteController  implements Initializable {
         int column = 0;
         int row = 1;
         if (favorite_books.isEmpty()) {
-            message.setText("(Nothing to show)");
+             message.setText("(Nothing to show)");
         }
         else {
             try {

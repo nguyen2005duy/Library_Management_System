@@ -13,7 +13,7 @@
     </left>
 
     <center>
-        <fx:include source="discover.fxml"/>
+        <fx:include source="trending.fxml"/>
     </center>
 
 </BorderPane>
