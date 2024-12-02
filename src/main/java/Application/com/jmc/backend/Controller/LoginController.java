@@ -83,6 +83,13 @@ public class LoginController implements Initializable {
                     } catch (InterruptedException e) {
                         System.out.println(e.getMessage());
                     }
+                    Thread thread1 = new Thread(Library::loadRecommendedBooks);
+                    thread1.start();
+                    try {
+                        thread1.join();
+                    } catch (InterruptedException e) {
+                        System.out.println(e.getMessage());
+                    }
                     onLogin();
                 } else {
                     LoginMessage.setText("Invalid username or password");

@@ -9,6 +9,7 @@ import Application.com.jmc.backend.Connection.DatabaseConnection;
 import Application.com.jmc.backend.Controller.Client.FavouriteController;
 import Application.com.jmc.backend.Controller.Client.LibraryController;
 import Application.com.jmc.backend.Controller.Client.TrendingController;
+import javafx.collections.ObservableList;
 
 import java.io.IOException;
 
@@ -25,12 +26,19 @@ public class Library {
     public static HashMap<Integer, User> usersList;
     public static List<BorrowRecord> recordsLists;
     public static User current_user;
-
+    public static String[] recommendCategories = {
+            "Mystery",
+            "History",
+            "Science Fiction",
+            "Fantasy"
+    };
+    public static List<Book> recommendedBooks;
     static {
         bookLists = new ArrayList<>();
         usersList = new HashMap();
         connectDB = DatabaseConnection.connection;
         recordsLists = new ArrayList<>();
+        recommendedBooks = new ArrayList<>();
     }
 
     /**
@@ -40,6 +48,7 @@ public class Library {
         Thread loadDocuments = new Thread(Library::loadBooks);
         Thread loadUsers = new Thread(Library::loadUsers);
         Thread loadRecords = new Thread(Library::load_record);
+
         loadDocuments.start();
         loadUsers.start();
         loadRecords.start();
@@ -586,6 +595,25 @@ public class Library {
         }
 
         return "Not rated";
+    }
+
+    public static void loadRecommendedBooks() {
+        try {
+             String []  fav = get_user_favourite();
+             if (fav.length!=0) {
+                 for (int i = 0; i < 4; i++) {
+                     recommendCategories[i] = fav[i];
+                 }
+             }
+             for (int i =0;i<4;i++) {
+                 System.out.println(recommendedBooks);
+                 Library.recommendedBooks.addAll(GoogleBooksAPI.searchBooksByCategory(recommendCategories[i],2));
+             }
+        } catch (IOException e ) {
+            System.out.println(e.getMessage());
+            System.out.println("Loi khi load recommned Books");
+        }
+
     }
 
 }

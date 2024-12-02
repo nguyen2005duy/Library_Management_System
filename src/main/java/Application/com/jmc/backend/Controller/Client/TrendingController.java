@@ -29,7 +29,7 @@ public class TrendingController implements Initializable {
 
     // Change from List to ObservableList
     public static ObservableList<Book>  books;
-    private ObservableList<Book> recommendedBooks;
+    public static ObservableList<Book> recommendedBooks;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -123,7 +123,6 @@ public class TrendingController implements Initializable {
 
     // Recommended books can be similarly managed
     private ObservableList<Book> RecommendedBooks() {
-        Member currentMember = (Member) Library.current_user;
-        return FXCollections.observableArrayList(currentMember.getBorrowed_documents());
+        return FXCollections.observableArrayList(Library.recommendedBooks);
     }
 }
