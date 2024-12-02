@@ -449,12 +449,10 @@ public class Library {
         LocalDate today = LocalDate.now();
         Date sqlDate = Date.valueOf(today);
         String returnDate = sqlDate.toString();
-        String insertFields = "INSERT INTO borrow_record(book_id, account_id, borrow_date, return_date) VALUES ('";
-        String insertValues = book.getBook_id() + "','" + book.getBorrow_user_id() +
-                "','" + book.getBorrowed_date() + "','" + returnDate + "')";
+        String insertFields = "INSERT INTO borrow_record(book_id, account_id) VALUES ('";
+        String insertValues = book.getBook_id() + "','" + book.getBorrow_user_id() + "')";
         String insertToRecord = insertFields + insertValues;
-        Library.recordsLists.add(new BorrowRecord(Integer.parseInt(book.getBorrow_user_id()), book.getBook_id()
-                , book.getBorrowed_date(), sqlDate));
+        Library.recordsLists.add(new BorrowRecord(Integer.parseInt(book.getBorrow_user_id()), book.getBook_id()));
         try {
             Statement stmt = connectDB.createStatement();
             stmt.executeUpdate(insertToRecord);
@@ -470,7 +468,7 @@ public class Library {
     public static void load_record() {
         try {
             Statement stmt = connectDB.createStatement();
-            java.sql.ResultSet set = stmt.executeQuery("SELECT book_id,account_id,borrow_date,return_date,user_rating  FROM borrow_record");
+            java.sql.ResultSet set = stmt.executeQuery("SELECT book_id,account_id,user_rating  FROM borrow_record");
             while (set.next()) {
                 int account_id = Integer.parseInt(set.getString("account_id"));
                 String bookId = set.getString("book_id");
@@ -478,9 +476,9 @@ public class Library {
                 String returnDate = set.getString("return_date");
                 String user_ratingString = set.getString("user_rating");
                 if (user_ratingString == null) {
-                    recordsLists.add(new BorrowRecord(account_id, bookId, convertStringToSQLDate(borrowDate), convertStringToSQLDate(returnDate)));
+                    recordsLists.add(new BorrowRecord(account_id, bookId));
                 } else {
-                    recordsLists.add(new BorrowRecord(account_id, bookId, convertStringToSQLDate(borrowDate), convertStringToSQLDate(returnDate), Double.parseDouble(user_ratingString)));
+                    recordsLists.add(new BorrowRecord(account_id, bookId, Double.parseDouble(user_ratingString)));
                 }
             }
         } catch (SQLException e) {
@@ -607,7 +605,9 @@ public class Library {
              }
              for (int i =0;i<4;i++) {
                  System.out.println(recommendedBooks);
-                 Library.recommendedBooks.addAll(GoogleBooksAPI.searchBooksByCategory(recommendCategories[i],2));
+                 Random random = new Random();
+                 int bookAmount = random.nextInt()%3+1;
+                 Library.recommendedBooks.addAll(GoogleBooksAPI.searchBooksByCategory(recommendCategories[i],bookAmount));
              }
         } catch (IOException e ) {
             System.out.println(e.getMessage());

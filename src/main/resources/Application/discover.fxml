@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -28,12 +29,78 @@
                   <Button fx:id="search_button" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#search" prefHeight="33.0" prefWidth="91.0" style="-fx-background-color: #1C3F3A; -fx-translate-x: 30; -fx-translate-y: 8; -fx-background-radius: 7 7 7 7;" text="Search" textFill="WHITE" />
                </children>
             </HBox>
-            <Label layoutX="57.0" layoutY="194.0" prefHeight="30.0" prefWidth="230.0" text="Book Category" textFill="#545454">
+            <Label layoutX="57.0" layoutY="194.0" prefHeight="30.0" prefWidth="230.0" text="Popular categories" textFill="#545454">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="511.0" layoutY="425.0" prefHeight="50.0" prefWidth="91.0" text="Fantasy" textAlignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="311.0" layoutY="420.0" prefHeight="50.0" prefWidth="91.0" text="Mystery" textAlignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
+      <ImageView fitHeight="197.0" fitWidth="153.0" layoutX="58.0" layoutY="231.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="205.0" fitWidth="155.0" layoutX="476.0" layoutY="227.0" pickOnBounds="true">
+         <image>
+            <Image url="@../Img/fantasy.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="197.0" fitWidth="150.0" layoutX="277.0" layoutY="231.0" pickOnBounds="true">
+         <image>
+            <Image url="@../Img/mystery.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="205.0" fitWidth="151.0" layoutX="687.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Img/adventure.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="227.0" fitWidth="161.0" layoutX="66.0" layoutY="498.0" pickOnBounds="true">
+         <image>
+            <Image url="@../Img/content%20(2).jpg" />
+         </image></ImageView>
+      <ImageView fitHeight="227.0" fitWidth="168.0" layoutX="277.0" layoutY="498.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Img/content%20(3).jpg" />
+         </image></ImageView>
+      <ImageView fitHeight="227.0" fitWidth="168.0" layoutX="480.0" layoutY="498.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Img/content%20(1).jpg" />
+         </image></ImageView>
+      <ImageView fitHeight="227.0" fitWidth="155.0" layoutX="687.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Img/Doraemon.jpg" />
+         </image></ImageView>
+      <Label layoutX="58.0" layoutY="467.0" prefHeight="30.0" prefWidth="230.0" text="Reference Books" textFill="#545454">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="89.0" layoutY="423.0" prefHeight="50.0" prefWidth="91.0" text="Romance" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="710.0" layoutY="423.0" prefHeight="50.0" prefWidth="108.0" text="Adventure" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="205.0" fitWidth="167.0" layoutX="63.0" layoutY="231.0" pickOnBounds="true">
+         <image>
+            <Image url="@../Img/romance.jpg" />
+         </image></ImageView>
+      <Label id="viewmore" alignment="CENTER" layoutX="333.0" layoutY="745.0" prefHeight="30.0" prefWidth="230.0" text="View more of them..." textFill="#545454">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
