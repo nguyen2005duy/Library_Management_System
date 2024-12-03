@@ -38,9 +38,7 @@ public class FactoryViews {
     private AnchorPane AdminProfileView;
     private final ObjectProperty<AdminMenuOptions> adminSelectedMenuItem;
     private AccountType accountType;
-    private int LibrarySize;
-    private int FavouriteSize;
-    private int TrendingSize;
+
 
 
     public FactoryViews() {
@@ -55,18 +53,6 @@ public class FactoryViews {
 
     public ObjectProperty<AdminMenuOptions> getAdminSelectedMenuItem() {
         return adminSelectedMenuItem;
-    }
-
-    public void setFavouriteSize(int favouriteSize) {
-        FavouriteSize = favouriteSize;
-    }
-
-    public void setLibrarySize(int librarySize) {
-        LibrarySize = librarySize;
-    }
-
-    public void setTrendingSize(int trendingSize) {
-        TrendingSize = trendingSize;
     }
 
     public AccountType getAccountType() {
@@ -114,6 +100,7 @@ public class FactoryViews {
     public AnchorPane getSearchView() {
         if(SearchView == null) {
             try {
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results.fxml"));
                 SearchView = loader.load();
                 SearchResultsController controller = loader.getController();
@@ -121,6 +108,10 @@ public class FactoryViews {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results.fxml"));
+            SearchResultsController controller = loader.getController();
+            controller.refreshSearchResults();
         }
         return SearchView;
     }
@@ -143,7 +134,6 @@ public class FactoryViews {
     public AnchorPane getLibraryView() {
         if (LibraryView == null) {
             try {
-                LibrarySize = ((Member) Library.current_user).getBorrowed_documents().size();
                 LibraryView = new FXMLLoader(getClass().getResource("/Application/Library.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -155,7 +145,6 @@ public class FactoryViews {
     public AnchorPane getFavouriteView() {
         if (FavouriteView == null ) {
             try {
-                FavouriteSize = ((Member) Library.current_user).getfavourite_books().size();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/favourite.fxml"));
                 FavouriteView = loader.load();
                 FavouriteController controller = loader.getController();
@@ -170,7 +159,6 @@ public class FactoryViews {
     public AnchorPane getTrendingView() {
         if (TrendingView == null) {
             try {
-                LibrarySize = ((Member) Library.current_user).getBorrowed_documents().size();
                 TrendingView = new FXMLLoader(getClass().getResource("/Application/trending.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -238,6 +226,10 @@ public class FactoryViews {
 
 
     public void showClientView() {
+        LibraryView = getLibraryView();
+        FavouriteView =getFavouriteView();
+        TrendingView = getTrendingView();
+        DiscoverView = getDiscoverView();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/Client.fxml"));
         ClientController clientController = new ClientController();
         loader.setController(clientController);

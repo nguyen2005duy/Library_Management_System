@@ -53,27 +53,14 @@ public class New_memberController implements Initializable {
             while (Library.usersList.get(lastInsertId)!=null) {
                 lastInsertId++;
             }
+
             String default_username = "user" + String.valueOf(lastInsertId), default_password = "12345";
-
-            String insertFields = "INSERT INTO user_account(firstname, lastname, username, password, email, role) VALUES ('";
-            String insertValues = firstname_field.getText() + "','" + lastname_field.getText() + "','" + default_username  +  "','" +
-                    default_password + "','" + email_field.getText() + "', 'Member')";
-            String insertToRegister = insertFields + insertValues;
-            try {
-                Statement stmt = connectDB.createStatement();
-                stmt.executeUpdate(insertToRegister);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                e.getCause();
-            }
-
-
 
             MemberSearchModel mem = new MemberSearchModel(lastInsertId, firstname_field.getText() + " " + lastname_field.getText(), email_field.getText());
             MembersController.getMemberSearchModelObservableList().add(mem);
             User user = new Member(default_username, default_password, firstname_field.getText(), lastname_field.getText(), email_field.getText(), "Member");
             user.setAccount_id(lastInsertId);
-            Library.add_member(user);
+            Library.add_user(user);
         }
     }
 

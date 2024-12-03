@@ -2,6 +2,7 @@ package Application.com.jmc.backend.Controller;
 
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.GoogleBooksAPI;
+import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Model.Model;
 import Application.com.jmc.backend.Views.ClientMenuOptions;
 import javafx.fxml.FXML;
@@ -54,6 +55,7 @@ public class BookCardController implements Initializable {
             bookImage.setImage(image);
             title.setText("Title: " + book.getTitle());
             author.setText("Author: " +     book.getAuthor());
+            rating.setText(Library.getBookRating(this.book.getBook_id()));
         } catch (IOException e) {
             System.out.println("Error loading book image at bookCardHBoxController");
         }

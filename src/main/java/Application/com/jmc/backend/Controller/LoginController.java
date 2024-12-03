@@ -97,6 +97,7 @@ public class LoginController implements Initializable {
         connectDB = DatabaseConnection.getConnection();
 
         String verifyLogin = "SELECT count(1) FROM user_account WHERE username = '" + UsernameField.getText() + "' AND password = '" + passwordField.getText() + "'"  + "AND role = '" + Model.getInstance().getFactoryViews().getAccountType() + "'";
+
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(verifyLogin);
@@ -106,24 +107,7 @@ public class LoginController implements Initializable {
                 if (queryResult.getInt(1) == 1) {
                     LoginMessage.setText("You have successfully logged in!");
                     LoginMessage.setTextFill(Color.GREEN);
-                    Library.init_current_user(UsernameField.getText(),passwordField.getText());
-                    System.out.println(UsernameField.getText()+" "+passwordField.getText());
-                    System.out.println(Library.current_user);
-                    Thread thread = new Thread(Library::load_current_user_favourite);
-                    thread.start();
-                    Member cur = (Member) Library.current_user;
-                    try {
-                        thread.join();
-                    } catch (InterruptedException e) {
-                        System.out.println(e.getMessage());
-                    }
-                    Thread thread1 = new Thread(Library::loadRecommendedBooks);
-                    thread1.start();
-                    try {
-                        thread1.join();
-                    } catch (InterruptedException e) {
-                        System.out.println(e.getMessage());
-                    }
+
                     onLogin();
                 } else {
                     LoginMessage.setText("Invalid username or password");
@@ -180,9 +164,29 @@ public class LoginController implements Initializable {
         Stage stage = (Stage) LoginButton.getScene().getWindow();
         Model.getInstance().getFactoryViews().closeStage(stage);
         if (Model.getInstance().getFactoryViews().getAccountType() == AccountType.Member) {
+            Library.init_current_user(UsernameField.getText(),passwordField.getText());
+            System.out.println(Library.usersList);
+            System.out.println(UsernameField.getText()+" "+passwordField.getText());
+            System.out.println(Library.current_user);
+            Thread thread = new Thread(Library::load_current_user_favourite);
+            thread.start();
+            Member cur = (Member) Library.current_user;
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+            Thread thread1 = new Thread(Library::loadRecommendedBooks);
+            thread1.start();
+            try {
+                thread1.join();
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
             Model.getInstance().getFactoryViews().showClientView();
         }
         else{
+            Library.init_Library_Admin();
             Model.getInstance().getFactoryViews().showAdminView();
         }
     }

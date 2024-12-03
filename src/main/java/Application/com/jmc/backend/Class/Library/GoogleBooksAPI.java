@@ -24,8 +24,8 @@ public class GoogleBooksAPI {
     //public static String apiKey = "AIzaSyAp9uprFh6mvLaUE_nfKhwpj86PlDuyXT8";
    // public static String apiKey = "AIzaSyAjVQyWugF0uMrY9gB4otQoCPA9tkBsHIY";
     //public static String apiKey = "AIzaSyC8qyQQ9Fs-rGJYe2CCaD3Evy5JziAR2tk";
-    public static String apiKey = "AIzaSyBRTivCWYJ_r_MA5Upaf7bsS0f1t3okcCo";
-    //public static String apiKey = "AIzaSyDu3Jjv9le5WZ-YsHomozicJL8aw0jyY00";
+    //public static String apiKey = "AIzaSyBRTivCWYJ_r_MA5Upaf7bsS0f1t3okcCo";
+    public static String apiKey = "AIzaSyDu3Jjv9le5WZ-YsHomozicJL8aw0jyY00";
     public static void main(String[] args) {
         // Replace YOUR_API_KEY with your actual API key
         while (true) {
@@ -73,7 +73,7 @@ public class GoogleBooksAPI {
     // Method to search for books//
     public static String searchMultiBooks(String query) throws IOException {
         // Construct the URL with the search query and API key
-        String urlString = "https://www.googleapis.com/books/v1/volumes?q=intitle:" + query.replace(" ", "+") + "&filter=ebooks&languageRestrict=en&key=" + apiKey;
+        String urlString = "https://www.googleapis.com/books/v1/volumes?q=intitle:" + query.replace(" ", "+") + "&filter=ebooks&maxResults=10&languageRestrict=en&key=" + apiKey;
 
         // Create a URL object from the URL string
         URL url = new URL(urlString);
@@ -107,7 +107,7 @@ public class GoogleBooksAPI {
         // Construct the URL with the category query and API key
         String urlString = "https://www.googleapis.com/books/v1/volumes?q=subject:"
                 + URLEncoder.encode(category, StandardCharsets.UTF_8)
-                + "&filter=ebooks&languageRestrict=en&key=" + apiKey;
+                + "&filter=ebooks&maxResults=10&languageRestrict=en&key=" + apiKey;
 
         // Create a URL object from the URL string
         URL url = new URL(urlString);
@@ -197,7 +197,7 @@ public class GoogleBooksAPI {
                 // Get the first book item (if exists)
                 int querySize = rootNode.path("items").size();
 
-                for (int i = 0; i < Math.min(querySize, 4); i++) {
+                for (int i = 0; i < querySize; i++) {
                     JsonNode book = rootNode.path("items").get(i);
                     IdsList.add(book.path("id").asText());
                 }

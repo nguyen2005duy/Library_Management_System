@@ -46,24 +46,43 @@ public class Library {
      * khởi tạo thư viện.
      */
     public static void init_Library() {
-        Thread loadDocuments = new Thread(Library::loadBooks);
+        System.out.println("Initializing user data....");
+
+        Thread loadBooks = new Thread(Library::loadBooks);
         Thread loadUsers = new Thread(Library::loadUsers);
         Thread loadRecords = new Thread(Library::load_record);
 
-        loadDocuments.start();
+        loadBooks.start();
         loadUsers.start();
         loadRecords.start();
         try {
-            loadDocuments.join();
+            loadBooks.join();
             loadUsers.join();
             loadRecords.join();
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
+        System.out.println(usersList);
         Thread loadUsersBookLists = new Thread(Library::loadUserBookLists);
         loadUsersBookLists.start();
         try {
             loadUsersBookLists.join();
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void init_Library_Admin () {
+        Thread loadBooks = new Thread(Library::loadBooks);
+        Thread loadUsers = new Thread(Library::loadUsers);
+        Thread loadRecords = new Thread(Library::load_record);
+
+        loadBooks.start();
+        loadUsers.start();
+        loadRecords.start();
+        try {
+            loadBooks.join();
+            loadUsers.join();
+            loadRecords.join();
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
@@ -686,5 +705,46 @@ public class Library {
         }
     }
 
+    public static void returnBook (String book_id) {
+        Book bookToReturn = null;
+        for (Book book : bookLists) {
+            if (book.getBook_id().equals(book_id)) {
+                bookToReturn = book;
+            }
+        }
+        assert bookToReturn != null;
+        String updateQuery = "UPDATE book SET available = 1, " +
+                "borrowed_user_id = " + null + ", " +
+                "borrowed_date = '" + null + "', " +
+                "required_date = '" + null + "' " +
+                "WHERE book_id = '" + bookToReturn.getBook_id() + "'";
+        bookLists.remove(bookToReturn);
+        try {
+            Statement stmt = connectDB.createStatement();
+            stmt.executeUpdate(updateQuery);
+        } catch (SQLException e) {
+            System.out.println("Error updating book in database.");
+            e.printStackTrace();
+        }
+    }
+    public static void returnAllBookThroughUser (int user_id) {
+
+        Library.bookLists.removeIf(book-> {
+            return book.getBorrow_user_id().equals(String.valueOf(user_id));
+        });
+        String updateQuery = "UPDATE book SET available = 1, " +
+                "borrowed_user_id = " + null + ", " +
+                "borrowed_date = '" + null + "', " +
+                "required_date = '" + null + "' " +
+                "WHERE borrowed_user_id = '" + user_id + "'";
+
+        try {
+            Statement stmt = connectDB.createStatement();
+            stmt.executeUpdate(updateQuery);
+        } catch (SQLException e) {
+            System.out.println("Error updating book in database.");
+            e.printStackTrace();
+        }
+    }
 }
 
