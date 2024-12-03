@@ -16,6 +16,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.Rating?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="879.0" styleClass="white-background" stylesheets="@../Styles/trending.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.BookController">
    <children>
@@ -51,15 +52,15 @@
             </Label>
          </children>
       </VBox>
-      <HBox alignment="CENTER_LEFT" layoutX="198.0" layoutY="320.0" prefHeight="100.0" prefWidth="521.0" stylesheets="@../Styles/trending.css">
+      <HBox alignment="CENTER_LEFT" layoutX="182.0" layoutY="339.0" prefHeight="102.0" prefWidth="515.0" stylesheets="@../Styles/trending.css">
          <styleClass>
             <String fx:value="white-background" />
             <String fx:value="round-layout" />
          </styleClass>
          <children>
-            <VBox prefHeight="98.0" prefWidth="143.0">
+            <VBox prefHeight="101.0" prefWidth="182.0">
                <children>
-                  <Label fx:id="Rating" alignment="CENTER" prefHeight="48.0" prefWidth="146.0" text="4.4" textFill="#b79738">
+                  <Label fx:id="Rating" alignment="CENTER" prefHeight="42.0" prefWidth="194.0" text="4.4" textFill="#b79738">
                      <font>
                         <Font size="21.0" />
                      </font>
@@ -67,15 +68,16 @@
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="39.0" prefWidth="145.0" text="Rating">
+                  <Label alignment="CENTER" prefHeight="27.0" prefWidth="195.0" text="Rating">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
+                  <Rating fx:id="ratingBox" prefHeight="0.0" prefWidth="28.0" />
                </children>
             </VBox>
             <Line endX="-100.20712280273438" endY="-65.7173080444336" startX="-100.0" />
-            <VBox layoutX="11.0" layoutY="11.0" prefHeight="98.0" prefWidth="209.0">
+            <VBox layoutX="11.0" layoutY="11.0" prefHeight="101.0" prefWidth="165.0">
                <children>
                   <Label fx:id="Page" alignment="CENTER" prefHeight="48.0" prefWidth="214.0" text="250" textFill="#b79738">
                      <font>
@@ -93,9 +95,9 @@
                </children>
             </VBox>
             <Line endX="-100.20712280273438" endY="-65.7173080444336" layoutX="212.0" layoutY="93.0" startX="-100.0" />
-            <VBox layoutX="11.0" layoutY="11.0" prefHeight="98.0" prefWidth="145.0">
+            <VBox layoutX="11.0" layoutY="11.0" prefHeight="101.0" prefWidth="162.0">
                <children>
-                  <Label fx:id="status" alignment="CENTER" prefHeight="48.0" prefWidth="194.0" text="Not Avaiable" textFill="#b79738">
+                  <Label fx:id="status" alignment="CENTER" prefHeight="48.0" prefWidth="175.0" text="Not Avaiable" textFill="#b79738">
                      <font>
                         <Font size="21.0" />
                      </font>
@@ -103,7 +105,7 @@
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="39.0" prefWidth="193.0" text="Status">
+                  <Label alignment="CENTER" prefHeight="39.0" prefWidth="178.0" text="Status">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -112,7 +114,7 @@
             </VBox>
          </children>
       </HBox>
-      <Label layoutX="373.0" layoutY="440.0" text="Description">
+      <Label layoutX="377.0" layoutY="442.0" text="Description">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="25.0" />
          </font>

@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import org.w3c.dom.Text;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,6 +47,27 @@ public class DiscoverController implements Initializable {
     void search(MouseEvent event) {
         Model.getInstance().setSearchString(search_bar.getText());
         Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set(ClientMenuOptions.SEARCH);
+    }
+
+    @FXML
+    private void openBook1Details1(MouseEvent event) throws IOException {
+        Model.getInstance().setSelectedBook(GoogleBooksAPI.getDocumentDetails("RfXWCwAAQBAJ"));
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set(ClientMenuOptions.BOOK);
+    }
+    @FXML
+    private void openBook1Details2(MouseEvent event) throws IOException {
+        Model.getInstance().setSelectedBook(GoogleBooksAPI.getDocumentDetails("34iYoAEACAAJ"));
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set(ClientMenuOptions.BOOK);
+    }
+    @FXML
+    private void openBook1Details3(MouseEvent event) throws IOException {
+        Model.getInstance().setSelectedBook(GoogleBooksAPI.getDocumentDetails("ML6TpwAACAAJ"));
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set(ClientMenuOptions.BOOK);
+    }
+    @FXML
+    private void openBook1Details4(MouseEvent event) throws IOException {
+        Model.getInstance().setSelectedBook(GoogleBooksAPI.getDocumentDetails("v9O1DwAAQBAJ"));
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set(ClientMenuOptions.BOOK);
     }
 
 
