@@ -7,6 +7,7 @@ import Application.com.jmc.backend.Controller.*;
 
 import Application.com.jmc.backend.Controller.Admin.AdminController;
 import Application.com.jmc.backend.Controller.Admin.AdminMenuController;
+import Application.com.jmc.backend.Controller.Admin.AdminProfileController;
 import Application.com.jmc.backend.Controller.Client.ClientController;
 import Application.com.jmc.backend.Controller.Client.FavouriteController;
 import javafx.beans.property.ObjectProperty;
@@ -34,13 +35,16 @@ public class FactoryViews {
     private AnchorPane MembersView;
     private AnchorPane Check_outView;
     private AnchorPane DashboardView;
+    private AnchorPane AdminProfileView;
     private final ObjectProperty<AdminMenuOptions> adminSelectedMenuItem;
+    private AccountType accountType;
     private int LibrarySize;
     private int FavouriteSize;
     private int TrendingSize;
 
 
     public FactoryViews() {
+        this.accountType = AccountType.Librarian;
         this.clientSelectedMenuItem = new SimpleObjectProperty<>();
         this.adminSelectedMenuItem = new SimpleObjectProperty<>();
     }
@@ -63,6 +67,14 @@ public class FactoryViews {
 
     public void setTrendingSize(int trendingSize) {
         TrendingSize = trendingSize;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
     public AnchorPane getMembersView(){
@@ -90,7 +102,7 @@ public class FactoryViews {
     public AnchorPane getDashboardView(){
         if(DashboardView == null){
             try{
-                DashboardView = new FXMLLoader(getClass().getResource("Application/dashboard.fxml")).load();
+                DashboardView = new FXMLLoader(getClass().getResource("/Application/dashboard.fxml")).load();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -176,6 +188,17 @@ public class FactoryViews {
             }
         }
         return ProfileView;
+    }
+
+    public AnchorPane getAdminProfileView(){
+        if(AdminProfileView == null){
+            try{
+                AdminProfileView = new FXMLLoader(getClass().getResource("/Application/profile_admin.fxml")).load();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return AdminProfileView;
     }
 
     public AnchorPane getBookView(Book book) {

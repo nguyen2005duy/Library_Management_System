@@ -1,31 +1,35 @@
-package Application.com.jmc.backend.Controller;
+package Application.com.jmc.backend.Controller.Admin;
 
 import Application.com.jmc.backend.Class.Library.Library;
+import Application.com.jmc.backend.Class.User_Information.Librarian;
 import Application.com.jmc.backend.Class.User_Information.Member;
-import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ProfileController implements Initializable {
+public class AdminProfileController implements Initializable {
 
-    private final Member cur = (Member) Library.current_user;
+    //phai dang nhapp
+    private final Librarian cur = (Librarian) Library.current_user;
     @FXML
-    private Button cancel;
+    private TextField Role;
+
+    @FXML
+    private TextField about_me;
+
+    @FXML
+    private Button cancel_button;
 
     @FXML
     private Button change_password_button;
 
     @FXML
     private TextField email_field;
-
-    @FXML
-    private TextField about_me;
 
     @FXML
     private TextField first_name_field;
@@ -35,6 +39,8 @@ public class ProfileController implements Initializable {
 
     @FXML
     private Button save_changes;
+
+
     @FXML
     void cancel(MouseEvent event) {
         first_name_field.setText("");

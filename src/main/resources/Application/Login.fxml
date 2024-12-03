@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,10 +15,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.LoginController">
    <left>
-      <AnchorPane prefHeight="900.0" prefWidth="600.0" style="-fx-background-color: #61D4C3;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="background" prefHeight="900.0" prefWidth="600.0" style="-fx-background-color: #61D4C3;" BorderPane.alignment="CENTER">
          <children>
             <ImageView fx:id="book" fitHeight="558.0" fitWidth="616.0" layoutX="20.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -27,66 +27,61 @@
          </children></AnchorPane>
    </left>
    <right>
-      <AnchorPane prefHeight="900.0" prefWidth="600.0" style="-fx-background-color: #384A62;"
-                  BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="login_field" prefHeight="900.0" prefWidth="600.0" style="-fx-background-color: #384A62;" BorderPane.alignment="CENTER">
          <effect>
-            <DropShadow/>
+            <DropShadow />
          </effect>
          <Label layoutX="95.0" layoutY="289.0" text="USERNAME" textFill="WHITE">
             <font>
-               <Font name="Arial" size="20.0"/>
+               <Font name="Arial" size="20.0" />
             </font>
          </Label>
          <Label layoutX="95.0" layoutY="425.0" text="PASSWORD" textFill="WHITE">
             <font>
-               <Font name="Arial" size="19.0"/>
+               <Font name="Arial" size="19.0" />
             </font>
          </Label>
-         <PasswordField fx:id="passwordField" layoutX="84.0" layoutY="461.0" opacity="0.79" prefHeight="26.0"
-                        prefWidth="449.0" promptText="Enter your password"
-                        style="-fx-background-color: #384A62; -fx-background-position: 50;">
+         <PasswordField fx:id="passwordField" layoutX="84.0" layoutY="461.0" opacity="0.79" prefHeight="26.0" prefWidth="449.0" promptText="Enter your password" style="-fx-background-color: transparent; -fx-background-position: 50;">
             <font>
-               <Font size="18.0"/>
+               <Font size="18.0" />
             </font>
          </PasswordField>
-         <TextField fx:id="UsernameField" layoutX="84.0" layoutY="323.0" prefHeight="46.0" prefWidth="239.0"
-                    promptText="Enter your username" style="-fx-background-color: #384A62;">
+         <TextField fx:id="UsernameField" layoutX="84.0" layoutY="323.0" prefHeight="46.0" prefWidth="437.0" promptText="Enter your username" style="-fx-background-color: transparent;">
             <font>
-               <Font size="18.0"/>
+               <Font size="18.0" />
             </font>
          </TextField>
-         <Line endX="338.60009765625" layoutX="193.0" layoutY="375.0" opacity="0.6" startX="-98.0" stroke="WHITE"/>
-         <Line endX="338.60009765625" layoutX="196.0" layoutY="508.0" opacity="0.6" startX="-100.0" stroke="WHITE"/>
-         <Button fx:id="LoginButton" layoutX="95.0" layoutY="569.0" mnemonicParsing="false"
-                 onAction="#loginButtoninAction" prefHeight="40.0" prefWidth="120.0"
-                 style="-fx-background-color: #61D4C3;" text="Login">
+         <Line endX="338.60009765625" layoutX="193.0" layoutY="375.0" opacity="0.6" startX="-98.0" stroke="WHITE" />
+         <Line endX="338.60009765625" layoutX="196.0" layoutY="508.0" opacity="0.6" startX="-100.0" stroke="WHITE" />
+         <Button fx:id="LoginButton" layoutX="95.0" layoutY="569.0" mnemonicParsing="false" onAction="#loginButtoninAction" prefHeight="40.0" prefWidth="136.0" style="-fx-background-color: #61D4C3; -fx-background-radius: 50;" text="Login">
             <effect>
-               <DropShadow/>
+               <DropShadow />
             </effect>
             <cursor>
-               <Cursor fx:constant="HAND"/>
+               <Cursor fx:constant="HAND" />
             </cursor>
          </Button>
-         <Label layoutX="93.0" layoutY="194.0" text="Sign In" textFill="#61d4c3">
+         <Label fx:id="sign_in_label" layoutX="93.0" layoutY="194.0" text="Sign In" textFill="#61d4c3">
             <font>
-               <Font name="Arial Bold" size="37.0"/>
+               <Font name="Arial Bold" size="37.0" />
             </font>
          </Label>
          <Label fx:id="LoginMessage" layoutX="95.0" layoutY="527.0" textFill="RED">
             <font>
-               <Font name="Arial" size="17.0"/>
+               <Font name="Arial" size="17.0" />
             </font>
          </Label>
          <Hyperlink layoutX="216.0" layoutY="627.0" onAction="#createSignupForm" text="Create one!">
             <font>
-               <Font size="16.0"/>
+               <Font size="16.0" />
             </font>
          </Hyperlink>
          <Label layoutX="95.0" layoutY="631.0" text="Not a member ?" textFill="WHITE">
             <font>
-               <Font size="16.0"/>
+               <Font size="16.0" />
             </font>
          </Label>
+         <ToggleButton fx:id="toggle_button" layoutX="494.0" layoutY="30.0" mnemonicParsing="false" onAction="#click" prefHeight="26.0" prefWidth="83.0" text="Member" />
       </AnchorPane>
    </right>
 </BorderPane>

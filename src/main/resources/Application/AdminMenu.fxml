@@ -27,7 +27,7 @@
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <HBox fx:id="dashboard" onMouseClicked="#loadDashboard" style="-fx-padding: 20 0 20 30; -fx-background-color: #F1F1F1;" styleClass="current" stylesheets="@../Styles/admin_current.css">
+            <HBox fx:id="dashboard" onMouseClicked="#loadDashboard" style="-fx-padding: 20 0 20 30;" styleClass="pane">
                <children>
                   <Pane prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
                      <children>
@@ -68,23 +68,6 @@
                      </children>
                   </Pane>
                   <Label prefHeight="32.0" prefWidth="141.0" style="-fx-label-padding: 0 0 0 20;" text="Check-out Books" textFill="#808191" />
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox layoutX="18.0" layoutY="231.0" style="-fx-padding: 20 0 20 30;" styleClass="pane">
-               <children>
-                  <Pane prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
-                     <children>
-                        <FontAwesomeIconView fill="#808191" glyphName="HEART" layoutX="9.0" layoutY="22.0" size="15" />
-                     </children>
-                  </Pane>
-                  <Label prefHeight="32.0" prefWidth="142.0" style="-fx-padding: 0 0 0 20;" text="Favourite" textFill="#808191">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" />

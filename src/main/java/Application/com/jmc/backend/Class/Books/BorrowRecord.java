@@ -18,6 +18,8 @@ public class BorrowRecord {
         this.userRating = userRating;
     }
 
+
+
     public Double getUserRating() {
         return userRating;
     }

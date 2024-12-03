@@ -6,17 +6,16 @@ import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
 
 import Application.com.jmc.backend.Model.Model;
+import Application.com.jmc.backend.Views.AccountType;
 import Application.frontend.Login;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 
 
 import javafx.scene.image.ImageView;
@@ -30,12 +29,19 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
 public class LoginController implements Initializable {
 
+    @FXML
+    private AnchorPane login_field;
+    @FXML
+    private Label sign_in_label;
+    @FXML
+    private AnchorPane background;
     @FXML
     private TextField UsernameField;
     @FXML
@@ -46,6 +52,33 @@ public class LoginController implements Initializable {
     private Label LoginMessage;
     @FXML
     private ImageView book;
+    @FXML
+    private ToggleButton toggle_button;
+
+    @FXML
+    void click(ActionEvent event) {
+            toggle_button.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    toggle_button.setText("Librarian");
+                    toggle_button.setStyle("-fx-background-color: #61D4C3;" + "-fx-background-radius: 50");
+                    login_field.setStyle("-fx-background-color: #FFD09B;");
+                    background.setStyle("-fx-background-color: #FFF7D1");
+                    sign_in_label.setStyle("-fx-text-fill: #FFF7D1");
+                    LoginButton.setStyle("-fx-background-color: #FFF7D1;" + "-fx-background-radius: 50");
+                    Model.getInstance().getFactoryViews().setAccountType(AccountType.Member);
+                }
+                else{
+                    toggle_button.setText("Member");
+                    toggle_button.setStyle("-fx-background-color: #FFF7D1;" + "-fx-background-radius: 50");
+                    login_field.setStyle("-fx-background-color: #384A62;");
+                    background.setStyle("-fx-background-color: #61D4C3");
+                    sign_in_label.setStyle("-fx-text-fill: #61D4C3");
+                    LoginButton.setStyle("-fx-background-color: #61D4C3;" + "-fx-background-radius: 50");
+                    Model.getInstance().getFactoryViews().setAccountType(AccountType.Librarian);
+                }
+            });
+    }
+
     public static Connection connectDB;
 
     @Override
@@ -53,6 +86,7 @@ public class LoginController implements Initializable {
         Library.init_Library();
         Library.printBookDetails();
         Library.printUsers();
+        toggle_button.setStyle("-fx-background-color: #FFF7D1;" + "-fx-background-radius: 50");
         Image bookFile = new Image(Login.class.getResourceAsStream("/Img/book1.png"));
         book.setImage(bookFile);
 
@@ -62,7 +96,7 @@ public class LoginController implements Initializable {
     private void Validatelogin() {
         connectDB = DatabaseConnection.getConnection();
 
-        String verifyLogin = "SELECT count(1) FROM user_account WHERE username = '" + UsernameField.getText() + "' AND password = '" + passwordField.getText() + "'";
+        String verifyLogin = "SELECT count(1) FROM user_account WHERE username = '" + UsernameField.getText() + "' AND password = '" + passwordField.getText() + "'"  + "AND role = '" + Model.getInstance().getFactoryViews().getAccountType() + "'";
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(verifyLogin);
@@ -145,7 +179,12 @@ public class LoginController implements Initializable {
     private void onLogin(){
         Stage stage = (Stage) LoginButton.getScene().getWindow();
         Model.getInstance().getFactoryViews().closeStage(stage);
-        Model.getInstance().getFactoryViews().showClientView();
+        if (Model.getInstance().getFactoryViews().getAccountType() == AccountType.Member) {
+            Model.getInstance().getFactoryViews().showClientView();
+        }
+        else{
+            Model.getInstance().getFactoryViews().showAdminView();
+        }
     }
 
 }

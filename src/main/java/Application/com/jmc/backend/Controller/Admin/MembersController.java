@@ -1,20 +1,26 @@
 package Application.com.jmc.backend.Controller.Admin;
 
+import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -26,6 +32,8 @@ import java.util.logging.Logger;
 
 public class MembersController implements Initializable {
 
+
+    MemberSearchModel memberSearchModel;
     @FXML
     private TableColumn<MemberSearchModel, ?> Action;
     @FXML
@@ -41,16 +49,89 @@ public class MembersController implements Initializable {
     private TableView<MemberSearchModel> TableViewMember;
 
     @FXML
+    private Button add_button;
+
+    @FXML
     private TextField searchBar;
 
-    ObservableList<MemberSearchModel> MemberSearchModelObservableList = FXCollections.observableArrayList();
+    @FXML
+    void rowclicked(MouseEvent event) {
+        if (memberSearchModel != null) {
+            try {
+                memberSearchModel.getDelete().setVisible(false);
+                MemberSearchModel mem = TableViewMember.getSelectionModel().getSelectedItem();
+                memberSearchModel = mem;
+                mem.getDelete().setVisible(true);
+                mem.getDelete().setOnAction(actionEvent -> {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Are you sure you want to delete this member?");
+                    if (alert.showAndWait().get() == ButtonType.OK){
+                        try {
+                            MemberSearchModelObservableList.remove(mem);
+                            Library.remove_user(mem.getAccount_id());
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+            } catch (NullPointerException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        else {
+            MemberSearchModel mem = TableViewMember.getSelectionModel().getSelectedItem();
+            memberSearchModel = mem;
+            mem.getDelete().setVisible(true);
+            mem.getDelete().setOnAction(actionEvent -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to delete this member?");
+                if (alert.showAndWait().get() == ButtonType.OK){
+                    try {
+                        MemberSearchModelObservableList.remove(mem);
+                        Library.remove_user(mem.getAccount_id());
+
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+    }
+
+
+
+    @FXML
+    void add_member(MouseEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Application/add_member.fxml"));
+            Parent root = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("New Member");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception ex) {
+            System.out.println("can't load new window");
+        }
+    }
+
+      static ObservableList<MemberSearchModel> MemberSearchModelObservableList = FXCollections.observableArrayList();
+
+
+
+    public static ObservableList<MemberSearchModel> getMemberSearchModelObservableList() {
+        return MemberSearchModelObservableList;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String memberViewQuery = "SELECT account_id, lastname, email FROM user_account";
+        String memberViewQuery = "SELECT account_id, lastname, email FROM user_account WHERE role = 'Member'" ;
 
         try {
             Statement stmt = connectDB.createStatement();
@@ -67,6 +148,8 @@ public class MembersController implements Initializable {
             Member_ID.setCellValueFactory(new PropertyValueFactory<>("account_id"));
             Member_name.setCellValueFactory(new PropertyValueFactory<>("lastname"));
             Member_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+            Action.setCellValueFactory(new PropertyValueFactory<>("delete"));
+
 
             TableViewMember.setItems(MemberSearchModelObservableList);
 

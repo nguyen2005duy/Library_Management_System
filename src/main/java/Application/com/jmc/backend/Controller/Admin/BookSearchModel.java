@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.Button;
 
 public class BookSearchModel {
     private final StringProperty book_id;
@@ -13,7 +14,8 @@ public class BookSearchModel {
     private  StringProperty required_date;
     private  IntegerProperty available;
     private IntegerProperty due_date;
-    private IntegerProperty fine;// Corrected spelling
+    private IntegerProperty fine;
+    private Button button;// Corrected spelling
 
     public BookSearchModel(String book_id, String book_title,Integer borrowed_user_id, String borrowed_date, String required_date, Integer available, Integer due_date, Integer fine) {
         this.book_id = new SimpleStringProperty(book_id);
@@ -35,12 +37,15 @@ public class BookSearchModel {
         this.fine = new SimpleIntegerProperty(fine);// Corrected spelling
     }
 
-    public BookSearchModel(String book_id, Integer available, Integer borrowed_user_id, String borrowed_date, String required_date) {
+    public BookSearchModel(String book_id, Integer available, Integer borrowed_user_id, String borrowed_date, String required_date ) {
         this.book_id = new SimpleStringProperty(book_id);
         this.borrowed_user_id = new SimpleIntegerProperty(borrowed_user_id);
         this.borrowed_date = new SimpleStringProperty(borrowed_date);
         this.required_date = new SimpleStringProperty(required_date);
         this.available = new SimpleIntegerProperty(available);
+        this.button = new Button("Return");
+        this.button.getStylesheets().add(getClass().getResource("/Styles/button.css").toExternalForm());
+
     }
 
     public String getBook_id() {
@@ -111,4 +116,10 @@ public class BookSearchModel {
     public StringProperty book_titleProperty() {
         return book_title;
     }
+
+    public Button getButton() {
+        return button;
+    }
+
+
 }

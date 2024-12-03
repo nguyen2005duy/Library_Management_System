@@ -344,6 +344,19 @@ public class Library {
      * @throws SQLException loi khi thao tac co so du lieu.
      */
     public static boolean remove_user(int id) throws SQLException {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+
+        String sql = "DELETE FROM user_account WHERE account_id = " + String.valueOf(id);
+
+        try  {
+            Statement stmt = connectDB.createStatement();
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.getCause();
+        }
+
         User userToRemove = usersList.remove(id);
         return userToRemove != null;
     }

@@ -1,5 +1,6 @@
 package Application.com.jmc.backend.Controller.Admin;
 
+import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -78,8 +80,10 @@ public class Check_out_BookController implements Initializable {
             borrowed_date.setCellValueFactory(new PropertyValueFactory<>("borrowed_date"));
             returned_date.setCellValueFactory(new PropertyValueFactory<>("required_date"));
             status.setCellValueFactory(new PropertyValueFactory<>("available"));  // Corrected to match the property
-
+            Action.setCellValueFactory(new PropertyValueFactory<>("button"));
             TableViewBook.setItems(BookSearchModelObservableList);
+
+
 
 
 

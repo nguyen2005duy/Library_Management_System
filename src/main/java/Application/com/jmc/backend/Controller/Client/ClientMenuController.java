@@ -5,9 +5,12 @@ import Application.com.jmc.backend.Views.ClientMenuOptions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -52,6 +55,8 @@ public class ClientMenuController implements Initializable {
 
     @FXML
     private FontAwesomeIconView trending_icon;
+
+    Stage stage;
 
     @FXML
     private Pane trending_pane;
@@ -108,7 +113,14 @@ public class ClientMenuController implements Initializable {
 
 
     public void quit(MouseEvent mouseEvent) {
-
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Quit");
+        alert.setHeaderText("You are about to quit!");
+        alert.setContentText("Are you sure you want to exit?");
+        if (alert.showAndWait().get() == ButtonType.OK){
+            stage = (Stage) trending.getScene().getWindow();
+            stage.close();
+        }
     }
 
     public void loadLibrary(MouseEvent mouseEvent) {

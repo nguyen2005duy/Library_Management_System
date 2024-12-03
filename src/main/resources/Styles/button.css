@@ -1,0 +1,10 @@
+.button {
+    -fx-background-color: #FE5F55;
+    -fx-background-radius: 5;
+    -fx-text-fill: white;
+    -fx-border-color: #F2D2D2;
+    -fx-border-radius: 5;
+    -fx-pref-width: 80;
+    -fx-pref-height: 30;
+}
+
