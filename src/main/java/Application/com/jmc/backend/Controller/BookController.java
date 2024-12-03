@@ -19,6 +19,8 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.Rating;
+
 public class BookController implements Initializable {
 
     @FXML
@@ -47,10 +49,13 @@ public class BookController implements Initializable {
 
     @FXML
     private Label status;
-
+    @FXML
+    private Rating ratingBox;
+    private Book book;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ratingBox.setRating(0);
         Book currentViewing = Model.getInstance().getSelectedBook();
         Member cur = (Member) Library.current_user;
         for (Book a : cur.getfavourite_books()) {
@@ -69,11 +74,26 @@ public class BookController implements Initializable {
     }
 
     public void setBookData(Book book) {
+        this.book = book;
         bookTitle.setText(book.getTitle());
         author.setText("Author: " + book.getAuthor());
         Rating.setText(book.getRating());
         Page.setText(book.getPages());
         description.setText(book.getDescription());
+        //de set rating
+        double rating = Library.getUserRating(this.book.getBook_id());
+        Rating.setText(Library.getBookRating(this.book.getBook_id()));
+        if (rating == -1) {
+            rating = 0;
+        }
+        ratingBox.setRating(rating);
+
+        ratingBox.ratingProperty().addListener((observable, oldValue, newValue) -> {
+            double updatedRating = newValue.doubleValue();
+            Library.addUserRating(this.book.getBook_id(), updatedRating);
+
+            Rating.setText(Library.getBookRating(this.book.getBook_id()));
+        });
 
         // Load the book image (if available)
         try {
@@ -87,7 +107,7 @@ public class BookController implements Initializable {
 
     @FXML
     void add_to_favourite(MouseEvent event) {
-        Library.add_user_favourite(Model.getInstance().getSelectedBook().getBook_id(),Library.current_user.getAccount_id());
+        Library.add_user_favourite(Model.getInstance().getSelectedBook().getBook_id(), Library.current_user.getAccount_id());
         favourite_button.setDisable(true);
         favourite_button.setText("Added to favourite");
     }
@@ -95,9 +115,9 @@ public class BookController implements Initializable {
     @FXML
     void add_to_library(MouseEvent event) {
         Member cur = (Member) Library.current_user;
-        Library.borrow_books(Model.getInstance().getSelectedBook().getBook_id(),String.valueOf(cur.getAccount_id()));
+        Library.borrow_books(Model.getInstance().getSelectedBook().getBook_id(), String.valueOf(cur.getAccount_id()));
         read_button.setDisable(true);
         read_button.setText("Borrowing");
-    }                               
+    }
 
 }

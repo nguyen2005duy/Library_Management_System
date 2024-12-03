@@ -9,6 +9,7 @@ import Application.com.jmc.backend.Connection.DatabaseConnection;
 import Application.com.jmc.backend.Controller.Client.FavouriteController;
 import Application.com.jmc.backend.Controller.Client.LibraryController;
 import Application.com.jmc.backend.Controller.Client.TrendingController;
+import com.mysql.cj.protocol.a.BinaryResultsetReader;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
@@ -427,7 +428,7 @@ public class Library {
         LocalDate today = LocalDate.now();
         Date sqlDate = Date.valueOf(today);
         String returnDate = sqlDate.toString();
-        String insertFields = "INSERT INTO borrow_record(book_id, account_id, borrow_date, return_date, user_rating) VALUES ('";
+        String insertFields = "INSERT INTO borrow_record(book_id, account_id) VALUES ('";
         String insertValues = book.getBook_id() + "','" + book.getBorrow_user_id() +
                 "','" + book.getBorrowed_date() + "','" + returnDate + "','" + userRating + "')";
         String insertToRecord = insertFields + insertValues;
@@ -472,8 +473,6 @@ public class Library {
             while (set.next()) {
                 int account_id = Integer.parseInt(set.getString("account_id"));
                 String bookId = set.getString("book_id");
-                String borrowDate = set.getString("borrow_date");
-                String returnDate = set.getString("return_date");
                 String user_ratingString = set.getString("user_rating");
                 if (user_ratingString == null) {
                     recordsLists.add(new BorrowRecord(account_id, bookId));
@@ -615,5 +614,64 @@ public class Library {
         }
 
     }
+    public static double getUserRating(String book_id) {
+         int currentMemberId = current_user.getAccount_id();
+         for (BorrowRecord record : recordsLists) {
+             if (record.getBook_id().equals(book_id)&&currentMemberId ==record.getAccount_id()) {
+                 return record.getUserRating();
+             }
+         }
+         return -1;
+    }
+    public static BorrowRecord getRatingRecord (String book_id ) {
+        int currentMemberId = current_user.getAccount_id();
+        for (BorrowRecord record : recordsLists) {
+            if (record.getBook_id().equals(book_id)&&currentMemberId ==record.getAccount_id()) {
+                return record;
+            }
+        }
+        return null;
+    }
+
+    public static void addUserRatingDataBase(String book_id,double rating)
+    {
+        int currentMemberId = current_user.getAccount_id();
+
+        if (getUserRating(book_id) == -1) {
+            String insertFields = "INSERT INTO borrow_record (book_id, account_id, user_rating) VALUES ";
+            String insertValues = "('" + book_id + "', " + currentMemberId + ", " + rating + ")";
+            String insertToAddUserRating = insertFields + insertValues;
+
+            try {
+                Statement stmt = connectDB.createStatement();
+                stmt.executeUpdate(insertToAddUserRating);
+            } catch (SQLException e) {
+                System.out.println("Error adding rating to database.");
+                e.printStackTrace();
+            }
+        } else {
+            String updateRating = "UPDATE borrow_record SET user_rating = " + rating +
+                    " WHERE book_id = '" + book_id + "' AND account_id = " + currentMemberId;
+
+            try {
+                Statement stmt = connectDB.createStatement();
+                stmt.executeUpdate(updateRating);
+            } catch (SQLException e) {
+                System.out.println("Error updating rating in database.");
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void addUserRating(String book_id, double rating) {
+        addUserRatingDataBase(book_id,rating);
+        BorrowRecord record = getRatingRecord(book_id);
+        if (record==null) {
+            recordsLists.add(new BorrowRecord(Library.current_user.getAccount_id(),book_id,rating));
+        } else {
+            recordsLists.remove(record);
+            recordsLists.add(new BorrowRecord(Library.current_user.getAccount_id(),book_id,rating));
+        }
+    }
 
 }
+

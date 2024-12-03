@@ -226,7 +226,7 @@ public class Book {
         Date currentTime  = new Date(System.currentTimeMillis());
         LocalDate currentDate = borrowed_date.toLocalDate();
         Date currentDateSQL = java.sql.Date.valueOf(currentDate);
-        Library.recordsLists.add(new BorrowRecord(Integer.parseInt(borrow_user_id),book_id,borrowed_date,currentDateSQL));
+        Library.recordsLists.add(new BorrowRecord(Integer.parseInt(borrow_user_id),book_id));
         String updateQuery = "UPDATE book SET available = 1, " +
                 "borrowed_user_id = NULL, " + // Use NULL without quotes
                 "borrowed_date = NULL, " +   // Use NULL without quotes

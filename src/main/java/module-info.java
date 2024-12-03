@@ -7,9 +7,10 @@ module org.example.library_management_system {
     requires com.fasterxml.jackson.databind;
     requires de.jensd.fx.glyphs.fontawesome;
     requires mysql.connector.j;
+    requires org.controlsfx.controls; // Add this to access ControlsFX
 
+    opens Application to javafx.fxml; // Allow FXML reflection
     // Export and open the backend packages
-    opens Application to javafx.fxml;
     exports Application.com.jmc.backend.Controller;
     opens Application.com.jmc.backend.Controller to javafx.fxml;
     exports Application.com.jmc.backend.Connection;

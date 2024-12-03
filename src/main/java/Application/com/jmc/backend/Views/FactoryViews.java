@@ -208,6 +208,10 @@ public class FactoryViews {
         createStage(loader);
 
     }
+    public void showDiscoverView() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/discover.fxml"));
+        createStage(loader);
+    }
 
 
     public void showClientView() {
