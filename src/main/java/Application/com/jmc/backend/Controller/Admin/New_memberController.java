@@ -18,6 +18,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class New_memberController implements Initializable {
@@ -46,12 +48,16 @@ public class New_memberController implements Initializable {
         if (alert.showAndWait().get() == ButtonType.OK) {
 
 
-            DatabaseConnection connectNow = new DatabaseConnection();
-            Connection connectDB = connectNow.getConnection();
+            Connection connectDB = DatabaseConnection.getConnection();
+            int lastInsertId = 1;
+            while (Library.usersList.get(lastInsertId)!=null) {
+                lastInsertId++;
+            }
+            String default_username = "user" + String.valueOf(lastInsertId), default_password = "12345";
 
             String insertFields = "INSERT INTO user_account(firstname, lastname, username, password, email, role) VALUES ('";
-            String insertValues = firstname_field.getText() + "','" + lastname_field.getText() + "','" +  + "','" +
-                    user.getPassword() + "','" + email_field.getText() + "', 'Member')";
+            String insertValues = firstname_field.getText() + "','" + lastname_field.getText() + "','" + default_username  +  "','" +
+                    default_password + "','" + email_field.getText() + "', 'Member')";
             String insertToRegister = insertFields + insertValues;
             try {
                 Statement stmt = connectDB.createStatement();
@@ -61,19 +67,7 @@ public class New_memberController implements Initializable {
                 e.getCause();
             }
 
-            int lastInsertId = 0;
-            String sql = "SELECT LAST_INSERT_ID()";
 
-            try (Statement statement = connectDB.createStatement();
-                 ResultSet resultSet = statement.executeQuery(sql)) {
-
-                if (resultSet.next()) {
-                    lastInsertId = resultSet.getInt(1);
-                }
-            } catch (SQLException e) {
-                e.getCause();
-            }
-            String default_username = "user" + String.valueOf(lastInsertId), default_password = "12345";
 
             MemberSearchModel mem = new MemberSearchModel(lastInsertId, firstname_field.getText() + " " + lastname_field.getText(), email_field.getText());
             MembersController.getMemberSearchModelObservableList().add(mem);
