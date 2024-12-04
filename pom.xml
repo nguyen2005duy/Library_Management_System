@@ -75,6 +75,11 @@
             <artifactId>controlsfx</artifactId>
             <version>11.1.2</version> <!-- Use the latest version compatible with your JavaFX version -->
         </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.5.0</version>
+        </dependency>
 
 
     </dependencies>

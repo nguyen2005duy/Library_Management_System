@@ -3,6 +3,7 @@ package Application.com.jmc.backend.Controller.Client;
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Model.Model;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
@@ -25,6 +26,11 @@ public class ClientController implements Initializable
                     Book selectedBook = Model.getInstance().getSelectedBook(); // Adjust as needed
                     client_parent.setCenter(Model.getInstance().getFactoryViews().getBookView(selectedBook));
                    break;
+                case QR:
+                    Book book = Model.getInstance().getSelectedBook();
+                    Image image = Model.getInstance().getSelectedImage();
+                    client_parent.setCenter(Model.getInstance().getFactoryViews().getQRView(book,image));
+                break;
                 default: client_parent.setCenter(Model.getInstance().getFactoryViews().getDiscoverView()); break;
             }
         });

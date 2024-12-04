@@ -2,12 +2,22 @@ package Application.com.jmc.backend.Model;
 
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Views.FactoryViews;
+import javafx.scene.image.Image;
 
 public class Model {
     private static Model model;
     private String search;
     private final FactoryViews factoryViews;
     private Book selectedBook;
+    private Image selectedImage;
+
+    public Image getSelectedImage() {
+        return selectedImage;
+    }
+
+    public void setSelectedImage(Image selectedImage) {
+        this.selectedImage = selectedImage;
+    }
 
     public Book getSelectedBook() {
         return selectedBook;

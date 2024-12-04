@@ -1,10 +1,11 @@
 package Application.com.jmc.backend.Controller;
 
 import Application.com.jmc.backend.Class.Books.Book;
-import Application.com.jmc.backend.Class.Library.GoogleBooksAPI;
+import Application.com.jmc.backend.Class.Library.Helpers.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Model.Model;
+import Application.com.jmc.backend.Views.ClientMenuOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -51,8 +52,12 @@ public class BookController implements Initializable {
     private Label status;
     @FXML
     private Rating ratingBox;
-    private Book book;
+    @FXML
+    private Label QRPath;
 
+
+    private Book book;
+    private Image image;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ratingBox.setRating(0);
@@ -99,11 +104,18 @@ public class BookController implements Initializable {
         try {
             Image image = new Image(GoogleBooksAPI.get_Book_Image(book.getBook_id()));
             bookImage.setImage(image);
+            this.image = image;
         } catch (IOException e) {
             System.out.println("Couldnt find book image in book controller");
         }
     }
 
+    @FXML
+    public void toQR() {
+        Model.getInstance().setSelectedBook(book);
+        Model.getInstance().setSelectedImage(image);
+        Model.getInstance().getFactoryViews().getClientSelectedMenuItem().set(ClientMenuOptions.QR);
+    }
 
     @FXML
     void add_to_favourite(MouseEvent event) {

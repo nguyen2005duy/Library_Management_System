@@ -10,12 +10,16 @@ import Application.com.jmc.backend.Controller.Admin.AdminMenuController;
 import Application.com.jmc.backend.Controller.Admin.AdminProfileController;
 import Application.com.jmc.backend.Controller.Client.ClientController;
 import Application.com.jmc.backend.Controller.Client.FavouriteController;
+import Application.com.jmc.backend.Controller.Client.LoadingController;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -40,7 +44,6 @@ public class FactoryViews {
     private AccountType accountType;
 
 
-
     public FactoryViews() {
         this.accountType = AccountType.Librarian;
         this.clientSelectedMenuItem = new SimpleObjectProperty<>();
@@ -63,33 +66,33 @@ public class FactoryViews {
         this.accountType = accountType;
     }
 
-    public AnchorPane getMembersView(){
-        if(MembersView == null){
-            try{
+    public AnchorPane getMembersView() {
+        if (MembersView == null) {
+            try {
                 MembersView = new FXMLLoader(getClass().getResource("/Application/Members.fxml")).load();
-            } catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return MembersView;
     }
 
-    public AnchorPane getCheckoutView(){
-        if(Check_outView == null){
-            try{
+    public AnchorPane getCheckoutView() {
+        if (Check_outView == null) {
+            try {
                 Check_outView = new FXMLLoader(getClass().getResource("/Application/check_out_books.fxml")).load();
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return Check_outView;
     }
 
-    public AnchorPane getDashboardView(){
-        if(DashboardView == null){
-            try{
+    public AnchorPane getDashboardView() {
+        if (DashboardView == null) {
+            try {
                 DashboardView = new FXMLLoader(getClass().getResource("/Application/dashboard.fxml")).load();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -98,7 +101,7 @@ public class FactoryViews {
 
 
     public AnchorPane getSearchView() {
-        if(SearchView == null) {
+        if (SearchView == null) {
             try {
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results.fxml"));
@@ -131,38 +134,72 @@ public class FactoryViews {
         return LibraryView;
     }*/
 
+
     public AnchorPane getLibraryView() {
         if (LibraryView == null) {
-            try {
-                LibraryView = new FXMLLoader(getClass().getResource("/Application/Library.fxml")).load();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Task<AnchorPane> task = new Task<AnchorPane>() {
+                @Override
+                protected AnchorPane call() throws Exception {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/Library.fxml"));
+                    return loader.load();
+                }
+            };
+            task.setOnSucceeded(event -> {
+                // Get the loaded view from the background thread and assign it to FavouriteView
+                LibraryView = task.getValue();
+            });
+            new Thread(task).start();
+
         }
         return LibraryView;
     }
 
     public AnchorPane getFavouriteView() {
-        if (FavouriteView == null ) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/favourite.fxml"));
-                FavouriteView = loader.load();
-                FavouriteController controller = loader.getController();
-                controller.refreshFavouriteBooks();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        if (FavouriteView == null) {
+            // Create a task that will load the FXML and refresh in the background
+            Task<AnchorPane> loadFavouriteViewTask = new Task<AnchorPane>() {
+                @Override
+                protected AnchorPane call() throws Exception {
+                    // Load the FXML in the background thread
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/favourite.fxml"));
+                    AnchorPane loadedView = loader.load();  // This is where the view is loaded
+                    FavouriteController controller = loader.getController();
+                    controller.refreshFavouriteBooks();
+
+                    // Return the loaded view to be used later on the main thread
+                    return loadedView;
+                }
+            };
+
+            // When the task finishes, set FavouriteView on the JavaFX Application Thread
+            loadFavouriteViewTask.setOnSucceeded(event -> {
+                // Get the loaded view from the background thread and assign it to FavouriteView
+                FavouriteView = loadFavouriteViewTask.getValue();
+            });
+
+            // Start the task in a new thread
+            new Thread(loadFavouriteViewTask).start();
         }
+
         return FavouriteView;
     }
 
+
     public AnchorPane getTrendingView() {
         if (TrendingView == null) {
-            try {
-                TrendingView = new FXMLLoader(getClass().getResource("/Application/trending.fxml")).load();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Task<AnchorPane> task = new Task<AnchorPane>() {
+                @Override
+                protected AnchorPane call() throws Exception {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/trending.fxml"));
+                    return loader.load();
+                }
+            };
+            task.setOnSucceeded(event -> {
+                // Get the loaded view from the background thread and assign it to TrendingView
+                TrendingView = task.getValue();
+            });
+            new Thread(task).start();
+
         }
         return TrendingView;
     }
@@ -178,11 +215,11 @@ public class FactoryViews {
         return ProfileView;
     }
 
-    public AnchorPane getAdminProfileView(){
-        if(AdminProfileView == null){
-            try{
+    public AnchorPane getAdminProfileView() {
+        if (AdminProfileView == null) {
+            try {
                 AdminProfileView = new FXMLLoader(getClass().getResource("/Application/profile_admin.fxml")).load();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -196,6 +233,18 @@ public class FactoryViews {
 
             BookController controller = loader.getController();
             controller.setBookData(book);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return BookView;
+    }
+
+    public AnchorPane getQRView(Book book, Image image) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/QRCode.fxml"));
+            BookView = loader.load();
+            QRCodeController controller = loader.getController();
+            controller.setBookData(book, image);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -219,20 +268,44 @@ public class FactoryViews {
         createStage(loader);
 
     }
+
     public void showDiscoverView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/discover.fxml"));
         createStage(loader);
     }
 
+    public void preLoadLibrary() {
+        // Start loading the views asynchronously
+        loadViewAsync(() -> LibraryView = getLibraryView());
+        loadViewAsync(() -> FavouriteView = getFavouriteView());
+        loadViewAsync(() -> TrendingView = getTrendingView());
+        loadViewAsync(() -> DiscoverView = getDiscoverView());
+    }
+
+    private void loadViewAsync(Runnable loadView) {
+        // Load the view
+        new Thread(loadView::run).start();
+    }
+
+    public boolean checkIfLoadedLibrary() {
+        return LibraryView != null
+                && FavouriteView != null
+                && TrendingView != null
+                && DiscoverView != null;
+    }
+
+
 
     public void showClientView() {
-        LibraryView = getLibraryView();
-        FavouriteView =getFavouriteView();
-        TrendingView = getTrendingView();
-        DiscoverView = getDiscoverView();
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/Client.fxml"));
         ClientController clientController = new ClientController();
         loader.setController(clientController);
+        createStage(loader);
+    }
+
+    public void showLoadingView() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/loading.fxml"));
         createStage(loader);
     }
 

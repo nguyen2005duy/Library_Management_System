@@ -3,14 +3,13 @@ package Application.com.jmc.backend.Class.Library;
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Books.BorrowRecord;
 import Application.com.jmc.backend.Class.Exceptions.UsernameTakenException;
+import Application.com.jmc.backend.Class.Library.Helpers.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Class.User_Information.User;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
 import Application.com.jmc.backend.Controller.Client.FavouriteController;
 import Application.com.jmc.backend.Controller.Client.LibraryController;
 import Application.com.jmc.backend.Controller.Client.TrendingController;
-import com.mysql.cj.protocol.a.BinaryResultsetReader;
-import javafx.collections.ObservableList;
 
 import java.io.IOException;
 
@@ -635,7 +634,6 @@ public class Library {
                  }
              }
              for (int i =0;i<4;i++) {
-                 System.out.println(recommendedBooks);
                  Random random = new Random();
                  int bookAmount = random.nextInt()%3+1;
                  Library.recommendedBooks.addAll(GoogleBooksAPI.searchBooksByCategory(recommendCategories[i],bookAmount));

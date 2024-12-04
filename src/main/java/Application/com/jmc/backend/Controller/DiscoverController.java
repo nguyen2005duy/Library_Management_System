@@ -1,26 +1,15 @@
 package Application.com.jmc.backend.Controller;
-import Application.com.jmc.backend.Class.Books.Book;
-import Application.com.jmc.backend.Class.Library.GoogleBooksAPI;
-import Application.com.jmc.backend.Class.Library.Library;
-import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Model.Model;
 import Application.com.jmc.backend.Views.ClientMenuOptions;
-import javafx.fxml.FXML;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import org.w3c.dom.Text;
 
-import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class DiscoverController implements Initializable {

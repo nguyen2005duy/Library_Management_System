@@ -50,6 +50,14 @@
                   <Font size="15.0" />
                </font>
             </Label>
+            <Label fx:id="QRPath" alignment="CENTER" onMouseClicked="#toQR" prefHeight="29.0" prefWidth="1000.0" text="QR Code" textAlignment="CENTER" textFill="#29c9ff">
+               <font>
+                  <Font name="MinionPro-Medium" size="23.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </Label>
          </children>
       </VBox>
       <HBox alignment="CENTER_LEFT" layoutX="182.0" layoutY="339.0" prefHeight="102.0" prefWidth="515.0" stylesheets="@../Styles/trending.css">

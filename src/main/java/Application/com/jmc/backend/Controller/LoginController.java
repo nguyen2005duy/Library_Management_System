@@ -183,11 +183,11 @@ public class LoginController implements Initializable {
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
             }
-            Model.getInstance().getFactoryViews().showClientView();
+            Model.getInstance().getFactoryViews().showLoadingView();
         }
         else{
             Library.init_Library_Admin();
-            Model.getInstance().getFactoryViews().showAdminView();
+            Model.getInstance().getFactoryViews().showLoadingView();
         }
     }
 

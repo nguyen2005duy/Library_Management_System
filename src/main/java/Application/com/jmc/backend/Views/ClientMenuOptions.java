@@ -7,5 +7,6 @@ public enum ClientMenuOptions {
     TRENDING,
     PROFILE,
     SEARCH,
-    BOOK
+    BOOK,
+    QR
 }

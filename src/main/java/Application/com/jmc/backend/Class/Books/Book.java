@@ -1,7 +1,6 @@
 package Application.com.jmc.backend.Class.Books;
 
 
-import Application.com.jmc.backend.Class.Library.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.Library.Library;
 
 import java.sql.Date;
@@ -10,7 +9,6 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Arrays;
 
 public class Book {
     private final String book_id;

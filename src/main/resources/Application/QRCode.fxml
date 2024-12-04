@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="879.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.QRCodeController">
+   <children>
+      <ImageView fx:id="bookImage" fitHeight="277.0" fitWidth="189.0" layoutX="335.0" layoutY="14.0" pickOnBounds="true">
+         <image>
+            <Image url="@../Img/content.jpg" />
+         </image>
+         <effect>
+            <DropShadow height="45.27" offsetX="5.0" offsetY="5.0" radius="22.5" width="46.73">
+               <color>
+                  <Color red="0.8947368264198303" green="0.8168615698814392" blue="0.7389863729476929" />
+               </color>
+            </DropShadow>
+         </effect>
+      </ImageView>
+      <Label fx:id="bookTitle" alignment="CENTER" layoutX="130.0" layoutY="293.0" prefHeight="54.0" prefWidth="598.0" text="Title" textAlignment="CENTER">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="28.0" />
+         </font>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </Label>
+      <Label fx:id="author" alignment="CENTER" layoutX="114.0" layoutY="347.0" prefHeight="27.0" prefWidth="630.0" text="Author">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="QRCode" fitHeight="300.0" fitWidth="300.0" layoutX="279.0" layoutY="409.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../QRCodes/template.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
