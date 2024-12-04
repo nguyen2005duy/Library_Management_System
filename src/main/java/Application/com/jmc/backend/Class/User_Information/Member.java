@@ -11,10 +11,8 @@ public class Member extends User {
     private List<BorrowRecord> BorrowedHistory;
     private List<Book> borrowed_documents;
     private List<String> favourite_genres;
-    private  List<Book> favourite_books;
+    private List<Book> favourite_books;
     private boolean isPremiumMember;
-
-
 
     public Member(String username, String password, String firstName,
                   String lastName, String email, String role) {
@@ -36,8 +34,6 @@ public class Member extends User {
         favourite_genres = new ArrayList<>();
         favourite_books = new ArrayList<>();
     }
-
-
 
     public List<Book> getfavourite_books() {
         return favourite_books;
