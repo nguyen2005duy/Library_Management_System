@@ -10,6 +10,15 @@ public class Model {
     private final FactoryViews factoryViews;
     private Book selectedBook;
     private Image selectedImage;
+    private String selectedCategory;
+
+    public String getSelectedCategory() {
+        return selectedCategory;
+    }
+
+    public void setSelectedCategory(String selectedCategory) {
+        this.selectedCategory = selectedCategory;
+    }
 
     public Image getSelectedImage() {
         return selectedImage;

@@ -1,7 +1,7 @@
 package Application.com.jmc.backend.Controller;
 
 import Application.com.jmc.backend.Class.Books.Book;
-import Application.com.jmc.backend.Class.Library.Helpers.GoogleBooksAPI;
+import Application.com.jmc.backend.Class.Helpers.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Model.Model;
 import Application.com.jmc.backend.Views.ClientMenuOptions;

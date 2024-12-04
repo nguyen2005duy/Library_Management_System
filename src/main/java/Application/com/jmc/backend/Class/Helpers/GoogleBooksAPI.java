@@ -1,9 +1,12 @@
-package Application.com.jmc.backend.Class.Library.Helpers;
+package Application.com.jmc.backend.Class.Helpers;
 
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.Library;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jsoup.Jsoup;
+
+import javafx.scene.image.Image;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,15 +20,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GoogleBooksAPI {
-    //public static String apiKey = "AIzaSyBuLI1dOZrUS6U78tj41hZtWr5aKo6u_j0";
-   //public static String apiKey = "AIzaSyAp9uprFh6mvLaUE_nfKhwpj86PlDuyXT8";
+    public static String apiKey = "AIzaSyBuLI1dOZrUS6U78tj41hZtWr5aKo6u_j0";
+    //public static String apiKey = "AIzaSyAp9uprFh6mvLaUE_nfKhwpj86PlDuyXT8";
 
     //public static String apiKey = "AIzaSyBuLI1dOZrUS6U78tj41hZtWr5aKo6u_j0";
     //public static String apiKey = "AIzaSyAp9uprFh6mvLaUE_nfKhwpj86PlDuyXT8";
-   // public static String apiKey = "AIzaSyAjVQyWugF0uMrY9gB4otQoCPA9tkBsHIY";
+    // public static String apiKey = "AIzaSyAjVQyWugF0uMrY9gB4otQoCPA9tkBsHIY";
     //public static String apiKey = "AIzaSyC8qyQQ9Fs-rGJYe2CCaD3Evy5JziAR2tk";
     //public static String apiKey = "AIzaSyBRTivCWYJ_r_MA5Upaf7bsS0f1t3okcCo";
-    public static String apiKey = "AIzaSyDu3Jjv9le5WZ-YsHomozicJL8aw0jyY00";
+    //public static String apiKey = "AIzaSyDu3Jjv9le5WZ-YsHomozicJL8aw0jyY00";
+
     public static void main(String[] args) {
         // Replace YOUR_API_KEY with your actual API key
         while (true) {
@@ -135,7 +139,7 @@ public class GoogleBooksAPI {
         }
     }
 
-    public static List<Book> searchBooksByCategory(String category,int size) {
+    public static List<Book> searchBooksByCategory(String category, int size) {
         List<Book> return_book = new ArrayList<>();
         try {
             // Create an ObjectMapper
@@ -148,7 +152,8 @@ public class GoogleBooksAPI {
             // Get the first book item (if exists)
             int querySize = rootNode.path("items").size();
 
-            for (int i = 0; i < Math.min(size,querySize); i++) {
+
+            for (int i = 0; i < Math.min(size, querySize); i++) {
                 JsonNode book = rootNode.path("items").get(i);
                 return_book.add(getDocumentDetails(book.path("id").asText()));
             }
@@ -157,6 +162,7 @@ public class GoogleBooksAPI {
         }
         return return_book;
     }
+
     /**
      * lay thong tin nhieu quyen sach.
      *
@@ -198,6 +204,34 @@ public class GoogleBooksAPI {
                 int querySize = rootNode.path("items").size();
 
                 for (int i = 0; i < querySize; i++) {
+                    JsonNode book = rootNode.path("items").get(i);
+                    IdsList.add(book.path("id").asText());
+                }
+            } catch (IOException e) {
+                System.err.println("Error parsing JSON response: " + e.getMessage());
+            }
+        } catch (IOException e) {
+            System.out.println("Loi khi tim ID trong getIdList googleapi");
+        }
+        return IdsList;
+    }
+
+    public static List<String> getCategoryIdList(String category) {
+        List<String> IdsList = new ArrayList<>();
+
+        try {
+            String jsonResponse = searchBooksByCategory(category);
+            try {
+                // Create an ObjectMapper
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                // Parse the JSON string into a JsonNode object
+                JsonNode rootNode = objectMapper.readTree(jsonResponse);
+
+                // Get the first book item (if exists)
+                int querySize = rootNode.path("items").size();
+
+                for (int i = 0; i < Math.min(querySize, 8); i++) {
                     JsonNode book = rootNode.path("items").get(i);
                     IdsList.add(book.path("id").asText());
                 }
@@ -272,6 +306,7 @@ public class GoogleBooksAPI {
             }
 
             String description = book.path("volumeInfo").path("description").asText("Description not available");
+            description = formatDescription(description);
             String publisher = book.path("volumeInfo").path("publisher").asText();
             String publishedDate = book.path("volumeInfo").path("publishedDate").asText();
             String pageCount = book.path("volumeInfo").path("pageCount").asText();
@@ -398,6 +433,30 @@ public class GoogleBooksAPI {
         return doc;
     }
 
+
+
+
+    public static String formatDescription(String description) {
+        if (description == null || description.isEmpty()) {
+            return "Not available";
+        }
+
+        // Use Jsoup to parse and clean the HTML
+        String cleanDescription = Jsoup.parse(description).text();
+
+        // Convert any special HTML entities like &nbsp; to normal spaces
+        cleanDescription = cleanDescription.replace("&nbsp;", " ");
+
+        // Replace multiple spaces with a single space to ensure readability
+        cleanDescription = cleanDescription.replaceAll("\\s{2,}", " ");
+
+        // Optionally add line breaks after paragraphs to make it look better
+        cleanDescription = cleanDescription.replaceAll("(<p>.*?</p>)", "$1\n");
+
+        return cleanDescription;
+    }
+
+
     /**
      * Tra lai categories, phuc vu cho viec recommend book va luu vao BookRecord.
      *
@@ -410,22 +469,61 @@ public class GoogleBooksAPI {
             // Create an ObjectMapper
             ObjectMapper objectMapper = new ObjectMapper();
 
-            // Get categories
-            JsonNode categoriesNode = objectMapper.readTree(jsonResponse).path("volumeInfo").path("categories");
-            String[] categories;
-            if (!categoriesNode.isEmpty()) {
-                categories = new String[(int) categoriesNode.size()];
+            // Parse the JSON response to get the categories node
+            JsonNode categoriesNode = objectMapper.readTree(jsonResponse)
+                    .path("volumeInfo")
+                    .path("categories");
+
+            // Check if categories are present
+            if (categoriesNode.isArray() && categoriesNode.size() > 0) {
+                List<String> categoryList = new ArrayList<>();
                 for (int i = 0; i < categoriesNode.size(); i++) {
-                    categories[i] = categoriesNode.get(i).asText();
+                    String category = categoriesNode.get(i).asText();
+
+                    // Split by "/" if there's more than one genre listed
+                    String[] splitCategories = category.split("/");
+                    for (String cat : splitCategories) {
+                        categoryList.add(cat.trim());  // Trim to avoid leading/trailing spaces
+                    }
                 }
+                return categoryList.toArray(new String[0]);
             } else {
-                categories = new String[1];
-                categories[0] = "Couldn't load categories";
+                // If no categories, return a default message
+                return new String[]{"No categories available"};
             }
-            return categories;
         } catch (IOException e) {
-            System.err.println("Error parsing JSON response: " + e.getMessage());
-            return null;
+            // Log error and rethrow or handle more appropriately
+            System.err.println("Error parsing JSON response for book_id " + book_id + ": " + e.getMessage());
+            throw new IOException("Error retrieving categories for book ID: " + book_id, e);
         }
+    }
+
+    public static Image getCategoryCover(String category) {
+        Image image = new Image(GoogleBooksAPI.class.getResource("/Img/no_image.png").toExternalForm());
+        try {
+            String jsonResponse = searchBooksByCategory(category);
+            try {
+                // Create an ObjectMapper
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                // Parse the JSON string into a JsonNode object
+                JsonNode rootNode = objectMapper.readTree(jsonResponse);
+
+                // Get the first book item (if exists)
+                if (rootNode.has("items") && !rootNode.get("items").isEmpty()) {
+                    JsonNode book = rootNode.get("items").get(0);
+                    JsonNode imageLinks = book.path("volumeInfo").path("imageLinks").path("smallThumbnail");
+
+                    if (!imageLinks.isMissingNode() && !imageLinks.asText().isEmpty()) {
+                        image = new Image(imageLinks.asText());
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Error parsing JSON response: " + e.getMessage());
+            }
+        } catch (IOException e) {
+            System.out.println("Loi khi tim ID trong getIdList googleapi");
+        }
+        return image;
     }
 }

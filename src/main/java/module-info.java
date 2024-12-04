@@ -8,7 +8,8 @@ module org.example.library_management_system {
     requires de.jensd.fx.glyphs.fontawesome;
     requires mysql.connector.j;
     requires org.controlsfx.controls;
-    requires com.google.zxing; // Add this to access ControlsFX
+    requires com.google.zxing;
+    requires org.jsoup; // Add this to access ControlsFX
     opens Application to javafx.fxml; // Allow FXML reflection
     // Export and open the backend packages
     exports Application.com.jmc.backend.Controller;
@@ -25,6 +26,6 @@ module org.example.library_management_system {
     opens Application.com.jmc.backend.Controller.Client to javafx.fxml;
     exports Application.com.jmc.backend.Controller.Admin;
     opens Application.com.jmc.backend.Controller.Admin to javafx.fxml;
-    exports Application.com.jmc.backend.Class.Library.Helpers;
+    exports Application.com.jmc.backend.Class.Helpers;
     // Export and open the frontend packages
 }

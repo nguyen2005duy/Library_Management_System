@@ -1,24 +1,14 @@
 package Application.com.jmc.backend.Controller;
 
 import Application.com.jmc.backend.Class.Books.Book;
-import Application.com.jmc.backend.Class.Library.Helpers.GoogleBooksAPI;
-import Application.com.jmc.backend.Class.Library.Helpers.QRCodeGenerator;
-import Application.com.jmc.backend.Class.Library.Library;
-import Application.com.jmc.backend.Class.User_Information.Member;
-import Application.com.jmc.backend.Model.Model;
+import Application.com.jmc.backend.Class.Helpers.QRCodeGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import org.controlsfx.control.Rating;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class QRCodeController implements Initializable {

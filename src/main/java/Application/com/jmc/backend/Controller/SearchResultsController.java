@@ -87,8 +87,63 @@ public class SearchResultsController implements Initializable {
         currentSearchThread.start(); // Start the thread
     }
 
+    public void refreshSearchResultsByCategories(String category) {
+        // Clear existing results
+        results.setText("Results for '" + category + "'");
+        bookContainer.getChildren().clear(); // Clear any previous results
+        number_of_results.setText("Loading...");
+
+        // Stop previous search thread if it's running
+        if (currentSearchThread != null && currentSearchThread.isAlive()) {
+            currentSearchThread.interrupt();
+        }
+
+        // Start a new search thread
+        currentSearchThread = new Thread(() -> {
+            List<Book> searchResults = getSearchGenres(category);
+
+            Platform.runLater(() -> {
+                if (!searchResults.isEmpty()) {
+                    number_of_results.setText(String.valueOf(searchResults.size()) + " results found");
+                } else {
+                    number_of_results.setText("Nothing to show");
+                }
+
+                int column = 0;
+                int row = 1;
+
+                try {
+                    for (Book res : searchResults) {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("/Application/BookCard.fxml"));
+                        VBox bookBox = fxmlLoader.load();
+                        BookCardController bookCardController = fxmlLoader.getController();
+                        bookCardController.setData(res);
+
+                        if (column == 4) {
+                            column = 0;
+                            row++;
+                        }
+
+                        bookContainer.add(bookBox, column++, row);
+                        GridPane.setMargin(bookBox, new Insets(10));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        });
+
+        currentSearchThread.start();
+    }
+
+
     // Load results from Google API or library system
     private List<Book> getSearchResults(String query) {
         return Library.searchFor(query);
+    }
+
+    private List<Book> getSearchGenres(String genre) {
+        return Library.searchForCategory(genre);
     }
 }

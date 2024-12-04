@@ -8,5 +8,6 @@ public enum ClientMenuOptions {
     PROFILE,
     SEARCH,
     BOOK,
-    QR
+    QR,
+    SEARCHBYCATEGORY
 }

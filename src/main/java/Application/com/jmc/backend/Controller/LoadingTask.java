@@ -11,6 +11,7 @@ public class LoadingTask extends Task<Integer> {
         if (Model.getInstance().getFactoryViews().getAccountType() == AccountType.Member) {
             Model.getInstance().getFactoryViews().preLoadLibrary();
         }
+        System.out.println(Model.getInstance().getFactoryViews().getAccountType());
         // This loop will continue until the views are loaded or progress reaches 100
         int progress = 0;
 
@@ -20,6 +21,7 @@ public class LoadingTask extends Task<Integer> {
                 progress++;
                 continue;
             }
+            System.out.println(progress+" "+ Model.getInstance().getFactoryViews().checkIfLoadedLibrary());
             if (Model.getInstance().getFactoryViews().checkIfLoadedLibrary()) {
                 progress = 100; // Set progress to 100 when all views are loaded
             } else {

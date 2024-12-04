@@ -11,6 +11,7 @@ import Application.com.jmc.backend.Controller.Admin.AdminProfileController;
 import Application.com.jmc.backend.Controller.Client.ClientController;
 import Application.com.jmc.backend.Controller.Client.FavouriteController;
 import Application.com.jmc.backend.Controller.Client.LoadingController;
+import Application.com.jmc.backend.Model.Model;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -42,7 +43,7 @@ public class FactoryViews {
     private AnchorPane AdminProfileView;
     private final ObjectProperty<AdminMenuOptions> adminSelectedMenuItem;
     private AccountType accountType;
-
+    private SearchResultsController searchResultsController;
 
     public FactoryViews() {
         this.accountType = AccountType.Librarian;
@@ -103,21 +104,60 @@ public class FactoryViews {
     public AnchorPane getSearchView() {
         if (SearchView == null) {
             try {
-
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results.fxml"));
-                SearchView = loader.load();
-                SearchResultsController controller = loader.getController();
-                controller.refreshSearchResults();
+                SearchView = loader.load(); // Load the FXML
+                 searchResultsController = loader.getController(); // Get the controller
+                if (searchResultsController == null) {
+                    System.out.println("Error: SearchResultsController is null!");
+                } else {
+                    searchResultsController.refreshSearchResults(); // Refresh results
+                    System.out.println("SearchResultsController loaded and refreshed successfully.");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results.fxml"));
-            SearchResultsController controller = loader.getController();
-            controller.refreshSearchResults();
+            try {
+                // Retrieve and refresh the controller for the cached view
+
+                if (searchResultsController != null) {
+                    searchResultsController.refreshSearchResults();
+                    System.out.println("SearchResultsController refreshed successfully.");
+                } else {
+                    System.out.println("Error: Controller not found for cached SearchView!");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return SearchView;
     }
+
+
+    public AnchorPane getSearchCategoryView() {
+        if (SearchView == null) {
+            try {
+                // Load FXML and retrieve controller for the first time
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results.fxml"));
+                SearchView = loader.load(); // Load FXML
+                searchResultsController = loader.getController(); // Store controller reference
+                if (searchResultsController != null) {
+                    searchResultsController.refreshSearchResultsByCategories(Model.getInstance().getSelectedCategory());
+                } else {
+                    System.out.println("Error: SearchResultsController is null!");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (searchResultsController != null) {
+            // Use the cached controller to refresh results
+            searchResultsController.refreshSearchResultsByCategories(Model.getInstance().getSelectedCategory());
+        } else {
+            System.out.println("Error: SearchView is cached, but controller is null!");
+        }
+        return SearchView;
+    }
+
 
 /*    public AnchorPane getLibraryView() {
         if (LibraryView == null || LibrarySize !=
@@ -288,6 +328,11 @@ public class FactoryViews {
     }
 
     public boolean checkIfLoadedLibrary() {
+        System.out.println(LibraryView!=null);
+        System.out.println(FavouriteView!=null);
+        System.out.println(TrendingView!=null);
+        System.out.println(DiscoverView!=null);
+
         return LibraryView != null
                 && FavouriteView != null
                 && TrendingView != null

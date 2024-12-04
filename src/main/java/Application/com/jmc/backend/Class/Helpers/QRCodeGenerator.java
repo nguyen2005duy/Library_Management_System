@@ -1,4 +1,4 @@
-package Application.com.jmc.backend.Class.Library.Helpers;
+package Application.com.jmc.backend.Class.Helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

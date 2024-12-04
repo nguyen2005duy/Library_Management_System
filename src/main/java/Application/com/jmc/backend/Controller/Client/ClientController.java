@@ -31,6 +31,9 @@ public class ClientController implements Initializable
                     Image image = Model.getInstance().getSelectedImage();
                     client_parent.setCenter(Model.getInstance().getFactoryViews().getQRView(book,image));
                 break;
+                case SEARCHBYCATEGORY:
+                    client_parent.setCenter(Model.getInstance().getFactoryViews().getSearchCategoryView());
+                    break;
                 default: client_parent.setCenter(Model.getInstance().getFactoryViews().getDiscoverView()); break;
             }
         });

@@ -40,73 +40,92 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="511.0" layoutY="425.0" prefHeight="50.0" prefWidth="91.0" text="Fantasy" textAlignment="CENTER">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutX="311.0" layoutY="420.0" prefHeight="50.0" prefWidth="91.0" text="Mystery" textAlignment="CENTER">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
          </children>
       </AnchorPane>
-      <ImageView fitHeight="197.0" fitWidth="153.0" layoutX="58.0" layoutY="231.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="205.0" fitWidth="155.0" layoutX="476.0" layoutY="227.0" pickOnBounds="true">
+      <Label fx:id="label" alignment="CENTER" layoutX="40.0" layoutY="423.0" onMouseClicked="#openGenre" prefHeight="50.0" prefWidth="194.0" text="Romance" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label id="viewmore" alignment="CENTER" layoutX="332.0" layoutY="764.0" prefHeight="30.0" prefWidth="230.0" text="View more of them..." textFill="#545454">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="image5" fitHeight="205.0" fitWidth="167.0" layoutX="74.0" layoutY="512.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Img/fantasy.jpg" />
+            <Image url="@../Img/cay-o-liu-mau-trang.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="197.0" fitWidth="150.0" layoutX="277.0" layoutY="231.0" pickOnBounds="true">
+      <ImageView fx:id="image6" fitHeight="205.0" fitWidth="167.0" layoutX="288.0" layoutY="512.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Img/mystery.jpg" />
+            <Image url="@../Img/thay-mua-xuan.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="205.0" fitWidth="151.0" layoutX="687.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="image7" fitHeight="205.0" fitWidth="167.0" layoutX="512.0" layoutY="512.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Img/adventure.jpg" />
+            <Image url="@../Img/bay-nam-van-ngoanh-ve-phuong-bac.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="227.0" fitWidth="161.0" layoutX="66.0" layoutY="498.0" onMouseClicked="#openBook1Details1" pickOnBounds="true">
+      <ImageView fx:id="image8" fitHeight="205.0" fitWidth="167.0" layoutX="716.0" layoutY="512.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Img/content%20(2).jpg" />
-         </image></ImageView>
-      <ImageView fitHeight="227.0" fitWidth="168.0" layoutX="277.0" layoutY="498.0" onMouseClicked="#openBook1Details2" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Img/content%20(3).jpg" />
-         </image></ImageView>
-      <ImageView fitHeight="227.0" fitWidth="168.0" layoutX="480.0" layoutY="498.0" onMouseClicked="#openBook1Details3" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Img/content%20(1).jpg" />
-         </image></ImageView>
-      <ImageView fitHeight="227.0" fitWidth="155.0" layoutX="687.0" layoutY="500.0" onMouseClicked="#openBook1Details4" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Img/Doraemon.jpg" />
-         </image></ImageView>
-      <Label layoutX="58.0" layoutY="467.0" prefHeight="30.0" prefWidth="230.0" text="Reference Books" textFill="#545454">
+            <Image url="@../Img/ho-diep-cung-kinh-ngu.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="label1" alignment="CENTER" layoutX="273.0" layoutY="423.0" onMouseClicked="#openGenre" prefHeight="50.0" prefWidth="175.0" text="Romance" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="89.0" layoutY="423.0" prefHeight="50.0" prefWidth="91.0" text="Romance" textAlignment="CENTER">
+      <Label fx:id="label2" alignment="CENTER" layoutX="485.0" layoutY="423.0" onMouseClicked="#openGenre" prefHeight="50.0" prefWidth="188.0" text="Romance" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="710.0" layoutY="423.0" prefHeight="50.0" prefWidth="108.0" text="Adventure" textAlignment="CENTER">
+      <Label fx:id="label3" alignment="CENTER" layoutX="692.0" layoutY="423.0" onMouseClicked="#openGenre" prefHeight="50.0" prefWidth="188.0" text="Romance" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <ImageView fitHeight="205.0" fitWidth="167.0" layoutX="63.0" layoutY="231.0" pickOnBounds="true">
+      <Label fx:id="label4" alignment="CENTER" layoutX="33.0" layoutY="708.0" onMouseClicked="#openGenre" prefHeight="50.0" prefWidth="206.0" text="Romance" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="label5" alignment="CENTER" layoutX="249.0" layoutY="708.0" onMouseClicked="#openGenre" prefHeight="50.0" prefWidth="213.0" text="Romance" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="label6" alignment="CENTER" layoutX="481.0" layoutY="708.0" onMouseClicked="#openGenre" prefHeight="50.0" prefWidth="194.0" text="Romance" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="label7" alignment="CENTER" layoutX="687.0" layoutY="708.0" onMouseClicked="#openGenre" prefHeight="50.0" prefWidth="194.0" text="Romance" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="image4" fitHeight="205.0" fitWidth="167.0" layoutX="719.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Img/romance.jpg" />
-         </image></ImageView>
-      <Label id="viewmore" alignment="CENTER" layoutX="333.0" layoutY="745.0" prefHeight="30.0" prefWidth="230.0" text="View more of them..." textFill="#545454">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
+            <Image url="@../Img/thay-mua-xuan.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image" fitHeight="205.0" fitWidth="167.0" layoutX="74.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Img/bay-nam-van-ngoanh-ve-phuong-bac.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image2" fitHeight="205.0" fitWidth="167.0" layoutX="294.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Img/cay-o-liu-mau-trang.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image3" fitHeight="205.0" fitWidth="167.0" layoutX="512.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Img/ho-diep-cung-kinh-ngu.jpg" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

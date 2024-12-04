@@ -3,7 +3,7 @@ package Application.com.jmc.backend.Class.Library;
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Books.BorrowRecord;
 import Application.com.jmc.backend.Class.Exceptions.UsernameTakenException;
-import Application.com.jmc.backend.Class.Library.Helpers.GoogleBooksAPI;
+import Application.com.jmc.backend.Class.Helpers.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Class.User_Information.User;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
@@ -26,19 +26,26 @@ public class Library {
     public static HashMap<Integer, User> usersList;
     public static List<BorrowRecord> recordsLists;
     public static User current_user;
+    public static HashMap<String, Integer> popularCategories;
     public static String[] recommendCategories = {
             "Mystery",
             "History",
             "Science Fiction",
-            "Fantasy"
+            "Fantasy",
+            "Biography & Autobiography",
+            "Computers & Technology",
+            "Self-Help",
+            "Fantasy & Science Fiction"
     };
     public static List<Book> recommendedBooks;
+
     static {
         bookLists = new ArrayList<>();
-        usersList = new HashMap();
+        usersList = new HashMap<>();
         connectDB = DatabaseConnection.connection;
         recordsLists = new ArrayList<>();
         recommendedBooks = new ArrayList<>();
+        popularCategories = new HashMap<>();
     }
 
     /**
@@ -70,7 +77,8 @@ public class Library {
             System.out.println(e.getMessage());
         }
     }
-    public static void init_Library_Admin () {
+
+    public static void init_Library_Admin() {
         Thread loadBooks = new Thread(Library::loadBooks);
         Thread loadUsers = new Thread(Library::loadUsers);
         Thread loadRecords = new Thread(Library::load_record);
@@ -129,6 +137,34 @@ public class Library {
         return topcCategory.toArray(new String[0]);
     }
 
+    public static String[] get_popular_categories() throws IOException {
+        // Ensure the popularCategories map is properly initialized before using it
+        Map<String, Integer> categoryCount = popularCategories;
+
+        // Check if the categories have been initialized or not
+        int pos = 0;
+        while (categoryCount.size() < 8 && pos < recommendCategories.length) {
+            categoryCount.put(recommendCategories[pos], 1);  // Assign a default value, if necessary
+            pos++;
+        }
+
+        // Sort the categories by value (descending order)
+        List<Map.Entry<String, Integer>> sortedCategories = new ArrayList<>(categoryCount.entrySet());
+        sortedCategories.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+
+        // Create a list to store the top categories
+        List<String> topCategories = new ArrayList<>();
+
+        // Add the top 8 categories (or fewer, depending on the data)
+        for (int i = 0; i < Math.min(8, sortedCategories.size()); i++) {
+            topCategories.add(sortedCategories.get(i).getKey());
+        }
+
+        // Return the top categories as an array
+        return topCategories.toArray(new String[0]);
+    }
+
+
     /**
      * Lay arrays cua book_id de phuc vu cho function looadBooks.
      *
@@ -156,7 +192,13 @@ public class Library {
         String[] booksID = getBooksID();
         for (String s : booksID) {
             try {
-                bookLists.add(GoogleBooksAPI.getDocumentDetails(s));
+                Book book = GoogleBooksAPI.getDocumentDetails(s);
+                String[] categories = book.getCategories();
+                for (String c : categories) {
+                    int fre = popularCategories.getOrDefault(c, 0);
+                    popularCategories.put(c, fre + 1);
+                }
+                bookLists.add(book);
 
             } catch (IOException e) {
                 System.out.println("Load documents error");
@@ -369,7 +411,7 @@ public class Library {
 
         String sql = "DELETE FROM user_account WHERE account_id = " + String.valueOf(id);
 
-        try  {
+        try {
             Statement stmt = connectDB.createStatement();
             stmt.executeUpdate(sql);
         } catch (SQLException e) {
@@ -413,12 +455,12 @@ public class Library {
                     Member mem = (Member) usersList.get(Integer.parseInt(user_id));
                     Book book1 = null;
                     try {
-                        book1 =  GoogleBooksAPI.getDocumentDetails(id);
+                        book1 = GoogleBooksAPI.getDocumentDetails(id);
                     } catch (IOException ignored) {
 
                     }
                     assert book1 != null;
-                    Book bookCurr= new Book(book1,user_id);
+                    Book bookCurr = new Book(book1, user_id);
                     mem.add_borrowed_documents(bookCurr);
                     LibraryController.books.add(bookCurr);
                     TrendingController.books.add(bookCurr);
@@ -437,12 +479,12 @@ public class Library {
         }
         Book book1 = null;
         try {
-            book1 =  GoogleBooksAPI.getDocumentDetails(id);
+            book1 = GoogleBooksAPI.getDocumentDetails(id);
         } catch (IOException ignored) {
 
         }
         assert book1 != null;
-        Book book= new Book(book1,user_id);
+        Book book = new Book(book1, user_id);
         LibraryController.books.add(book);
         TrendingController.books.add(book);
 
@@ -557,6 +599,19 @@ public class Library {
         return searchResults;
     }
 
+    public static List<Book> searchForCategory(String category) {
+        List<String> IdsList = GoogleBooksAPI.getCategoryIdList(category);
+        List<Application.com.jmc.backend.Class.Books.Book> searchResults = new ArrayList<>();
+        for (String id : IdsList) {
+            try {
+                searchResults.add(GoogleBooksAPI.getDocumentDetails(id));
+            } catch (IOException e) {
+                System.out.println("Loi ham searchFor trong Library");
+            }
+        }
+        return searchResults;
+    }
+
     public static void add_user_favourite(String book_id, int account_id) {
         System.out.println(book_id);
         System.out.println(account_id);
@@ -627,44 +682,45 @@ public class Library {
 
     public static void loadRecommendedBooks() {
         try {
-             String []  fav = get_user_favourite();
-             if (fav.length!=0) {
-                 for (int i = 0; i < 4; i++) {
-                     recommendCategories[i] = fav[i];
-                 }
-             }
-             for (int i =0;i<4;i++) {
-                 Random random = new Random();
-                 int bookAmount = random.nextInt()%3+1;
-                 Library.recommendedBooks.addAll(GoogleBooksAPI.searchBooksByCategory(recommendCategories[i],bookAmount));
-             }
-        } catch (IOException e ) {
+            String[] fav = get_user_favourite();
+            if (fav.length != 0) {
+                for (int i = 0; i < recommendCategories.length; i++) {
+                    recommendCategories[i] = fav[i];
+                }
+            }
+            for (int i = 0; i < 4; i++) {
+                Random random = new Random();
+                int bookAmount = random.nextInt() % 2 + 1;
+                Library.recommendedBooks.addAll(GoogleBooksAPI.searchBooksByCategory(recommendCategories[i], bookAmount));
+            }
+        } catch (IOException e) {
             System.out.println(e.getMessage());
             System.out.println("Loi khi load recommned Books");
         }
 
     }
+
     public static double getUserRating(String book_id) {
-         int currentMemberId = current_user.getAccount_id();
-         for (BorrowRecord record : recordsLists) {
-             if (record.getBook_id().equals(book_id)&&currentMemberId ==record.getAccount_id()) {
-                 return record.getUserRating();
-             }
-         }
-         return -1;
-    }
-    public static BorrowRecord getRatingRecord (String book_id ) {
         int currentMemberId = current_user.getAccount_id();
         for (BorrowRecord record : recordsLists) {
-            if (record.getBook_id().equals(book_id)&&currentMemberId ==record.getAccount_id()) {
+            if (record.getBook_id().equals(book_id) && currentMemberId == record.getAccount_id()) {
+                return record.getUserRating();
+            }
+        }
+        return -1;
+    }
+
+    public static BorrowRecord getRatingRecord(String book_id) {
+        int currentMemberId = current_user.getAccount_id();
+        for (BorrowRecord record : recordsLists) {
+            if (record.getBook_id().equals(book_id) && currentMemberId == record.getAccount_id()) {
                 return record;
             }
         }
         return null;
     }
 
-    public static void addUserRatingDataBase(String book_id,double rating)
-    {
+    public static void addUserRatingDataBase(String book_id, double rating) {
         int currentMemberId = current_user.getAccount_id();
 
         if (getUserRating(book_id) == -1) {
@@ -692,18 +748,19 @@ public class Library {
             }
         }
     }
+
     public static void addUserRating(String book_id, double rating) {
-        addUserRatingDataBase(book_id,rating);
+        addUserRatingDataBase(book_id, rating);
         BorrowRecord record = getRatingRecord(book_id);
-        if (record==null) {
-            recordsLists.add(new BorrowRecord(Library.current_user.getAccount_id(),book_id,rating));
+        if (record == null) {
+            recordsLists.add(new BorrowRecord(Library.current_user.getAccount_id(), book_id, rating));
         } else {
             recordsLists.remove(record);
-            recordsLists.add(new BorrowRecord(Library.current_user.getAccount_id(),book_id,rating));
+            recordsLists.add(new BorrowRecord(Library.current_user.getAccount_id(), book_id, rating));
         }
     }
 
-    public static void returnBook (String book_id) {
+    public static void returnBook(String book_id) {
         Book bookToReturn = null;
         for (Book book : bookLists) {
             if (book.getBook_id().equals(book_id)) {
@@ -725,9 +782,10 @@ public class Library {
             e.printStackTrace();
         }
     }
-    public static void returnAllBookThroughUser (int user_id) {
 
-        Library.bookLists.removeIf(book-> {
+    public static void returnAllBookThroughUser(int user_id) {
+
+        Library.bookLists.removeIf(book -> {
             return book.getBorrow_user_id().equals(String.valueOf(user_id));
         });
         String updateQuery = "UPDATE book SET available = 1, " +
