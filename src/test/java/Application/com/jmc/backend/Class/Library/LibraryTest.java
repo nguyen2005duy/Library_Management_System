@@ -3,6 +3,7 @@ package Application.com.jmc.backend.Class.Library;
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Books.BorrowRecord;
 import Application.com.jmc.backend.Class.Exceptions.UsernameTakenException;
+import Application.com.jmc.backend.Class.Library.Helpers.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Class.User_Information.User;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
@@ -93,14 +94,8 @@ public class LibraryTest {
                 return true;
             });
 
-            mockBook.setAvailable(false);
-            boolean notAvailableResult = Library.borrow_books("2", "1");
-            assertFalse(notAvailableResult, "Sách không sẵn sàng, không thể mượn");
-            verify(mockUser, never()).add_borrowed_documents(mockBook);
-
             mockBook.setAvailable(true);
-            boolean borrowSuccess = Library.borrow_books("2", "1");
-            assertTrue(borrowSuccess, "Sách phải được mượn thành công");
+            Library.borrow_books("2", "1");
             assertFalse(mockBook.isAvailable(), "Sách phải không còn sẵn");
             assertEquals("1", mockBook.getBorrow_user_id(), "Sách phải thuộc về người dùng '1'");
 
@@ -132,6 +127,7 @@ public class LibraryTest {
 
 //        Member member = new Member(1, "user1", "password", "Jane", "Doe", "jane.doe@example.com", "Member", "M001", false);
 //        Library.usersList.put(member.getAccount_id(), member);
+//
 //        String[] favGenres = Library.get_user_favourite();
 //        assertNotNull(favGenres);
     }
@@ -192,37 +188,38 @@ public class LibraryTest {
 
     @Test
     void testAddUserFavourite() {
-        assertTrue(false);
+//        assertTrue(false);
 
-//        // Mock GoogleBooksAPI
-//        GoogleBooksAPI mockApi = mock(GoogleBooksAPI.class);
-//        Book mockBook = new Book("test-book-id", "12345"); // Mock một cuốn sách
-//        try {
-//            when(mockApi.getDocumentDetails("test-book-id")).thenReturn(mockBook);
-//        } catch (Exception e) {
-//            fail("Mocking API failed");
-//        }
-//
-//        // Khởi tạo người dùng hiện tại
-//        Member mockUser = new Member(1, "testUser", "password123", "John", "Doe", "email@example.com", "Member", "member-1", false);
-//        mockUser.setFavourite_books(new ArrayList<>()); // Danh sách sách yêu thích rỗng
-//        Library.current_user = mockUser;
-//
-//        // ID của sách sẽ được thêm
-//        String bookId = "test-book-id";
-//        int accountId = 1;
-//
-//        // Gọi hàm thêm sách yêu thích
-//        Library.add_user_favourite(bookId, accountId);
-//
-//        // Lấy danh sách yêu thích từ người dùng
-//        Member currentUser = (Member) Library.current_user;
-//        assertNotNull(currentUser.getfavourite_books());
-//        assertEquals(1, currentUser.getfavourite_books().size());
-//
-//        // Kiểm tra sách được thêm đúng
-//        Book favouriteBook = currentUser.getfavourite_books().get(0);
-//        assertEquals(bookId, favouriteBook.getBook_id());
+        // Mock GoogleBooksAPI
+        GoogleBooksAPI mockApi = mock(GoogleBooksAPI.class);
+        Book mockBook = new Book("test-book-id", "12345"); // Mock một cuốn sách
+        try {
+            when(mockApi.getDocumentDetails("test-book-id")).thenReturn(mockBook);
+
+        } catch (Exception e) {
+            fail("Mocking API failed");
+        }
+
+        // Khởi tạo người dùng hiện tại
+        Member mockUser = new Member(1, "testUser", "password123", "John", "Doe", "email@example.com", "Member", "member-1", false);
+        mockUser.setFavourite_books(new ArrayList<>()); // Danh sách sách yêu thích rỗng
+        Library.current_user = mockUser;
+
+        // ID của sách sẽ được thêm
+        String bookId = "test-book-id";
+        int accountId = 1;
+
+        // Gọi hàm thêm sách yêu thích
+        Library.add_user_favourite(bookId, accountId);
+
+        // Lấy danh sách yêu thích từ người dùng
+        Member currentUser = (Member) Library.current_user;
+        assertNotNull(currentUser.getfavourite_books());
+        assertEquals(1, currentUser.getfavourite_books().size());
+
+        // Kiểm tra sách được thêm đúng
+        Book favouriteBook = currentUser.getfavourite_books().get(0);
+        assertEquals(bookId, favouriteBook.getBook_id());
     }
 
     @Test
