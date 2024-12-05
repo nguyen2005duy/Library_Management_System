@@ -57,6 +57,12 @@ public class Check_out_BookController implements Initializable {
     private TextField bookSearchBar;
 
     @FXML
+    private TableColumn<BookSearchModel, ?> author;
+
+    @FXML
+    private TableColumn<BookSearchModel, ?> title;
+
+    @FXML
     private Button search_button;
 
     @FXML
@@ -76,7 +82,7 @@ public class Check_out_BookController implements Initializable {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String BookViewQuery = "SELECT book_id, available, borrowed_user_id, borrowed_date, required_date from book";  // Fixed typo in the SQL query
+        String BookViewQuery = "SELECT book_id, book_title, book_author, available, borrowed_user_id, borrowed_date, required_date from book";  // Fixed typo in the SQL query
 
         try {
             Statement stmt = connectDB.createStatement();
@@ -84,15 +90,19 @@ public class Check_out_BookController implements Initializable {
 
             while (rs.next()) {
                 String query_book_id = rs.getString("book_id");
+                String query_title = rs.getString("book_title");
+                String query_author = rs.getString("book_author");
                 Integer query_borrower_id = rs.getInt("borrowed_user_id");
                 String query_borrow_date = rs.getString("borrowed_date");
                 String query_return_date = rs.getString("required_date");
-                Integer query_available = rs.getInt("available");
+                Integer query_available = rs.getInt("available");  // Corrected spelling of 'available'
 
-                BookSearchModelObservableList.add(new BookSearchModel(query_book_id, query_available, query_borrower_id, query_borrow_date,query_return_date));
+                BookSearchModelObservableList.add(new BookSearchModel(query_book_id,query_title,query_author, query_available, query_borrower_id, query_borrow_date, query_return_date));
             }
 
             Book_ID.setCellValueFactory(new PropertyValueFactory<>("book_id"));
+            title.setCellValueFactory(new PropertyValueFactory<>("book_title"));
+            author.setCellValueFactory(new PropertyValueFactory<>("book_author"));
             Member_id.setCellValueFactory(new PropertyValueFactory<>("borrowed_user_id"));
             borrowed_date.setCellValueFactory(new PropertyValueFactory<>("borrowed_date"));
             returned_date.setCellValueFactory(new PropertyValueFactory<>("required_date"));
@@ -118,6 +128,10 @@ public class Check_out_BookController implements Initializable {
                     // Check if any field (account_id, lastname, or email) contains the search keyword
                     if (member.getBook_id().toLowerCase().contains(searchKeyword)) {
                         return true;  // Match found in account_id
+                    } else if(member.getBook_title().toLowerCase().contains(searchKeyword)) {
+                        return true;
+                    }else if (member.getBook_author().toLowerCase().contains(searchKeyword)) {
+                        return true;
                     } else if (String.valueOf(member.getBorrowed_user_id()).contains(searchKeyword)) {
                         return true;
                     }else if (member.getBorrowed_date().toLowerCase().contains(searchKeyword)) {

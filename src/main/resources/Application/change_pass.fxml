@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="326.0" prefWidth="300.0" style="-fx-background-radius: 0 0 20 20;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.Client.change_passController">
+<AnchorPane prefHeight="326.0" prefWidth="300.0" style="-fx-background-radius: 0 0 20 20;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.change_passController">
    <children>
       <VBox layoutX="60.0" layoutY="71.0" prefHeight="322.0" prefWidth="300.0" style="-fx-background-radius: 0 0 30 30;" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
@@ -23,7 +23,7 @@
                         <Insets bottom="10.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="old_pass_message" prefHeight="18.0" prefWidth="171.0" text="Label">
+                  <Label fx:id="old_pass_message" prefHeight="18.0" prefWidth="171.0">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
@@ -42,7 +42,7 @@
                         <Insets bottom="10.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="new_pass_message" prefHeight="18.0" prefWidth="171.0" text="Label">
+                  <Label fx:id="new_pass_message" prefHeight="18.0" prefWidth="171.0">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
@@ -61,7 +61,7 @@
                         <Insets bottom="10.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="confirm_message" prefHeight="18.0" prefWidth="171.0" text="Label">
+                  <Label fx:id="confirm_message" prefHeight="18.0" prefWidth="171.0">
                      <padding>
                         <Insets left="20.0" />
                      </padding>

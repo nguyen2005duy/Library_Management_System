@@ -111,7 +111,7 @@
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="save_changes" layoutX="704.0" layoutY="727.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="134.0" style="-fx-background-color: #18171C; -fx-background-radius: 10;" stylesheets="@../Styles/avatar.css" text="Save changes" textFill="WHITE">
+      <Button fx:id="save_changes" layoutX="704.0" layoutY="727.0" mnemonicParsing="false" onMouseClicked="#save" prefHeight="44.0" prefWidth="134.0" style="-fx-background-color: #18171C; -fx-background-radius: 10;" stylesheets="@../Styles/avatar.css" text="Save changes" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="14.0" />
          </font>

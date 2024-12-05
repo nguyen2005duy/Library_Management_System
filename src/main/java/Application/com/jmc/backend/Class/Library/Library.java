@@ -316,7 +316,7 @@ public class Library {
         Member cur = (Member) Library.current_user;
         cur.getBorrowed_documents().add(book);
         String insertFields = "INSERT INTO book(book_id,available," +
-                "title,author,borrowed_user_id,borrowed_date,required_date) VALUES (";
+                "book_title,book_author,borrowed_user_id,borrowed_date,required_date) VALUES (";
         String insertValues = "'" + book.getBook_id() + "'," +
                 (book.isAvailable() ? 1 : 0) + "," +
                 "'"+book.getTitle() + "'," +
@@ -345,7 +345,7 @@ public class Library {
         member = (Member) usersList.get(accountId);
         member.getBorrowed_documents().add(book);
         String insertFields = "INSERT INTO book(book_id,available," +
-                "title,author,borrowed_user_id,borrowed_date,required_date) VALUES (";
+                "book_title,book_author,borrowed_user_id,borrowed_date,required_date) VALUES (";
         String insertValues = "'" + book.getBook_id() + "'," +
                 (book.isAvailable() ? 1 : 0) + "," +
                 "'"+book.getTitle() + "'," +

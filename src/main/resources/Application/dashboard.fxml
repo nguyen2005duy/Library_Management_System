@@ -99,11 +99,11 @@
                   <TableView fx:id="TableViewRecent" prefHeight="198.0" prefWidth="786.0" style="-fx-background-color: white;">
                     <columns>
                       <TableColumn fx:id="book_id" prefWidth="75.0" text="Book ID" />
-                      <TableColumn fx:id="title" prefWidth="103.20001983642578" text="Title" />
+                      <TableColumn fx:id="title" prefWidth="136.00003814697266" text="Title" />
                         <TableColumn fx:id="author" prefWidth="112.79998779296875" text="Author" />
-                        <TableColumn fx:id="member_id" prefWidth="96.0" text="Member ID" />
-                        <TableColumn fx:id="borrow_date" prefWidth="128.79995727539062" text="Borrow Date" />
-                        <TableColumn fx:id="return_date" prefWidth="157.59988403320312" text="Return date" />
+                        <TableColumn fx:id="member_id" prefWidth="87.20001220703125" text="Member ID" />
+                        <TableColumn fx:id="borrow_date" prefWidth="135.99990844726562" text="Borrow Date" />
+                        <TableColumn fx:id="return_date" prefWidth="128.00006103515625" text="Return date" />
                         <TableColumn fx:id="avaiable" prefWidth="103.199951171875" text="Avaiable" />
                     </columns>
                   </TableView>
@@ -114,7 +114,7 @@
             </VBox>
             <HBox prefHeight="262.0" prefWidth="715.0" style="-fx-background-color: white;">
                <children>
-                  <VBox prefHeight="262.0" prefWidth="551.0" style="-fx-background-color: white;">
+                  <VBox prefHeight="257.0" prefWidth="855.0" style="-fx-background-color: white;">
                      <children>
                         <HBox prefHeight="40.0" prefWidth="818.0">
                            <children>
@@ -124,20 +124,15 @@
                                  </font>
                               </Label>
                               <Pane prefHeight="40.0" prefWidth="294.0" />
-                              <Label text="View all" textFill="#33d565">
-                                 <padding>
-                                    <Insets top="5.0" />
-                                 </padding>
-                              </Label>
                            </children>
                         </HBox>
-                        <TableView fx:id="TableViewDue" prefHeight="159.0" prefWidth="443.0" style="-fx-background-color: white;">
+                        <TableView fx:id="TableViewDue" prefHeight="159.0" prefWidth="799.0" style="-fx-background-color: white;">
                            <columns>
-                              <TableColumn fx:id="book_id_due" prefWidth="84.79998624324799" text="Book ID" />
-                              <TableColumn fx:id="title_due" prefWidth="106.40003204345703" text="Title" />
-                              <TableColumn fx:id="member_id_due" prefWidth="91.99993896484375" text="Member ID" />
-                              <TableColumn fx:id="due_date" prefWidth="106.39996337890625" text="Due date" />
-                              <TableColumn fx:id="fine" prefWidth="102.4000244140625" text="Fine" />
+                              <TableColumn fx:id="book_id_due" prefWidth="120.79998624324799" text="Book ID" />
+                              <TableColumn fx:id="title_due" prefWidth="233.59998321533203" text="Title" />
+                              <TableColumn fx:id="member_id_due" prefWidth="155.20001220703125" text="Member ID" />
+                              <TableColumn fx:id="due_date" prefWidth="138.4000244140625" text="Due date" />
+                              <TableColumn fx:id="fine" prefWidth="133.59991455078125" text="Fine" />
                            </columns>
                         </TableView>
                      </children>

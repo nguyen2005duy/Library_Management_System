@@ -26,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 public class SearchResultAdminController implements Initializable {
 
@@ -56,6 +57,9 @@ public class SearchResultAdminController implements Initializable {
     private Label results;
 
     @FXML
+    private Label message;
+
+    @FXML
     private TableColumn<BookSearchModel, ?> title;
 
     @FXML
@@ -72,21 +76,29 @@ public class SearchResultAdminController implements Initializable {
                 bookSearchModel = book;
                 book.getButton().setVisible(true);
                 book.getButton().setOnAction(actionEvent -> {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Confirmation");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Are you sure you want to add this book to this member?");
-                    if (alert.showAndWait().get() == ButtonType.OK){
-                        try {
-                            BookSearchModelObservableList.remove(book);
-                            Library.borrow_books(book.getBook_id(), user_id.getText());
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
+                    if (user_id.getText().isEmpty()) {
+                        message.setText("Please enter user ID");
+                        message.setTextFill(Color.RED);
+                    }
+                    else {
+                        message.setText("");
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Confirmation");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Are you sure you want to add this book to this member?");
+                        if (alert.showAndWait().get() == ButtonType.OK) {
+                            try {
+                                BookSearchModelObservableList.remove(book);
+                                Library.borrow_books(book.getBook_id(), user_id.getText());
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 });
             } catch (NullPointerException e) {
                 System.out.println(e.getMessage());
+
             }
         }
         else {
@@ -115,7 +127,8 @@ public class SearchResultAdminController implements Initializable {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
         System.out.println(Model.getInstance().getSearchString());
-
+        results.setText("Result for " + Model.getInstance().getSearchString());
+        number_of_results.setText(String.valueOf(BookSearchModelObservableList) + " Resluts");
         String BookViewQuery = "SELECT book_id, book_title, book_author, available from book";  // Fixed typo in the SQL query
         List<String> list1 = GoogleBooksAPI.getIdList(Model.getInstance().getSearchString());
 

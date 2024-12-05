@@ -1,27 +1,19 @@
-package Application.com.jmc.backend.Controller.Client;
+package Application.com.jmc.backend.Controller;
 
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
-import Application.com.jmc.backend.Class.User_Information.User;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
-import Application.com.jmc.backend.Model.Model;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
-
-import static java.awt.Color.red;
 
 public class change_passController implements Initializable {
 

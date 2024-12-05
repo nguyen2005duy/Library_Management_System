@@ -98,8 +98,8 @@ public class DashboardController implements Initializable {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String BookViewQuery = "SELECT book_id, available, borrowed_user_id, borrowed_date, required_date from book";  // Fixed typo in the SQL query
-        String DueBookQuery = "SELECT book_id,title, borrowed_user_id, DATEDIFF(required_date, NOW()) as due_date, (2 * DATEDIFF(required_date, NOW())) as fine from book";
+        String BookViewQuery = "SELECT book_id,book_title, book_author, available, borrowed_user_id, borrowed_date, required_date from book";  // Fixed typo in the SQL query
+        String DueBookQuery = "SELECT book_id,book_title, borrowed_user_id, DATEDIFF(required_date, NOW()) as due_date, (2 * DATEDIFF(required_date, NOW())) as fine from book";
         //Book
         try {
             Statement stmt = connectDB.createStatement();
@@ -107,15 +107,19 @@ public class DashboardController implements Initializable {
 
             while (rs.next()) {
                 String query_book_id = rs.getString("book_id");
+                String query_title = rs.getString("book_title");
+                String query_author = rs.getString("book_author");
                 Integer query_borrower_id = rs.getInt("borrowed_user_id");
                 String query_borrow_date = rs.getString("borrowed_date");
                 String query_return_date = rs.getString("required_date");
                 Integer query_available = rs.getInt("available");  // Corrected spelling of 'available'
 
-                BookSearchModelObservableList.add(new BookSearchModel(query_book_id, query_available, query_borrower_id, query_borrow_date, query_return_date));
+                BookSearchModelObservableList.add(new BookSearchModel(query_book_id,query_title,query_author, query_available, query_borrower_id, query_borrow_date, query_return_date));
             }
 
             book_id.setCellValueFactory(new PropertyValueFactory<>("book_id"));
+            title.setCellValueFactory(new PropertyValueFactory<>("book_title"));
+            author.setCellValueFactory(new PropertyValueFactory<>("book_author"));
             member_id.setCellValueFactory(new PropertyValueFactory<>("borrowed_user_id"));
             borrow_date.setCellValueFactory(new PropertyValueFactory<>("borrowed_date"));
             return_date.setCellValueFactory(new PropertyValueFactory<>("required_date"));
@@ -135,7 +139,7 @@ public class DashboardController implements Initializable {
 
             while (rs.next()) {
                 String query_book_id = rs.getString("book_id");
-                String query_book_title = rs.getString("title");
+                String query_book_title = rs.getString("book_title");
                 Integer query_borrower_id = rs.getInt("borrowed_user_id");
                 Integer query_due_date = rs.getInt("due_date");
                 Integer query_fine = rs.getInt("fine");  // Corrected spelling of 'available'
@@ -144,7 +148,7 @@ public class DashboardController implements Initializable {
             }
 
             book_id_due.setCellValueFactory(new PropertyValueFactory<>("book_id"));
-            title_due.setCellValueFactory(new PropertyValueFactory<>("title"));
+            title_due.setCellValueFactory(new PropertyValueFactory<>("book_title"));
             member_id_due.setCellValueFactory(new PropertyValueFactory<>("borrowed_user_id"));
             due_date.setCellValueFactory(new PropertyValueFactory<>("due_date"));
             fine.setCellValueFactory(new PropertyValueFactory<>("fine"));  // Corrected to match the property

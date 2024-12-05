@@ -60,12 +60,14 @@
             </HBox>
             <TableView fx:id="TableViewBook" onMouseClicked="#rowclicked" prefHeight="598.0" prefWidth="798.0" style="-fx-background-color: white;">
                <columns>
-                  <TableColumn fx:id="Book_ID" prefWidth="132.00000607967377" text="Book ID" />
-                  <TableColumn fx:id="Member_id" prefWidth="118.39996337890625" text="Member ID" />
-                  <TableColumn fx:id="borrowed_date" prefWidth="137.5999755859375" text="Borrowed Date" />
-                  <TableColumn fx:id="returned_date" prefWidth="156.00003051757812" text="Returned Date" />
-                  <TableColumn fx:id="status" prefWidth="143.99993896484375" text="Status" />
-                  <TableColumn fx:id="Action" prefWidth="113.60001220703123" text="Action" />
+                  <TableColumn fx:id="Book_ID" prefWidth="115.99996793270111" text="Book ID" />
+                  <TableColumn fx:id="title" prefWidth="115.46674346923828" text="Title" />
+                  <TableColumn fx:id="author" prefWidth="121.33331298828125" text="Author" />
+                  <TableColumn fx:id="Member_id" prefWidth="85.066650390625" text="Member ID" />
+                  <TableColumn fx:id="borrowed_date" prefWidth="100.53323364257812" text="Borrowed Date" />
+                  <TableColumn fx:id="returned_date" prefWidth="112.2667236328125" text="Returned Date" />
+                  <TableColumn fx:id="status" prefWidth="49.86651611328125" text="Status" />
+                  <TableColumn fx:id="Action" prefWidth="96.533447265625" text="Action" />
                </columns>
                <VBox.margin>
                   <Insets left="50.0" right="30.0" />

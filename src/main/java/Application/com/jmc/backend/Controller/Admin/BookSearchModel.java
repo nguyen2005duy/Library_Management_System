@@ -39,8 +39,10 @@ public class BookSearchModel {
         this.fine = new SimpleIntegerProperty(fine);// Corrected spelling
     }
 
-    public BookSearchModel(String book_id, Integer available, Integer borrowed_user_id, String borrowed_date, String required_date ) {
+    public BookSearchModel(String book_id, String book_title, String book_author, Integer available, Integer borrowed_user_id, String borrowed_date, String required_date ) {
         this.book_id = new SimpleStringProperty(book_id);
+        this.book_author =new SimpleStringProperty(book_author);
+        this.book_title = new SimpleStringProperty(book_title);
         this.borrowed_user_id = new SimpleIntegerProperty(borrowed_user_id);
         this.borrowed_date = new SimpleStringProperty(borrowed_date);
         this.required_date = new SimpleStringProperty(required_date);
