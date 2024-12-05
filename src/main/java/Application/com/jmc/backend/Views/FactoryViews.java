@@ -4,6 +4,7 @@ import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Controller.*;
 
 import Application.com.jmc.backend.Controller.Admin.AdminController;
+import Application.com.jmc.backend.Controller.Admin.SearchResultAdminController;
 import Application.com.jmc.backend.Controller.Client.ClientController;
 import Application.com.jmc.backend.Controller.Client.FavouriteController;
 import Application.com.jmc.backend.Controller.Client.SearchResultsController;
@@ -37,6 +38,7 @@ public class FactoryViews {
     private final ObjectProperty<AdminMenuOptions> adminSelectedMenuItem;
     private AccountType accountType;
     private SearchResultsController searchResultsController;
+    private SearchResultAdminController adminSearchResultsController;
 
     public FactoryViews() {
         this.accountType = AccountType.Librarian;
@@ -63,11 +65,15 @@ public class FactoryViews {
     public AnchorPane getAdminSearchView(){
         if(AdminSearchView == null){
             try{
-                AdminSearchView = new FXMLLoader(getClass().getResource("/Application/search_results_admin.fxml")).load();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/search_results_admin.fxml"));
+                AdminSearchView = loader.load();
+                adminSearchResultsController = loader.getController();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        adminSearchResultsController.refreshSearchResultAdminController();
         return AdminSearchView;
     }
 
