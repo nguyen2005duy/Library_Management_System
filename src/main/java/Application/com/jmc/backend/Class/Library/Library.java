@@ -4,7 +4,6 @@ import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Books.BorrowRecord;
 import Application.com.jmc.backend.Class.Exceptions.UsernameTakenException;
 import Application.com.jmc.backend.Class.Helpers.GoogleBooksAPI;
-import Application.com.jmc.backend.Class.User_Information.Librarian;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Class.User_Information.User;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
@@ -259,8 +258,7 @@ public class Library {
                         System.out.println("No member details found for account ID: " + account_id);
                     }
                 } else {
-                    User user = new Librarian(account_id,username,password,firstname,lastname,email,role);
-                    usersList.put(user.getAccount_id(),user);
+                    System.out.println("Skipping non-Member user: " + username);
                 }
             }
         } catch (SQLException e) {

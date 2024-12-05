@@ -57,7 +57,7 @@ public class BookSearchModel {
         this.available = new SimpleIntegerProperty(available);
         this.button = new Button("Check in");
         this.button.setVisible(false);
-        this.button.getStylesheets().add(getClass().getResource("/Styles/button.css").toExternalForm());
+        this.button.getStylesheets().add(getClass().getResource("/Styles/check-in_button.css").toExternalForm());
     }
 
     public String getBook_id() {

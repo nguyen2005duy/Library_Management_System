@@ -47,6 +47,9 @@ public class SearchResultAdminController implements Initializable {
     private TableView<BookSearchModel> book_search;
 
     @FXML
+    private TextField user_id;
+
+    @FXML
     private Label number_of_results;
 
     @FXML
@@ -65,18 +68,45 @@ public class SearchResultAdminController implements Initializable {
         if (bookSearchModel != null) {
             try {
                 bookSearchModel.getButton().setVisible(false);
-                BookSearchModel mem = book_search.getSelectionModel().getSelectedItem();
-                bookSearchModel = mem;
-                mem.getButton().setVisible(true);
-
+                BookSearchModel book = book_search.getSelectionModel().getSelectedItem();
+                bookSearchModel = book;
+                book.getButton().setVisible(true);
+                book.getButton().setOnAction(actionEvent -> {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Are you sure you want to add this book to this member?");
+                    if (alert.showAndWait().get() == ButtonType.OK){
+                        try {
+                            BookSearchModelObservableList.remove(book);
+                            Library.borrow_books(book.getBook_id(), user_id.getText());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
             } catch (NullPointerException e) {
                 System.out.println(e.getMessage());
             }
         }
         else {
-            BookSearchModel mem = book_search.getSelectionModel().getSelectedItem();
-            bookSearchModel = mem;
-            mem.getButton().setVisible(true);
+            BookSearchModel book = book_search.getSelectionModel().getSelectedItem();
+            bookSearchModel = book;
+            book.getButton().setVisible(true);
+            book.getButton().setOnAction(actionEvent -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to add this book to this member?");
+                if (alert.showAndWait().get() == ButtonType.OK){
+                    try {
+                        BookSearchModelObservableList.remove(book);
+                        Library.borrow_books(book.getBook_id(),user_id.getText());
+                    } catch (NullPointerException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
         }
     }
 

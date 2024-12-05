@@ -186,7 +186,7 @@ public class LoginController implements Initializable {
             Model.getInstance().getFactoryViews().showLoadingView();
         }
         else{
-            System.out.println(Library.current_user);
+            Library.init_current_user(UsernameField.getText(),passwordField.getText());
             Library.init_Library_Admin();
             Model.getInstance().getFactoryViews().showLoadingView();
         }
