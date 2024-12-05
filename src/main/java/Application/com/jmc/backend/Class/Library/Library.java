@@ -261,8 +261,8 @@ public class Library {
                         System.out.println("No member details found for account ID: " + account_id);
                     }
                 } else {
-                    User user = new Librarian(account_id,username,password,firstname,lastname,email,role);
-                    usersList.put(user.getAccount_id(),user);
+                    User user = new Librarian(account_id, username, password, firstname, lastname, email, role);
+                    usersList.put(user.getAccount_id(), user);
                 }
             }
         } catch (SQLException e) {
@@ -315,9 +315,12 @@ public class Library {
         bookLists.add(book);
         Member cur = (Member) Library.current_user;
         cur.getBorrowed_documents().add(book);
-        String insertFields = "INSERT INTO book(book_id,available,borrowed_user_id,borrowed_date,required_date) VALUES (";
+        String insertFields = "INSERT INTO book(book_id,available," +
+                "title,author,borrowed_user_id,borrowed_date,required_date) VALUES (";
         String insertValues = "'" + book.getBook_id() + "'," +
                 (book.isAvailable() ? 1 : 0) + "," +
+                "'"+book.getTitle() + "'," +
+                "'"+book.getAuthor() + "'," +
                 book.getBorrowUserId() + ",'" +
                 book.getBorrowedDate() + "','" +
                 book.getRequiredDate() + "')";
@@ -341,9 +344,12 @@ public class Library {
         Member member = null;
         member = (Member) usersList.get(accountId);
         member.getBorrowed_documents().add(book);
-        String insertFields = "INSERT INTO book(book_id,available,borrowed_user_id,borrowed_date,required_date) VALUES (";
+        String insertFields = "INSERT INTO book(book_id,available," +
+                "title,author,borrowed_user_id,borrowed_date,required_date) VALUES (";
         String insertValues = "'" + book.getBook_id() + "'," +
                 (book.isAvailable() ? 1 : 0) + "," +
+                "'"+book.getTitle() + "'," +
+                "'"+book.getAuthor() + "'," +
                 book.getBorrowUserId() + ",'" +
                 book.getBorrowedDate() + "','" +
                 book.getRequiredDate() + "')";
@@ -478,6 +484,8 @@ public class Library {
                 if (book.isAvailable()) {
                     book.check_in(user_id);
                     String updateQuery = "UPDATE book SET available = 0, " +
+                            "title = " + book.getTitle() + ", " +
+                            "author = " + book.getAuthor() + ", " +
                             "borrowed_user_id = " + book.getBorrowUserId() + ", " +
                             "borrowed_date = '" + book.getBorrowedDate() + "', " +
                             "required_date = '" + book.getRequiredDate() + "' " +
@@ -526,7 +534,7 @@ public class Library {
         if (Model.getInstance().getFactoryViews().getAccountType() == AccountType.Member) {
             add_book(book);
         } else {
-            add_book(book,Integer.parseInt(user_id));
+            add_book(book, Integer.parseInt(user_id));
         }
     }
 
@@ -542,7 +550,7 @@ public class Library {
         String returnDate = sqlDate.toString();
         String insertFields = "INSERT INTO borrow_record(book_id, account_id,rating) VALUES ('";
         String insertValues = book.getBook_id() + "','" + book.getBorrowUserId() +
-                 userRating + "')";
+                userRating + "')";
         String insertToRecord = insertFields + insertValues;
         try {
             Statement stmt = connectDB.createStatement();
@@ -807,7 +815,7 @@ public class Library {
             }
         }
         assert bookToReturn != null;
-        String updateQuery = "DELETE FROM book WHERE book_id = '" + bookToReturn.getBook_id() +"'";
+        String updateQuery = "DELETE FROM book WHERE book_id = '" + bookToReturn.getBook_id() + "'";
         bookLists.remove(bookToReturn);
         try {
             Statement stmt = connectDB.createStatement();

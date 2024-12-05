@@ -156,7 +156,7 @@ public class GoogleBooksAPI {
                 System.err.println("Error parsing JSON response: " + e.getMessage());
             }
         } catch (IOException e) {
-            System.out.println("Loi khi tim ID trong getIdList googleapi");
+            System.out.println("Loi khi tim ID trong getICategorydList googleapi");
         }
         return IdsList;
     }
@@ -354,7 +354,7 @@ public class GoogleBooksAPI {
                 System.err.println("Error parsing JSON response: " + e.getMessage());
             }
         } catch (IOException e) {
-            System.out.println("Loi khi tim ID trong getIdList googleapi");
+            System.out.println("Loi khi tim cover trong  googleapi");
         }
         return image;
     }
