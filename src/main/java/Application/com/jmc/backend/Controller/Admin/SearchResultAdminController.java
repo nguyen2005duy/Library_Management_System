@@ -1,19 +1,23 @@
 package Application.com.jmc.backend.Controller.Admin;
 
 import Application.com.jmc.backend.Class.Books.Book;
+import Application.com.jmc.backend.Class.Helpers.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
+import Application.com.jmc.backend.Model.Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.Initializable;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,25 +84,24 @@ public class SearchResultAdminController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
+        System.out.println(Model.getInstance().getSearchString());
 
         String BookViewQuery = "SELECT book_id, book_title, book_author, available from book";  // Fixed typo in the SQL query
+        List<String> list1 = GoogleBooksAPI.getIdList(Model.getInstance().getSearchString());
 
         try {
-            Statement stmt = connectDB.createStatement();
-            ResultSet rs = stmt.executeQuery(BookViewQuery);
-
-            while (rs.next()) {
-                String query_book_id = rs.getString("book_id");
-                String query_title = rs.getString("book_title");
-                String query_author = rs.getString("book_author");
-                Integer query_available = rs.getInt("available");
-
-                BookSearchModelObservableList.add(new BookSearchModel(query_book_id,query_title,query_author, query_available));
+            for (String id : list1) {
+                try{
+                Book book = GoogleBooksAPI.getDocumentDetails(id);
+                BookSearchModelObservableList.add(new BookSearchModel(book.getBook_id(), book.getTitle(), book.getAuthor(), book.isAvailable() ? 1: 0));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             book_id.setCellValueFactory(new PropertyValueFactory<>("book_id"));
             title.setCellValueFactory(new PropertyValueFactory<>("book_title"));
-            author.setCellValueFactory(new PropertyValueFactory<>("book_title"));
+            author.setCellValueFactory(new PropertyValueFactory<>("book_author"));
             available.setCellValueFactory(new PropertyValueFactory<>("available"));// Corrected to match the property
             action.setCellValueFactory(new PropertyValueFactory<>("button"));
             book_search.setItems(BookSearchModelObservableList);
@@ -140,7 +143,7 @@ public class SearchResultAdminController implements Initializable {
             sortedData.comparatorProperty().bind(book_search.comparatorProperty());
             book_search.setItems(sortedData);
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             Logger.getLogger(SearchResultAdminController.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();
         }

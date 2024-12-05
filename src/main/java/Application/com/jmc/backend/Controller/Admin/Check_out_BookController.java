@@ -61,7 +61,9 @@ public class Check_out_BookController implements Initializable {
 
     @FXML
     void search(MouseEvent event) {
+        Model.getInstance().setSearchString(bookSearchBar.getText());
         Model.getInstance().getFactoryViews().getAdminSelectedMenuItem().set(AdminMenuOptions.SEARCH);
+        System.out.println(Model.getInstance().getSearchString());
     }
 
     ObservableList<BookSearchModel> BookSearchModelObservableList= FXCollections.observableArrayList();

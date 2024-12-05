@@ -74,7 +74,9 @@ public class DashboardController implements Initializable {
 
     @FXML
     void search(MouseEvent event) {
+        Model.getInstance().setSearchString(bookSearchBar.getText());
         Model.getInstance().getFactoryViews().getAdminSelectedMenuItem().set(AdminMenuOptions.SEARCH);
+        System.out.println(Model.getInstance().getSearchString());
 
     }
 
