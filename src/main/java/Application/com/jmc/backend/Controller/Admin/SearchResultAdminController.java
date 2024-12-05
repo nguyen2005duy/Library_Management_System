@@ -98,7 +98,7 @@ public class SearchResultAdminController implements Initializable {
 
             book_id.setCellValueFactory(new PropertyValueFactory<>("book_id"));
             title.setCellValueFactory(new PropertyValueFactory<>("book_title"));
-            author.setCellValueFactory(new PropertyValueFactory<>("book_title"));
+            author.setCellValueFactory(new PropertyValueFactory<>("book_author"));
             available.setCellValueFactory(new PropertyValueFactory<>("available"));// Corrected to match the property
             action.setCellValueFactory(new PropertyValueFactory<>("button"));
             book_search.setItems(BookSearchModelObservableList);
