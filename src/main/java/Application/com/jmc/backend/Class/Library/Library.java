@@ -212,8 +212,8 @@ public class Library {
      */
     public static void loadUserBookLists() {
         bookLists.forEach(v -> {
-            if (v.getBorrow_user_id() != null) {
-                if (usersList.get(Integer.parseInt(v.getBorrow_user_id())) instanceof Member mem) {
+            if (v.getBorrowUserId() != null) {
+                if (usersList.get(Integer.parseInt(v.getBorrowUserId())) instanceof Member mem) {
                     mem.add_book(v);
                 }
             }
@@ -314,9 +314,9 @@ public class Library {
         String insertFields = "INSERT INTO book(book_id,available,borrowed_user_id,borrowed_date,required_date) VALUES (";
         String insertValues = "'" + book.getBook_id() + "'," +
                 (book.isAvailable() ? 1 : 0) + "," +
-                book.getBorrow_user_id() + ",'" +
-                book.getBorrowed_date() + "','" +
-                book.getRequired_date() + "')";
+                book.getBorrowUserId() + ",'" +
+                book.getBorrowedDate() + "','" +
+                book.getRequiredDate() + "')";
         String insertToDownloadBooks = insertFields + insertValues;
 
         System.out.println(insertToDownloadBooks);
@@ -448,9 +448,9 @@ public class Library {
                 if (book.isAvailable()) {
                     book.check_in(user_id);
                     String updateQuery = "UPDATE book SET available = 0, " +
-                            "borrowed_user_id = " + book.getBorrow_user_id() + ", " +
-                            "borrowed_date = '" + book.getBorrowed_date() + "', " +
-                            "required_date = '" + book.getRequired_date() + "' " +
+                            "borrowed_user_id = " + book.getBorrowUserId() + ", " +
+                            "borrowed_date = '" + book.getBorrowedDate() + "', " +
+                            "required_date = '" + book.getRequiredDate() + "' " +
                             "WHERE book_id = '" + book.getBook_id() + "'";
                     Member mem = (Member) usersList.get(Integer.parseInt(user_id));
                     Book book1 = null;
@@ -501,9 +501,9 @@ public class Library {
         LocalDate today = LocalDate.now();
         Date sqlDate = Date.valueOf(today);
         String returnDate = sqlDate.toString();
-        String insertFields = "INSERT INTO borrow_record(book_id, account_id) VALUES ('";
-        String insertValues = book.getBook_id() + "','" + book.getBorrow_user_id() +
-                "','" + book.getBorrowed_date() + "','" + returnDate + "','" + userRating + "')";
+        String insertFields = "INSERT INTO borrow_record(book_id, account_id,rating) VALUES ('";
+        String insertValues = book.getBook_id() + "','" + book.getBorrowUserId() +
+                 userRating + "')";
         String insertToRecord = insertFields + insertValues;
         try {
             Statement stmt = connectDB.createStatement();
@@ -524,9 +524,9 @@ public class Library {
         Date sqlDate = Date.valueOf(today);
         String returnDate = sqlDate.toString();
         String insertFields = "INSERT INTO borrow_record(book_id, account_id) VALUES ('";
-        String insertValues = book.getBook_id() + "','" + book.getBorrow_user_id() + "')";
+        String insertValues = book.getBook_id() + "','" + book.getBorrowUserId() + "')";
         String insertToRecord = insertFields + insertValues;
-        Library.recordsLists.add(new BorrowRecord(Integer.parseInt(book.getBorrow_user_id()), book.getBook_id()));
+        Library.recordsLists.add(new BorrowRecord(Integer.parseInt(book.getBorrowUserId()), book.getBook_id()));
         try {
             Statement stmt = connectDB.createStatement();
             stmt.executeUpdate(insertToRecord);
@@ -786,7 +786,7 @@ public class Library {
     public static void returnAllBookThroughUser(int user_id) {
 
         Library.bookLists.removeIf(book -> {
-            return book.getBorrow_user_id().equals(String.valueOf(user_id));
+            return book.getBorrowUserId().equals(String.valueOf(user_id));
         });
         String updateQuery = "UPDATE book SET available = 1, " +
                 "borrowed_user_id = " + null + ", " +

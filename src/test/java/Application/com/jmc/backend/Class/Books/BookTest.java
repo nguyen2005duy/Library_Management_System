@@ -24,10 +24,10 @@ class BookTest {
         System.out.println(book);
 
         assertEquals("1", book.getBook_id());
-        assertEquals("1", book.getBorrow_user_id());
-        assertNotNull(book.getBorrowed_date());
-        assertNotNull(book.getRequired_date());
-        assertTrue(book.getRequired_date().after(book.getBorrowed_date()));
+        assertEquals("1", book.getBorrowUserId());
+        assertNotNull(book.getBorrowedDate());
+        assertNotNull(book.getRequiredDate());
+        assertTrue(book.getRequiredDate().after(book.getBorrowedDate()));
     }
 
     @Test
@@ -51,12 +51,12 @@ class BookTest {
         assertEquals("2", book.getBook_id());
         assertEquals("Harry Potter", book.getTitle());
         assertEquals("J.K. Rowling", book.getAuthor());
-        assertEquals("1997-06-26", book.getPublished_date());
+        assertEquals("1997-06-26", book.getPublishedDate());
         assertEquals("223", book.getPages());
-        assertEquals("2", book.getBorrow_user_id());
+        assertEquals("2", book.getBorrowUserId());
         assertArrayEquals(categories, book.getCategories());
-        assertEquals(borrowedDate, book.getBorrowed_date());
-        assertEquals(requiredDate, book.getRequired_date());
+        assertEquals(borrowedDate, book.getBorrowedDate());
+        assertEquals(requiredDate, book.getRequiredDate());
         assertFalse(book.isAvailable());
     }
 
@@ -76,7 +76,7 @@ class BookTest {
         assertEquals("3", book.getBook_id());
         assertEquals("Dune", book.getTitle());
         assertEquals("Frank Herbert", book.getAuthor());
-        assertEquals("1965-08-01", book.getPublished_date());
+        assertEquals("1965-08-01", book.getPublishedDate());
         assertEquals("412", book.getPages());
         assertArrayEquals(categories, book.getCategories());
         assertTrue(book.isAvailable());
@@ -88,9 +88,9 @@ class BookTest {
         book.check_in("4");
 
         assertFalse(book.isAvailable());
-        assertEquals("4", book.getBorrow_user_id());
-        assertNotNull(book.getBorrowed_date());
-        assertNotNull(book.getRequired_date());
+        assertEquals("4", book.getBorrowUserId());
+        assertNotNull(book.getBorrowedDate());
+        assertNotNull(book.getRequiredDate());
     }
 
     @Test
@@ -99,9 +99,9 @@ class BookTest {
         book.check_out();
 
         assertTrue(book.isAvailable());
-        assertNull(book.getBorrow_user_id());
-        assertNull(book.getBorrowed_date());
-        assertNull(book.getRequired_date());
+        assertNull(book.getBorrowUserId());
+        assertNull(book.getBorrowedDate());
+        assertNull(book.getRequiredDate());
     }
 
     @Test
@@ -142,9 +142,9 @@ class BookTest {
         mockBook = new Book("1", "1");
 
         assertEquals("1", mockBook.getBook_id());
-        assertEquals("1", mockBook.getBorrow_user_id());
-        assertNotNull(mockBook.getBorrowed_date());
-        assertNotNull(mockBook.getRequired_date());
-        assertTrue(mockBook.getRequired_date().after(mockBook.getBorrowed_date()));
+        assertEquals("1", mockBook.getBorrowUserId());
+        assertNotNull(mockBook.getBorrowedDate());
+        assertNotNull(mockBook.getRequiredDate());
+        assertTrue(mockBook.getRequiredDate().after(mockBook.getBorrowedDate()));
     }
 }

@@ -68,7 +68,7 @@ public class bookCardHBoxController implements Initializable {
             title.setText("Title: " + book.getTitle());
             author.setText("Author: " + book.getAuthor());
             LocalDate currentDate = new Date(System.currentTimeMillis()).toLocalDate();
-            LocalDate requiredLocalDate = book.getRequired_date().toLocalDate();
+            LocalDate requiredLocalDate = book.getRequiredDate().toLocalDate();
 
             exprired_date.setText("Expired Date:" + requiredLocalDate);
             long daysLeft = ChronoUnit.DAYS.between(currentDate, requiredLocalDate);

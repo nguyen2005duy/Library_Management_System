@@ -412,13 +412,16 @@ public class GoogleBooksAPI {
 
             String[] dataBaseInfos = Library.loadBookBorrowedId(book_id);
             if (dataBaseInfos.length > 1) {
-                doc = new Book(book_id, title, author, categories, publishedDate, pageCount);
+                //Changed
+                doc = new Book(book_id, title, author, pageCount, categories, publishedDate);
+
                 doc.setAvailable(false);
-                doc.setBorrow_user_id(dataBaseInfos[1]);
+                doc.setBorrowUserId(dataBaseInfos[1]);
                 doc.setBorrowed_Date(dataBaseInfos[2]);
                 doc.setRequired_date(dataBaseInfos[3]);
             } else {
-                doc = new Book(book_id, title, author, categories, publishedDate, pageCount);
+                //Changed
+                doc = new Book(book_id, title, author, pageCount, categories, publishedDate);
                 doc.setAvailable(true);
             }
             doc.setRating("Not rated");
