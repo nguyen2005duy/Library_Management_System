@@ -336,6 +336,32 @@ public class Library {
         }
     }
 
+    public static void add_book(Book book, int accountId) {
+        bookLists.add(book);
+        Member member = null;
+        member = (Member) usersList.get(accountId);
+        member.getBorrowed_documents().add(book);
+        String insertFields = "INSERT INTO book(book_id,available,borrowed_user_id,borrowed_date,required_date) VALUES (";
+        String insertValues = "'" + book.getBook_id() + "'," +
+                (book.isAvailable() ? 1 : 0) + "," +
+                book.getBorrowUserId() + ",'" +
+                book.getBorrowedDate() + "','" +
+                book.getRequiredDate() + "')";
+        String insertToDownloadBooks = insertFields + insertValues;
+
+        System.out.println(insertToDownloadBooks);
+        System.out.println(book.getBook_id());
+
+        try {
+            Statement stmt = connectDB.createStatement();
+            stmt.executeUpdate(insertToDownloadBooks);
+        } catch (SQLException e) {
+            System.out.println("Loi khi them book vao database.");////
+            e.getCause();
+            return;
+        }
+    }
+
 
     /**
      * them nguoi dung vao usersList va co so du lieu.
@@ -497,8 +523,11 @@ public class Library {
             LibraryController.books.add(book);
             TrendingController.books.add(book);
         }
-
-        add_book(book);
+        if (Model.getInstance().getFactoryViews().getAccountType() == AccountType.Member) {
+            add_book(book);
+        } else {
+            add_book(book,Integer.parseInt(user_id));
+        }
     }
 
     /**
