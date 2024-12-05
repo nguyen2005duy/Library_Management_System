@@ -18,6 +18,7 @@ public class AdminController implements Initializable {
                 case CHECK_OUT -> admin_parent.setCenter(Model.getInstance().getFactoryViews().getCheckoutView());
                 case DASHBOARD -> admin_parent.setCenter(Model.getInstance().getFactoryViews().getDashboardView());
                 case PROFILE -> admin_parent.setCenter(Model.getInstance().getFactoryViews().getAdminProfileView());
+                case SEARCH -> admin_parent.setCenter(Model.getInstance().getFactoryViews().getAdminSearchView());
             }
         });
     }

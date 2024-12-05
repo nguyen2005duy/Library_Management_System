@@ -9,9 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -72,6 +70,18 @@ public class DashboardController implements Initializable {
     private Label user_numbers;
 
     @FXML
+    private TextField bookSearchBar;
+
+    @FXML
+    void search(MouseEvent event) {
+        Model.getInstance().getFactoryViews().getAdminSelectedMenuItem().set(AdminMenuOptions.SEARCH);
+
+    }
+
+    @FXML
+    private Button search_button;
+
+    @FXML
     void loadBook(MouseEvent event) {
         Model.getInstance().getFactoryViews().getAdminSelectedMenuItem().set(AdminMenuOptions.CHECK_OUT);
     }
@@ -81,7 +91,8 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        user_numbers.setText(String.valueOf(Library.bookLists.size()));
+        user_numbers.setText(String.valueOf(Library.usersList.size()));
+        user_numbers.setText(String.valueOf(MembersController.MemberSearchModelObservableList.size()));
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 

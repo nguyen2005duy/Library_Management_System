@@ -4,5 +4,6 @@ public enum AdminMenuOptions {
     DASHBOARD,
     CHECK_OUT,
     MEMBERS,
-    PROFILE
+    PROFILE,
+    SEARCH
 }

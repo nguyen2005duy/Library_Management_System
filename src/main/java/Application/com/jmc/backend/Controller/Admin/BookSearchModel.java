@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 public class BookSearchModel {
     private final StringProperty book_id;
     private  StringProperty book_title;
+    private StringProperty book_author;
     private  IntegerProperty borrowed_user_id;
     private  StringProperty borrowed_date;
     private  StringProperty required_date;
@@ -17,9 +18,10 @@ public class BookSearchModel {
     private IntegerProperty fine;
     private Button button;// Corrected spelling
 
-    public BookSearchModel(String book_id, String book_title,Integer borrowed_user_id, String borrowed_date, String required_date, Integer available, Integer due_date, Integer fine) {
+    public BookSearchModel(String book_id, String book_title,String book_author,Integer borrowed_user_id, String borrowed_date, String required_date, Integer available, Integer due_date, Integer fine) {
         this.book_id = new SimpleStringProperty(book_id);
         this.book_title = new SimpleStringProperty(book_title);
+        this.book_author = new SimpleStringProperty(book_author);
         this.borrowed_user_id = new SimpleIntegerProperty(borrowed_user_id);
         this.due_date = new SimpleIntegerProperty(due_date);
         this.fine = new SimpleIntegerProperty(fine);
@@ -45,7 +47,17 @@ public class BookSearchModel {
         this.available = new SimpleIntegerProperty(available);
         this.button = new Button("Return");
         this.button.getStylesheets().add(getClass().getResource("/Styles/button.css").toExternalForm());
+        this.button.setVisible(false);
+    }
 
+    public BookSearchModel(String book_id, String title, String author, Integer available){
+        this.book_id = new SimpleStringProperty(book_id);
+        this.book_title = new SimpleStringProperty(title);
+        this.book_author = new SimpleStringProperty(author);
+        this.available = new SimpleIntegerProperty(available);
+        this.button = new Button("Check in");
+        this.button.setVisible(false);
+        this.button.getStylesheets().add(getClass().getResource("/Styles/button.css").toExternalForm());
     }
 
     public String getBook_id() {
@@ -121,5 +133,11 @@ public class BookSearchModel {
         return button;
     }
 
+    public String getBook_author() {
+        return book_author.get();
+    }
 
+    public StringProperty book_authorProperty() {
+        return book_author;
+    }
 }

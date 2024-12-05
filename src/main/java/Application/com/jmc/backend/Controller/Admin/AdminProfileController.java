@@ -55,6 +55,7 @@ public class AdminProfileController implements Initializable {
         first_name_field.setPromptText(cur.getFirstName());
         last_name_field.setPromptText(cur.getLastName());
         email_field.setPromptText(cur.getEmail());
+
     }
 
     

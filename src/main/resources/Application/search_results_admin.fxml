@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="879.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.com.jmc.backend.Controller.Admin.SearchResultAdminController">
+   <children>
+      <VBox layoutX="398.0" layoutY="187.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox prefHeight="87.0" prefWidth="879.0">
+               <children>
+                  <Label fx:id="results" prefHeight="86.0" prefWidth="430.0" text="Results for " HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="Berlin Sans FB" size="35.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="number_of_results" prefHeight="90.0" prefWidth="136.0" text="(69 Results)" textFill="#808191">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Pane prefHeight="717.0" prefWidth="879.0">
+               <children>
+                  <TableView fx:id="book_search" layoutX="20.0" layoutY="71.0" onMouseClicked="#rowclicked" prefHeight="665.0" prefWidth="838.0" style="-fx-background-color: white;">
+                    <columns>
+                      <TableColumn fx:id="book_id" prefWidth="152.533353805542" text="Book ID" />
+                        <TableColumn fx:id="title" minWidth="6.9332733154296875" prefWidth="197.066650390625" text="Title" />
+                        <TableColumn fx:id="author" prefWidth="204.53338623046875" text="Author" />
+                      <TableColumn fx:id="available" prefWidth="140.53338623046875" text="Available" />
+                        <TableColumn fx:id="action" prefWidth="146.933349609375" text="Action" />
+                    </columns>
+                  </TableView>
+                  <TextField fx:id="searchBar" layoutX="566.0" layoutY="20.0" prefHeight="35.0" prefWidth="288.0" promptText="Search Ex, ISBN, title, author,etc" styleClass="search-bar" stylesheets="@../Styles/members.css">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </TextField>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

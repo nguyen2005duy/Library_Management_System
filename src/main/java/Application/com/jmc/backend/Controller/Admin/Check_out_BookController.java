@@ -1,18 +1,20 @@
 package Application.com.jmc.backend.Controller.Admin;
 
+import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
+import Application.com.jmc.backend.Model.Model;
+import Application.com.jmc.backend.Views.AdminMenuOptions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -24,6 +26,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Check_out_BookController implements Initializable {
+
+    BookSearchModel bookSearchModel;
 
     @FXML
     private TableColumn<BookSearchModel, ?> Action;
@@ -48,6 +52,17 @@ public class Check_out_BookController implements Initializable {
 
     @FXML
     private TableColumn<BookSearchModel, Integer> Member_id;
+
+    @FXML
+    private TextField bookSearchBar;
+
+    @FXML
+    private Button search_button;
+
+    @FXML
+    void search(MouseEvent event) {
+        Model.getInstance().getFactoryViews().getAdminSelectedMenuItem().set(AdminMenuOptions.SEARCH);
+    }
 
     ObservableList<BookSearchModel> BookSearchModelObservableList= FXCollections.observableArrayList();
 
@@ -125,5 +140,56 @@ public class Check_out_BookController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
+    @FXML
+    void rowclicked(MouseEvent event) {
+        if (bookSearchModel != null) {
+            try {
+                bookSearchModel.getButton().setVisible(false);
+                BookSearchModel book = TableViewBook.getSelectionModel().getSelectedItem();
+                bookSearchModel = book;
+                book.getButton().setVisible(true);
+                book.getButton().setOnAction(actionEvent -> {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Are you sure you want to return this book?");
+                    if (alert.showAndWait().get() == ButtonType.OK){
+                        try {
+                            BookSearchModelObservableList.remove(book);
+                            Library.returnBook(book.getBook_id());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+            } catch (NullPointerException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        else {
+            BookSearchModel book = TableViewBook.getSelectionModel().getSelectedItem();
+            bookSearchModel = book;
+            book.getButton().setVisible(true);
+            book.getButton().setOnAction(actionEvent -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to return this book?");
+                if (alert.showAndWait().get() == ButtonType.OK){
+                    try {
+                        BookSearchModelObservableList.remove(book);
+                        Library.returnBook(book.getBook_id());
+
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+    }
+
+
 
 }

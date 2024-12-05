@@ -16,10 +16,31 @@
    <children>
       <VBox layoutX="110.0" layoutY="47.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="68.0" prefWidth="879.0">
+            <HBox prefHeight="75.0" prefWidth="879.0" style="-fx-border-color: #C2C2C2; -fx-border-width: 0 0 1 0;">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="239.0" text="The Books">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="bookSearchBar" prefHeight="35.0" prefWidth="288.0" promptText="Search Ex, ISBN, title, author,etc" styleClass="search-bar" stylesheets="@../Styles/members.css">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Button fx:id="search_button" mnemonicParsing="false" onMouseClicked="#search" prefHeight="35.0" prefWidth="35.0" style="-fx-background-radius: 50 50 50 50; -fx-background-color: #33D565; -fx-cursor: hand;">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" size="20" />
+                     </graphic>
+                  </Button>
+               </children>
                <padding>
-                  <Insets left="20.0" top="30.0" />
-               </padding></HBox>
+                  <Insets left="30.0" top="15.0" />
+               </padding>
+            </HBox>
             <HBox prefHeight="131.0" prefWidth="879.0">
                <children>
                   <VBox prefHeight="131.0" prefWidth="322.0">

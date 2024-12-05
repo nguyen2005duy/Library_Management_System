@@ -3,6 +3,8 @@ package Application.com.jmc.backend.Controller.Admin;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
+import Application.com.jmc.backend.Model.Model;
+import Application.com.jmc.backend.Views.AdminMenuOptions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -53,6 +55,17 @@ public class MembersController implements Initializable {
 
     @FXML
     private TextField searchBar;
+
+    @FXML
+    private TextField bookSearchBar;
+
+    @FXML
+    private Button search_button;
+
+    @FXML
+    void search(MouseEvent event) {
+        Model.getInstance().getFactoryViews().getAdminSelectedMenuItem().set(AdminMenuOptions.SEARCH);
+    }
 
     @FXML
     void rowclicked(MouseEvent event) {

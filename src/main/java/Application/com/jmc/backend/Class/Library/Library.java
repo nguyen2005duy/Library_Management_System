@@ -768,11 +768,7 @@ public class Library {
             }
         }
         assert bookToReturn != null;
-        String updateQuery = "UPDATE book SET available = 1, " +
-                "borrowed_user_id = " + null + ", " +
-                "borrowed_date = '" + null + "', " +
-                "required_date = '" + null + "' " +
-                "WHERE book_id = '" + bookToReturn.getBook_id() + "'";
+        String updateQuery = "DELETE FROM book WHERE book_id = '" + bookToReturn.getBook_id() +"'";
         bookLists.remove(bookToReturn);
         try {
             Statement stmt = connectDB.createStatement();

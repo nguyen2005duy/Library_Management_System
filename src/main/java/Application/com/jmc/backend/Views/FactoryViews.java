@@ -1,22 +1,15 @@
 package Application.com.jmc.backend.Views;
 
 import Application.com.jmc.backend.Class.Books.Book;
-import Application.com.jmc.backend.Class.Library.Library;
-import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Controller.*;
 
 import Application.com.jmc.backend.Controller.Admin.AdminController;
-import Application.com.jmc.backend.Controller.Admin.AdminMenuController;
-import Application.com.jmc.backend.Controller.Admin.AdminProfileController;
 import Application.com.jmc.backend.Controller.Client.ClientController;
 import Application.com.jmc.backend.Controller.Client.FavouriteController;
-import Application.com.jmc.backend.Controller.Client.LoadingController;
+import Application.com.jmc.backend.Controller.Client.SearchResultsController;
 import Application.com.jmc.backend.Model.Model;
-import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,7 +17,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import javax.sound.midi.MidiFileFormat;
 import java.io.IOException;
 
 public class FactoryViews {
@@ -41,6 +33,7 @@ public class FactoryViews {
     private AnchorPane Check_outView;
     private AnchorPane DashboardView;
     private AnchorPane AdminProfileView;
+    private AnchorPane AdminSearchView;
     private final ObjectProperty<AdminMenuOptions> adminSelectedMenuItem;
     private AccountType accountType;
     private SearchResultsController searchResultsController;
@@ -65,6 +58,17 @@ public class FactoryViews {
 
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
+    }
+
+    public AnchorPane getAdminSearchView(){
+        if(AdminSearchView == null){
+            try{
+                AdminSearchView = new FXMLLoader(getClass().getResource("/Application/search_results_admin.fxml")).load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return AdminSearchView;
     }
 
     public AnchorPane getMembersView() {

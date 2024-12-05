@@ -1,0 +1,148 @@
+package Application.com.jmc.backend.Controller.Admin;
+
+import Application.com.jmc.backend.Class.Books.Book;
+import Application.com.jmc.backend.Class.Library.Library;
+import Application.com.jmc.backend.Connection.DatabaseConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.fxml.Initializable;
+
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+
+public class SearchResultAdminController implements Initializable {
+
+    BookSearchModel bookSearchModel;
+
+    @FXML
+    private TableColumn<BookSearchModel, ?> action;
+
+    @FXML
+    private TableColumn<BookSearchModel, ?> author;
+
+    @FXML
+    private TableColumn<BookSearchModel, ?> available;
+
+    @FXML
+    private TableColumn<BookSearchModel, ?> book_id;
+
+    @FXML
+    private TableView<BookSearchModel> book_search;
+
+    @FXML
+    private Label number_of_results;
+
+    @FXML
+    private Label results;
+
+    @FXML
+    private TableColumn<BookSearchModel, ?> title;
+
+    @FXML
+    private TextField searchBar;
+
+    ObservableList<BookSearchModel> BookSearchModelObservableList= FXCollections.observableArrayList();
+
+    @FXML
+    void rowclicked(MouseEvent event) {
+        if (bookSearchModel != null) {
+            try {
+                bookSearchModel.getButton().setVisible(false);
+                BookSearchModel mem = book_search.getSelectionModel().getSelectedItem();
+                bookSearchModel = mem;
+                mem.getButton().setVisible(true);
+
+            } catch (NullPointerException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        else {
+            BookSearchModel mem = book_search.getSelectionModel().getSelectedItem();
+            bookSearchModel = mem;
+            mem.getButton().setVisible(true);
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        String BookViewQuery = "SELECT book_id, book_title, book_author, available from book";  // Fixed typo in the SQL query
+
+        try {
+            Statement stmt = connectDB.createStatement();
+            ResultSet rs = stmt.executeQuery(BookViewQuery);
+
+            while (rs.next()) {
+                String query_book_id = rs.getString("book_id");
+                String query_title = rs.getString("book_title");
+                String query_author = rs.getString("book_author");
+                Integer query_available = rs.getInt("available");
+
+                BookSearchModelObservableList.add(new BookSearchModel(query_book_id,query_title,query_author, query_available));
+            }
+
+            book_id.setCellValueFactory(new PropertyValueFactory<>("book_id"));
+            title.setCellValueFactory(new PropertyValueFactory<>("book_title"));
+            author.setCellValueFactory(new PropertyValueFactory<>("book_title"));
+            available.setCellValueFactory(new PropertyValueFactory<>("available"));// Corrected to match the property
+            action.setCellValueFactory(new PropertyValueFactory<>("button"));
+            book_search.setItems(BookSearchModelObservableList);
+
+
+
+
+
+            // Create the FilteredList and bind to the search bar text property
+            FilteredList<BookSearchModel> filteredList = new FilteredList<>(BookSearchModelObservableList, b -> true);
+
+            searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredList.setPredicate(member -> {
+                    if (newValue == null || newValue.isEmpty() || newValue.isBlank()) {
+                        return true;  // Return all data if the search bar is empty
+                    }
+
+                    String searchKeyword = newValue.toLowerCase();  // Convert search keyword to lowercase for case-insensitive matching
+
+                    // Check if any field (account_id, lastname, or email) contains the search keyword
+                    if (member.getBook_id().toLowerCase().contains(searchKeyword)) {
+                        return true;  // Match found in account_id
+                    } else if (String.valueOf(member.getBorrowed_user_id()).contains(searchKeyword)) {
+                        return true;
+                    }else if (member.getBorrowed_date().toLowerCase().contains(searchKeyword)) {
+                        return true;  // Match found in lastname
+                    } else if (member.getRequired_date().toLowerCase().contains(searchKeyword)) {
+                        return true;  // Match found in email
+                    } else if (String.valueOf(member.getAvailable()).contains(searchKeyword)) {
+                        return true;
+                    }
+
+                    return false;  // No match found
+                });
+            });
+
+            // Bind the TableView's sorted data with the filtered data
+            SortedList<BookSearchModel> sortedData = new SortedList<>(filteredList);
+            sortedData.comparatorProperty().bind(book_search.comparatorProperty());
+            book_search.setItems(sortedData);
+
+        } catch (SQLException e) {
+            Logger.getLogger(SearchResultAdminController.class.getName()).log(Level.SEVERE, null, e);
+            e.printStackTrace();
+        }
+    }
+}

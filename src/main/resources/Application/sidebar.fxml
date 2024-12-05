@@ -25,7 +25,7 @@
                <padding>
                   <Insets left="10.0" />
                </padding></Label>
-            <HBox fx:id="discover" onMouseClicked="#loadDiscover" style="-fx-padding: 20 0 20 30;" styleClass="pane">
+            <HBox fx:id="discover" onMouseClicked="#loadDiscover" style="-fx-padding: 20 0 20 30;" styleClass="pane" stylesheets="@../Styles/current.css">
                <children>
                   <Pane fx:id="discover_pane" prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
                      <children>
@@ -64,7 +64,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox fx:id="trending" layoutX="18.0" layoutY="179.0" onMouseClicked="#loadTrending" style="-fx-padding: 20 0 20 30;" styleClass="pane" stylesheets="@../Styles/current.css">
+            <HBox fx:id="trending" layoutX="18.0" layoutY="179.0" onMouseClicked="#loadTrending" style="-fx-padding: 20 0 20 30;" styleClass="pane">
                <children>
                   <Pane fx:id="trending_pane" prefHeight="32.0" prefWidth="33.0" style="-fx-background-radius: 15 15 15 15;">
                      <children>
