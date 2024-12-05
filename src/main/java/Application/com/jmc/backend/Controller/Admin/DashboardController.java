@@ -144,7 +144,7 @@ public class DashboardController implements Initializable {
             }
 
             book_id_due.setCellValueFactory(new PropertyValueFactory<>("book_id"));
-            title_due.setCellValueFactory(new PropertyValueFactory<>("title"));
+            title_due.setCellValueFactory(new PropertyValueFactory<>("book_title"));
             member_id_due.setCellValueFactory(new PropertyValueFactory<>("borrowed_user_id"));
             due_date.setCellValueFactory(new PropertyValueFactory<>("due_date"));
             fine.setCellValueFactory(new PropertyValueFactory<>("fine"));  // Corrected to match the property
