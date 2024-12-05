@@ -18,8 +18,6 @@ import java.io.IOException;
 
 import java.sql.*;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -71,7 +69,6 @@ public class Library {
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(usersList);
         Thread loadUsersBookLists = new Thread(Library::loadUserBookLists);
         loadUsersBookLists.start();
         try {
@@ -115,17 +112,22 @@ public class Library {
      * @return Chuỗi các thể loại yêu thích (tối đa 4 thể loại), cách nhau bởi dấu cách.
      * @throws IOException in ra lỗi.
      */
-    public static String[] get_user_favourite() throws IOException {
+    public static String[] getUserFavourite() throws IOException {
         Member member = (Member) Library.current_user;
 
         Map<String, Integer> categoryCount = new HashMap<>();
 
         for (BorrowRecord record : member.getBorrowedHistory()) {
             String[] categories = GoogleBooksAPI.getCategories(record.getBook_id());
+
             if (categories != null) {
-                // Thêm từng thể loại vào Map và tăng tần suất
                 for (String category : categories) {
-                    categoryCount.put(category, categoryCount.getOrDefault(category, 0) + 1);
+                    String[] splitCategories = category.split("/");
+
+                    for (String splitCategory : splitCategories) {
+                        splitCategory = splitCategory.trim();
+                        categoryCount.put(splitCategory, categoryCount.getOrDefault(splitCategory, 0) + 1);
+                    }
                 }
             }
         }
@@ -133,43 +135,38 @@ public class Library {
         List<Map.Entry<String, Integer>> sortedCategories = new ArrayList<>(categoryCount.entrySet());
         sortedCategories.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
-        List<String> topcCategory = new ArrayList<>();
+        List<String> topCategory = new ArrayList<>();
         for (int i = 0; i < Math.min(4, sortedCategories.size()); i++) {
-            topcCategory.add(sortedCategories.get(i).getKey());
+            topCategory.add(sortedCategories.get(i).getKey());
         }
-        return topcCategory.toArray(new String[0]);
+
+        return topCategory.toArray(new String[0]);
     }
 
     public static String[] get_popular_categories() throws IOException {
-        // Ensure the popularCategories map is properly initialized before using it
         Map<String, Integer> categoryCount = popularCategories;
 
-        // Check if the categories have been initialized or not
         int pos = 0;
         while (categoryCount.size() < 8 && pos < recommendCategories.length) {
-            categoryCount.put(recommendCategories[pos], 1);  // Assign a default value, if necessary
+            categoryCount.put(recommendCategories[pos], 1);
             pos++;
         }
 
-        // Sort the categories by value (descending order)
         List<Map.Entry<String, Integer>> sortedCategories = new ArrayList<>(categoryCount.entrySet());
         sortedCategories.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
-        // Create a list to store the top categories
         List<String> topCategories = new ArrayList<>();
 
-        // Add the top 8 categories (or fewer, depending on the data)
         for (int i = 0; i < Math.min(8, sortedCategories.size()); i++) {
             topCategories.add(sortedCategories.get(i).getKey());
         }
 
-        // Return the top categories as an array
         return topCategories.toArray(new String[0]);
     }
 
 
     /**
-     * Lay arrays cua book_id de phuc vu cho function looadBooks.
+     * Lay arrays cua book_id de phuc vu cho function loadBooks.
      *
      * @return bookIdarrays.
      */
@@ -226,9 +223,9 @@ public class Library {
     /**
      * In thông tin chi tiết sách
      */
-    public static void printBookDetails() {
+   /* public static void printBookDetails() {
         bookLists.forEach(System.out::println);
-    }
+    }*/
 
     /**
      * Load users khi chạy login, dùng đa lượng.
@@ -273,11 +270,11 @@ public class Library {
     /**
      * In thông tin chi tiết người dùng.
      */
-    public static void printUsers() {
+  /*  public static void printUsers() {
         usersList.forEach((k, v) -> {
             System.out.println(v);
         });
-    }
+    }*/
 
     /**
      * De lay cac du lieu tu database.
@@ -314,7 +311,7 @@ public class Library {
     public static void add_book(Book book) {
         bookLists.add(book);
         Member cur = (Member) Library.current_user;
-        cur.getBorrowed_documents().add(book);
+        cur.getBorrowedDocuments().add(book);
         String insertFields = "INSERT INTO book(book_id,available," +
                 "book_title,book_author,borrowed_user_id,borrowed_date,required_date) VALUES (";
         String insertValues = "'" + book.getBook_id() + "'," +
@@ -343,7 +340,7 @@ public class Library {
         bookLists.add(book);
         Member member = null;
         member = (Member) usersList.get(accountId);
-        member.getBorrowed_documents().add(book);
+        member.getBorrowedDocuments().add(book);
         String insertFields = "INSERT INTO book(book_id,available," +
                 "book_title,book_author,borrowed_user_id,borrowed_date,required_date) VALUES (";
         String insertValues = "'" + book.getBook_id() + "'," +
@@ -561,27 +558,6 @@ public class Library {
         }
     }
 
-    /**
-     * Khi có user rating, thêm record vào bảng borrow_record.
-     *
-     * @param book Cuốn sách người dùng mượn.
-     */
-    public static void add_record(Book book) {
-        LocalDate today = LocalDate.now();
-        Date sqlDate = Date.valueOf(today);
-        String returnDate = sqlDate.toString();
-        String insertFields = "INSERT INTO borrow_record(book_id, account_id) VALUES ('";
-        String insertValues = book.getBook_id() + "','" + book.getBorrowUserId() + "')";
-        String insertToRecord = insertFields + insertValues;
-        Library.recordsLists.add(new BorrowRecord(Integer.parseInt(book.getBorrowUserId()), book.getBook_id()));
-        try {
-            Statement stmt = connectDB.createStatement();
-            stmt.executeUpdate(insertToRecord);
-        } catch (SQLException e) {
-            System.out.println("Loi khi them record vao database.");////
-            e.getCause();
-        }
-    }
 
     /**
      * Tải các bản ghi mượn từ cơ sở dữ liệu và thêm vào recordsLists.
@@ -612,13 +588,13 @@ public class Library {
         System.out.println(recordsLists);
     }
 
-    /**
+   /* *//**
      * Converts a string in "yyyy-MM-dd" format to java.sql.Date.
      *
-     * @param dateString the date string to convert
+     * @param //dateString the date string to convert
      * @return java.sql.Date object, or null if parsing fails
      */
-    public static Date convertStringToSQLDate(String dateString) {
+    /*public static Date convertStringToSQLDate(String dateString) {
         try {
             // Parse the String into a java.util.Date using "yyyy-MM-dd" format
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -631,7 +607,7 @@ public class Library {
             return null; // Return null if parsing fails
         }
 
-    }
+    }*/
 
     public static List<Book> searchFor(String queueFor) {
         List<String> IdsList = GoogleBooksAPI.getIdList(queueFor);
@@ -659,7 +635,7 @@ public class Library {
         return searchResults;
     }
 
-    public static void add_user_favourite(String book_id, int account_id) {
+    public static void addUserFavourite(String book_id, int account_id) {
         System.out.println(book_id);
         System.out.println(account_id);
         Member cur = (Member) Library.current_user;
@@ -686,7 +662,7 @@ public class Library {
         }
     }
 
-    public static void load_current_user_favourite() {
+    public static void loadCurrentUserFavourite() {
         Member cur = (Member) Library.current_user;
         try {
             Statement stmt = connectDB.createStatement();
@@ -729,7 +705,7 @@ public class Library {
 
     public static void loadRecommendedBooks() {
         try {
-            String[] fav = get_user_favourite();
+            String[] fav = getUserFavourite();
             if (fav.length != 0) {
                 for (int i = 0; i < recommendCategories.length; i++) {
                     recommendCategories[i] = fav[i];
@@ -845,5 +821,22 @@ public class Library {
             e.printStackTrace();
         }
     }
+    public static void removeFromFavourites(Book book) {
+        ((Member) current_user).getFavourite_books().remove(book);
+
+        Member cur = (Member) Library.current_user;
+        int account_id = cur.getAccount_id();
+        FavouriteController.books.remove(book);
+        String deleteFromFavourite = "DELETE FROM favourite_books WHERE book_id='" + book.getBook_id() + "' AND account_id='" + account_id + "'";
+        try {
+            Statement stmt = connectDB.createStatement();
+            stmt.executeUpdate(deleteFromFavourite);
+            System.out.println("Book removed from favourites successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error while removing book from favourites in the database.");
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
 

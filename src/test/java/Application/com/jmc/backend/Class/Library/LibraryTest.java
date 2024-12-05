@@ -2,7 +2,7 @@ package Application.com.jmc.backend.Class.Library;
 
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Exceptions.UsernameTakenException;
-import Application.com.jmc.backend.Class.Library.Helpers.GoogleBooksAPI;
+import Application.com.jmc.backend.Class.Helpers.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Class.User_Information.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -207,7 +207,7 @@ public class LibraryTest {
         int accountId = 1;
 
         // Gọi hàm thêm sách yêu thích
-        Library.add_user_favourite(bookId, accountId);
+        Library.addUserFavourite(bookId, accountId);
 
         // Lấy danh sách yêu thích từ người dùng
         Member currentUser = (Member) Library.current_user;

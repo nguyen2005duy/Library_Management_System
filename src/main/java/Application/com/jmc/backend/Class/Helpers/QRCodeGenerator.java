@@ -20,30 +20,25 @@ public class QRCodeGenerator {
             String jsonResponse = GoogleBooksAPI.searchOneBook(book_id);
             ObjectMapper objectMapper = new ObjectMapper();
 
-            // Get the  book item (if exists)
             JsonNode book = objectMapper.readTree(jsonResponse);
             String link = book.path("volumeInfo").path("infoLink").asText();
             generateQRThroughLink(link, book_id);
-            // Extract the book's title, authors, and description
         } catch (IOException e) {
             System.out.println("Loi khi Generate QR");
         }
     }
 
     public static void generateQRThroughLink(String link, String book_id) {
-        int size = 300;  // Size of the QR code
+        int size = 300;
         String filePath = "src/main/resources/QRCodes/" + book_id + "_qrCode";
 
         try {
-            // Create a hint map with encoding options
             Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
-            hints.put(EncodeHintType.MARGIN, 1); // Optional: Set margin
+            hints.put(EncodeHintType.MARGIN, 1);
 
-            // Generate the QR code
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(link, BarcodeFormat.QR_CODE, size, size, hints);
 
-            // Convert BitMatrix to BufferedImage
             BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
             image.createGraphics();
             Graphics2D graphics = (Graphics2D) image.getGraphics();
@@ -57,9 +52,8 @@ public class QRCodeGenerator {
                 }
             }
 
-            // Write the image to file
             ImageIO.write(image, "JPG", new File(filePath));
-            System.out.println("QR code generated at: " + filePath);
+            //System.out.println("QR code generated at: " + filePath);
         } catch (Exception e) {
             e.printStackTrace();
         }

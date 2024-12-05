@@ -80,7 +80,7 @@ public class LibraryController implements Initializable {
     }
     private List<Book> currentlyReading(){
         Member current_member = (Member) Library.current_user;
-        System.out.println(current_member.getBorrowed_documents());
-        return current_member.getBorrowed_documents();
+        System.out.println(current_member.getBorrowedDocuments());
+        return current_member.getBorrowedDocuments();
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public class Member extends User {
     private String member_id;
     private List<BorrowRecord> BorrowedHistory;
-    private List<Book> borrowed_documents;
+    private List<Book> borrowedDocuments;
     private List<String> favourite_genres;
     private List<Book> favourite_books;
     private boolean isPremiumMember;
@@ -18,7 +18,7 @@ public class Member extends User {
                   String lastName, String email, String role) {
         super(username, password, firstName, lastName, email, role);
         this.member_id = "M_" + account_id;
-        borrowed_documents = new ArrayList<>();
+        borrowedDocuments = new ArrayList<>();
         BorrowedHistory = new ArrayList<>();
         favourite_genres = new ArrayList<>();
         favourite_books = new ArrayList<>();
@@ -29,7 +29,7 @@ public class Member extends User {
         this.account_id = account_id;
         this.member_id = member_id;
         this.isPremiumMember = isPremiumMember;
-        borrowed_documents = new ArrayList<>();
+        borrowedDocuments = new ArrayList<>();
         BorrowedHistory = new ArrayList<>();
         favourite_genres = new ArrayList<>();
         favourite_books = new ArrayList<>();
@@ -45,16 +45,16 @@ public class Member extends User {
     public void generateMemberType(){
         member_id = "M_"+account_id;
         BorrowedHistory = new ArrayList<>();
-        borrowed_documents = new ArrayList<>();
+        borrowedDocuments = new ArrayList<>();
         favourite_genres = new ArrayList<>();
         isPremiumMember = false;
     }
 
     public void add_borrowed_documents(Book book) {
-        borrowed_documents.add(book);
+        borrowedDocuments.add(book);
     }
-    public List<Book> getBorrowed_documents() {
-        return borrowed_documents;
+    public List<Book> getBorrowedDocuments() {
+        return borrowedDocuments;
     }
 
     public String getMember_id() {
@@ -66,11 +66,11 @@ public class Member extends User {
     }
 
     public void add_book(Book book) {
-        borrowed_documents.add(book);
+        borrowedDocuments.add(book);
     }
 
-    public void setBorrowed_documents(List<Book> borrowed_documents) {
-        this.borrowed_documents = borrowed_documents;
+    public void setBorrowedDocuments(List<Book> borrowedDocuments) {
+        this.borrowedDocuments = borrowedDocuments;
     }
 
     public List<BorrowRecord> getBorrowedHistory() {
@@ -80,15 +80,24 @@ public class Member extends User {
     public void setBorrowedHistory(List<BorrowRecord> borrowedHistory) {
         BorrowedHistory = borrowedHistory;
     }
+    public List<Book> getFavourite_books() {
+        return favourite_books;
+    }
+
+    public void setFavourite_books(List<Book> favourite_books) {
+        this.favourite_books = favourite_books;
+    }
     public Book removeBook(String id) {
         Book bookToRemove = null;
 
-        for (int i =0;i<borrowed_documents.size();i++)  {
-            if (borrowed_documents.get(i).getBook_id().equals(id)) {
-                    bookToRemove = borrowed_documents.get(i);
+        for (int i = 0; i< borrowedDocuments.size(); i++)  {
+            if (borrowedDocuments.get(i).getBook_id().equals(id)) {
+                    bookToRemove = borrowedDocuments.get(i);
             }
         }
-        borrowed_documents.remove(bookToRemove);
+        borrowedDocuments.remove(bookToRemove);
         return bookToRemove;
     }
+
+
 }

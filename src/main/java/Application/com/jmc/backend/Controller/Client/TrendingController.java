@@ -16,7 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-import Application.com.jmc.backend.Controller.bookCardHBoxController;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -110,18 +110,12 @@ public class TrendingController implements Initializable {
         }
     }
 
-    // Refresh the currently reading list and update UI
-    public void refreshCurrentlyReading() {
-        books.setAll(currentlyReading()); // This triggers the ObservableList listener
-    }
 
-    // Get currently reading books from the Member
     private ObservableList<Book> currentlyReading() {
         Member currentMember = (Member) Library.current_user;
-        return FXCollections.observableArrayList(currentMember.getBorrowed_documents());
+        return FXCollections.observableArrayList(currentMember.getBorrowedDocuments());
     }
 
-    // Recommended books can be similarly managed
     private ObservableList<Book> RecommendedBooks() {
         return FXCollections.observableArrayList(Library.recommendedBooks);
     }
