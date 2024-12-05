@@ -5,6 +5,7 @@ import Application.com.jmc.backend.Class.Helpers.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
 import Application.com.jmc.backend.Model.Model;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -61,7 +62,7 @@ public class SearchResultAdminController implements Initializable {
     @FXML
     private TextField searchBar;
 
-    ObservableList<BookSearchModel> BookSearchModelObservableList= FXCollections.observableArrayList();
+    ObservableList<BookSearchModel> BookSearchModelObservableList = FXCollections.observableArrayList();
 
     @FXML
     void rowclicked(MouseEvent event) {
@@ -76,7 +77,7 @@ public class SearchResultAdminController implements Initializable {
                     alert.setTitle("Confirmation");
                     alert.setHeaderText(null);
                     alert.setContentText("Are you sure you want to add this book to this member?");
-                    if (alert.showAndWait().get() == ButtonType.OK){
+                    if (alert.showAndWait().get() == ButtonType.OK) {
                         try {
                             BookSearchModelObservableList.remove(book);
                             Library.borrow_books(book.getBook_id(), user_id.getText());
@@ -88,8 +89,7 @@ public class SearchResultAdminController implements Initializable {
             } catch (NullPointerException e) {
                 System.out.println(e.getMessage());
             }
-        }
-        else {
+        } else {
             BookSearchModel book = book_search.getSelectionModel().getSelectedItem();
             bookSearchModel = book;
             book.getButton().setVisible(true);
@@ -98,10 +98,10 @@ public class SearchResultAdminController implements Initializable {
                 alert.setTitle("Confirmation");
                 alert.setHeaderText(null);
                 alert.setContentText("Are you sure you want to add this book to this member?");
-                if (alert.showAndWait().get() == ButtonType.OK){
+                if (alert.showAndWait().get() == ButtonType.OK) {
                     try {
                         BookSearchModelObservableList.remove(book);
-                        Library.borrow_books(book.getBook_id(),user_id.getText());
+                        Library.borrow_books(book.getBook_id(), user_id.getText());
                     } catch (NullPointerException e) {
                         throw new RuntimeException(e);
                     }
@@ -112,70 +112,52 @@ public class SearchResultAdminController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        //      Connection connectDB = DatabaseConnection.getConnection();
         System.out.println(Model.getInstance().getSearchString());
 
-        String BookViewQuery = "SELECT book_id, book_title, book_author, available from book";  // Fixed typo in the SQL query
+        // String BookViewQuery = "SELECT book_id, book_title, book_author, available from book";  // Fixed typo in the SQL query
+        //refreshSearchResultAdminController();
+    }
+
+    public void refreshSearchResultAdminController() {
+        BookSearchModelObservableList.clear();
         List<String> list1 = GoogleBooksAPI.getIdList(Model.getInstance().getSearchString());
 
-        try {
-            for (String id : list1) {
-                try{
-                Book book = GoogleBooksAPI.getDocumentDetails(id);
-                BookSearchModelObservableList.add(new BookSearchModel(book.getBook_id(), book.getTitle(), book.getAuthor(), book.isAvailable() ? 1: 0));
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+        new Thread(() -> {
+            try {
+                for (String id : list1) {
+                    try {
+                        // Fetch book details
+                        Book book = GoogleBooksAPI.getDocumentDetails(id);
+                        BookSearchModel bookSearchModel = new BookSearchModel(
+                                book.getBook_id(), book.getTitle(), book.getAuthor(), book.isAvailable() ? 1 : 0);
+
+                        Platform.runLater(() -> {
+                            BookSearchModelObservableList.add(bookSearchModel);
+
+                            book_id.setCellValueFactory(new PropertyValueFactory<>("book_id"));
+                            title.setCellValueFactory(new PropertyValueFactory<>("book_title"));
+                            author.setCellValueFactory(new PropertyValueFactory<>("book_author"));
+                            available.setCellValueFactory(new PropertyValueFactory<>("available"));
+                            action.setCellValueFactory(new PropertyValueFactory<>("button"));
+                            book_search.setItems(BookSearchModelObservableList);
+                        });
+
+                        Thread.sleep(100);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            book_id.setCellValueFactory(new PropertyValueFactory<>("book_id"));
-            title.setCellValueFactory(new PropertyValueFactory<>("book_title"));
-            author.setCellValueFactory(new PropertyValueFactory<>("book_author"));
-            available.setCellValueFactory(new PropertyValueFactory<>("available"));// Corrected to match the property
-            action.setCellValueFactory(new PropertyValueFactory<>("button"));
-            book_search.setItems(BookSearchModelObservableList);
-
-
-
-
-
-            // Create the FilteredList and bind to the search bar text property
-            FilteredList<BookSearchModel> filteredList = new FilteredList<>(BookSearchModelObservableList, b -> true);
-
-            searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-                filteredList.setPredicate(member -> {
-                    if (newValue == null || newValue.isEmpty() || newValue.isBlank()) {
-                        return true;  // Return all data if the search bar is empty
-                    }
-
-                    String searchKeyword = newValue.toLowerCase();  // Convert search keyword to lowercase for case-insensitive matching
-
-                    // Check if any field (account_id, lastname, or email) contains the search keyword
-                    if (member.getBook_id().toLowerCase().contains(searchKeyword)) {
-                        return true;  // Match found in account_id
-                    } else if (String.valueOf(member.getBorrowed_user_id()).contains(searchKeyword)) {
-                        return true;
-                    }else if (member.getBorrowed_date().toLowerCase().contains(searchKeyword)) {
-                        return true;  // Match found in lastname
-                    } else if (member.getRequired_date().toLowerCase().contains(searchKeyword)) {
-                        return true;  // Match found in email
-                    } else if (String.valueOf(member.getAvailable()).contains(searchKeyword)) {
-                        return true;
-                    }
-
-                    return false;  // No match found
+                Platform.runLater(() -> {
+                    number_of_results.setText("Total books: " + BookSearchModelObservableList.size());
                 });
-            });
 
-            // Bind the TableView's sorted data with the filtered data
-            SortedList<BookSearchModel> sortedData = new SortedList<>(filteredList);
-            sortedData.comparatorProperty().bind(book_search.comparatorProperty());
-            book_search.setItems(sortedData);
-
-        } catch (Exception e) {
-            Logger.getLogger(SearchResultAdminController.class.getName()).log(Level.SEVERE, null, e);
-            e.printStackTrace();
-        }
+            } catch (Exception e) {
+                Logger.getLogger(SearchResultAdminController.class.getName()).log(Level.SEVERE, null, e);
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
