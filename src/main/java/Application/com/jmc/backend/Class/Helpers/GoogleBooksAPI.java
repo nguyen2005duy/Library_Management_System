@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -29,114 +30,56 @@ public class GoogleBooksAPI {
     //public static String apiKey = "AIzaSyC8qyQQ9Fs-rGJYe2CCaD3Evy5JziAR2tk";
     //public static String apiKey = "AIzaSyBRTivCWYJ_r_MA5Upaf7bsS0f1t3okcCo";
     //public static String apiKey = "AIzaSyDu3Jjv9le5WZ-YsHomozicJL8aw0jyY00";
+    public static String getJsonFromUrl(String urlString) throws IOException {
+        URL url = new URL(urlString);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(5000);
 
-    public static void main(String[] args) {
-        // Replace YOUR_API_KEY with your actual API key
-        while (true) {
-            Library.init_Library();
-            System.out.println("What kind of books are you looking for?");
-            String query = new Scanner(System.in).next();  // Example search query
-            System.out.println("Current user id?");
-            String currentUserId = new Scanner(System.in).next();
-            try {
-                String response = searchMultiBooks(query);
-                Thread getListOfBooksThread = new Thread(() -> {
-                    // Call your function here
-                    getBookInfo(response);
-                    try {
-                        // Wait for 1 second (1000 milliseconds) before running again
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        System.out.println("Thread was interrupted");
-                    }
-                });
+        int responseCode = connection.getResponseCode();
 
-                getListOfBooksThread.start();
-                try {
-                    getListOfBooksThread.join();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                int pos = new Scanner(System.in).nextInt();
-                System.out.println();
-                System.out.println(Library.bookLists);
-                Library.borrow_books(get_book_ID(pos, response), currentUserId);
-            } catch (IOException e) {
-                System.err.println("Error during API request: " + e.getMessage());
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line = reader.readLine();
+            while (line != null) {
+                response.append(line);
+                line = reader.readLine();
             }
+            reader.close();
+            connection.disconnect();
+            return response.toString();
         }
+        connection.disconnect();
+        return "Error: Unable to get response from Google Books API. HTTP Code: " + responseCode;
+
     }
 
     /**
-     * Searching for book in generals.
+     * Tìm sách bằng tên.
      *
-     * @param query the title name.
-     * @return A string that lead to the book.
+     * @param query tên sách
+     * @return Mã Json của sách
      * @throws IOException ?
      */
     // Method to search for books//
     public static String searchMultiBooks(String query) throws IOException {
-        // Construct the URL with the search query and API key
         String urlString = "https://www.googleapis.com/books/v1/volumes?q=intitle:" + query.replace(" ", "+") + "&filter=ebooks&maxResults=10&languageRestrict=en&key=" + apiKey;
-
-        // Create a URL object from the URL string
-        URL url = new URL(urlString);
-
-        // Open a connection to the URL
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET"); // Set the request method to GET
-        connection.setConnectTimeout(5000);  // Set timeout (optional)
-        connection.setReadTimeout(5000);     // Set read timeout (optional)
-
-        // Get the response code to check if the request was successful
-        int responseCode = connection.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {  // HTTP 200 means success
-            // Read the response using BufferedReader
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-            return response.toString();  // Return the response as a String
-        } else {
-            return "Error: Unable to get response from Google Books API. HTTP Code: " + responseCode;
-        }
-
-
+        return getJsonFromUrl(urlString);
     }
 
+    /**
+     * Tìm sách bằng thể loại sách
+     * @param category thể loại
+     * @return json  chứa dữ liệu các quuển
+     * @throws IOException
+     */
     public static String searchBooksByCategory(String category) throws IOException {
-        // Construct the URL with the category query and API key
         String urlString = "https://www.googleapis.com/books/v1/volumes?q=subject:"
                 + URLEncoder.encode(category, StandardCharsets.UTF_8)
                 + "&filter=ebooks&maxResults=10&languageRestrict=en&key=" + apiKey;
-
-        // Create a URL object from the URL string
-        URL url = new URL(urlString);
-
-        // Open a connection to the URL
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET"); // Set the request method to GET
-        connection.setConnectTimeout(5000);  // Set timeout (optional)
-        connection.setReadTimeout(5000);     // Set read timeout (optional)
-
-        // Get the response code to check if the request was successful
-        int responseCode = connection.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {  // HTTP 200 means success
-            // Read the response using BufferedReader
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-            return response.toString();  // Return the response as a String
-        } else {
-            return "Error: Unable to get response from Google Books API. HTTP Code: " + responseCode;
-        }
+        return getJsonFromUrl(urlString);
     }
 
     public static List<Book> searchBooksByCategory(String category, int size) {
@@ -161,31 +104,6 @@ public class GoogleBooksAPI {
             System.err.println("Error parsing JSON response: " + e.getMessage());
         }
         return return_book;
-    }
-
-    /**
-     * lay thong tin nhieu quyen sach.
-     *
-     * @param jsonResponse Phản hồi JSON từ API.
-     */
-    public static void getBookInfo(String jsonResponse) {
-        try {
-            // Create an ObjectMapper
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            // Parse the JSON string into a JsonNode object
-            JsonNode rootNode = objectMapper.readTree(jsonResponse);
-
-            // Get the first book item (if exists)
-            int querySize = rootNode.path("items").size();
-
-            for (int i = 0; i < querySize; i++) {
-                JsonNode book = rootNode.path("items").get(i);
-                printBookDetails(book.path("id").asText());
-            }
-        } catch (IOException e) {
-            System.err.println("Error parsing JSON response: " + e.getMessage());
-        }
     }
 
     public static List<String> getIdList(String queueFor) {
@@ -252,72 +170,9 @@ public class GoogleBooksAPI {
      * @return tra lai du lieu string cuon sach hoac loi.
      * @throws IOException co loi khi ket noi hoac doc du lieu.
      */
-
     public static String searchOneBook(String id) throws IOException {
         String urlString = "https://www.googleapis.com/books/v1/volumes/" + id + "?key=" + apiKey;
-        URL url = new URL(urlString);
-
-        // Open a connection to the URL
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET"); // Set the request method to GET
-        connection.setConnectTimeout(5000);  // Set timeout (optional)
-        connection.setReadTimeout(5000);     // Set read timeout (optional)
-
-        // Get the response code to check if the request was successful
-        int responseCode = connection.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {  // HTTP 200 means success
-            // Read the response using BufferedReader
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-            return response.toString();  // Return the response as a String
-        } else {
-            return "Error: Unable to get response from Google Books API. HTTP Code: " + responseCode;
-        }
-    }
-
-    /**
-     * in ra thong tin cua cuon sach.
-     *
-     * @param id id duong duong dan den sach.
-     * @throws IOException co loi khi ket noi hoac doc du lieu.
-     */
-    public static void printBookDetails(String id) throws IOException {
-        String jsonResponse = searchOneBook(id);
-        try {
-            // Create an ObjectMapper
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            // Get the  book item (if exists)
-            JsonNode book = objectMapper.readTree(jsonResponse);
-
-            // Extract the book's title, authors, and description
-            String book_id = book.path("id").asText();
-            String title = book.path("volumeInfo").path("title").asText("Title not available");
-
-            JsonNode authorsNode = book.path("volumeInfo").path("authors");
-            String author = "Author not available";
-            if (authorsNode.isArray() && !authorsNode.isEmpty()) {
-                author = authorsNode.get(0).asText("Author not available");
-            }
-
-            String description = book.path("volumeInfo").path("description").asText("Description not available");
-            description = formatDescription(description);
-            String publisher = book.path("volumeInfo").path("publisher").asText();
-            String publishedDate = book.path("volumeInfo").path("publishedDate").asText();
-            String pageCount = book.path("volumeInfo").path("pageCount").asText();
-            // Print out the book's details
-            System.out.println("Book_id:" + book_id);
-            System.out.println("Title: " + title);
-            System.out.println("Author: " + author);
-            System.out.println("Description: " + description);
-        } catch (IOException e) {
-            System.err.println("Error parsing JSON response: " + e.getMessage());
-        }
+        return getJsonFromUrl(urlString);
     }
 
     /**
@@ -420,7 +275,7 @@ public class GoogleBooksAPI {
                 doc.setBorrowed_Date(dataBaseInfos[2]);
                 doc.setRequired_date(dataBaseInfos[3]);
             } else {
-                //Changed
+                //Changed,
                 doc = new Book(book_id, title, author, pageCount, categories, publishedDate);
                 doc.setAvailable(true);
             }
@@ -435,8 +290,6 @@ public class GoogleBooksAPI {
         }
         return doc;
     }
-
-
 
 
     public static String formatDescription(String description) {
