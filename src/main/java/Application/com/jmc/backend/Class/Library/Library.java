@@ -11,6 +11,8 @@ import Application.com.jmc.backend.Connection.DatabaseConnection;
 import Application.com.jmc.backend.Controller.Client.FavouriteController;
 import Application.com.jmc.backend.Controller.Client.LibraryController;
 import Application.com.jmc.backend.Controller.Client.TrendingController;
+import Application.com.jmc.backend.Model.Model;
+import Application.com.jmc.backend.Views.AccountType;
 
 import java.io.IOException;
 
@@ -464,8 +466,11 @@ public class Library {
                     assert book1 != null;
                     Book bookCurr = new Book(book1, user_id);
                     mem.add_borrowed_documents(bookCurr);
-                    LibraryController.books.add(bookCurr);
-                    TrendingController.books.add(bookCurr);
+                    if (Model.getInstance().getFactoryViews().getAccountType() == AccountType.Member) {
+
+                        LibraryController.books.add(bookCurr);
+                        TrendingController.books.add(bookCurr);
+                    }
                     try {
                         Statement stmt = connectDB.createStatement();
                         stmt.executeUpdate(updateQuery);
@@ -487,8 +492,11 @@ public class Library {
         }
         assert book1 != null;
         Book book = new Book(book1, user_id);
-        LibraryController.books.add(book);
-        TrendingController.books.add(book);
+        if (Model.getInstance().getFactoryViews().getAccountType() == AccountType.Member) {
+
+            LibraryController.books.add(book);
+            TrendingController.books.add(book);
+        }
 
         add_book(book);
     }

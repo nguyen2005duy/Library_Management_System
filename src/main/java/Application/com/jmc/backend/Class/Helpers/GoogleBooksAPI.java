@@ -108,7 +108,6 @@ public class GoogleBooksAPI {
 
     public static List<String> getIdList(String queueFor) {
         List<String> IdsList = new ArrayList<>();
-
         try {
             String jsonResponse = searchMultiBooks(queueFor);
             try {
@@ -225,7 +224,7 @@ public class GoogleBooksAPI {
             if (authorsNode.isArray() && !authorsNode.isEmpty()) {
                 author = authorsNode.get(0).asText("Not available");
             }
-            String description = book.path("volumeInfo").path("description").asText("Not available");
+            String description = formatDescription(book.path("volumeInfo").path("description").asText("Not available"));
             String publisher = book.path("volumeInfo").path("publisher").asText("Not available");
             String publishedDate = book.path("volumeInfo").path("publishedDate").asText("Not available");
             String pageCount = book.path("volumeInfo").path("pageCount").asText("Not available");
