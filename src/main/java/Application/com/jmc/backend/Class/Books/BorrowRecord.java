@@ -1,6 +1,5 @@
 package Application.com.jmc.backend.Class.Books;
 
-import java.sql.Date;
 
 public class BorrowRecord {
     private final String book_id;

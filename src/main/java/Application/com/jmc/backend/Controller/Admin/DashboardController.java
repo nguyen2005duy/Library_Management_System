@@ -97,7 +97,7 @@ public class DashboardController implements Initializable {
         Connection connectDB = connectNow.getConnection();
 
         String BookViewQuery = "SELECT book_id, available, borrowed_user_id, borrowed_date, required_date from book";  // Fixed typo in the SQL query
-        String DueBookQuery = "SELECT book_id,book_title, borrowed_user_id, DATEDIFF(required_date, NOW()) as due_date, (2 * DATEDIFF(required_date, NOW())) as fine from book";
+        String DueBookQuery = "SELECT book_id,title, borrowed_user_id, DATEDIFF(required_date, NOW()) as due_date, (2 * DATEDIFF(required_date, NOW())) as fine from book";
         //Book
         try {
             Statement stmt = connectDB.createStatement();
@@ -133,7 +133,7 @@ public class DashboardController implements Initializable {
 
             while (rs.next()) {
                 String query_book_id = rs.getString("book_id");
-                String query_book_title = rs.getString("book_title");
+                String query_book_title = rs.getString("title");
                 Integer query_borrower_id = rs.getInt("borrowed_user_id");
                 Integer query_due_date = rs.getInt("due_date");
                 Integer query_fine = rs.getInt("fine");  // Corrected spelling of 'available'
@@ -142,7 +142,7 @@ public class DashboardController implements Initializable {
             }
 
             book_id_due.setCellValueFactory(new PropertyValueFactory<>("book_id"));
-            title_due.setCellValueFactory(new PropertyValueFactory<>("book_title"));
+            title_due.setCellValueFactory(new PropertyValueFactory<>("title"));
             member_id_due.setCellValueFactory(new PropertyValueFactory<>("borrowed_user_id"));
             due_date.setCellValueFactory(new PropertyValueFactory<>("due_date"));
             fine.setCellValueFactory(new PropertyValueFactory<>("fine"));  // Corrected to match the property

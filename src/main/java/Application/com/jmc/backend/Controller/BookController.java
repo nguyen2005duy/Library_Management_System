@@ -69,7 +69,7 @@ public class BookController implements Initializable {
                 favourite_button.setText("Added to Favourites");
             }
         }
-        if (!currentViewing.isAvailable() && Integer.parseInt(currentViewing.getBorrow_user_id()) == Library.current_user.getAccount_id()) {
+        if (!currentViewing.isAvailable() && Integer.parseInt(currentViewing.getBorrowUserId()) == Library.current_user.getAccount_id()) {
             read_button.setDisable(true);
             read_button.setText("Borrowing");
         } else if (!currentViewing.isAvailable()) {

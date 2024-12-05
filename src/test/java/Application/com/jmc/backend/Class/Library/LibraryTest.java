@@ -1,12 +1,10 @@
 package Application.com.jmc.backend.Class.Library;
 
 import Application.com.jmc.backend.Class.Books.Book;
-import Application.com.jmc.backend.Class.Books.BorrowRecord;
 import Application.com.jmc.backend.Class.Exceptions.UsernameTakenException;
 import Application.com.jmc.backend.Class.Library.Helpers.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Class.User_Information.User;
-import Application.com.jmc.backend.Connection.DatabaseConnection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,7 +16,6 @@ import static org.mockito.Mockito.*;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class LibraryTest {
 
@@ -72,9 +69,9 @@ public class LibraryTest {
                         } else {
                             book.check_in(userId);
                             String updateQuery = "UPDATE book SET available = 0, " +
-                                    "borrowed_user_id = " + book.getBorrow_user_id() + ", " +
-                                    "borrowed_date = '" + book.getBorrowed_date() + "', " +
-                                    "required_date = '" + book.getRequired_date() + "' " +
+                                    "borrowed_user_id = " + book.getBorrowUserId() + ", " +
+                                    "borrowed_date = '" + book.getBorrowedDate() + "', " +
+                                    "required_date = '" + book.getRequiredDate() + "' " +
                                     "WHERE book_id = '" + book.getBook_id() + "'";
                             Member mem = (Member) Library.usersList.get(Integer.parseInt(userId));
                             mem.add_borrowed_documents(book);
@@ -97,7 +94,7 @@ public class LibraryTest {
             mockBook.setAvailable(true);
             Library.borrow_books("2", "1");
             assertFalse(mockBook.isAvailable(), "Sách phải không còn sẵn");
-            assertEquals("1", mockBook.getBorrow_user_id(), "Sách phải thuộc về người dùng '1'");
+            assertEquals("1", mockBook.getBorrowUserId(), "Sách phải thuộc về người dùng '1'");
 
             verify(mockStatement, times(1)).executeUpdate(anyString());
             verify(mockUser, times(1)).add_borrowed_documents(mockBook);

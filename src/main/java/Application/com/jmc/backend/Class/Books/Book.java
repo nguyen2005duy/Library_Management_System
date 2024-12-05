@@ -14,78 +14,101 @@ public class Book {
     private final String book_id;
     private String title;
     private String author;
-    private String published_date;
+    private String publishedDate;
     private String pages;
     private String[] categories;
     private boolean available;
-    private String borrow_user_id;
-    private java.sql.Date borrowed_date;
-    private java.sql.Date required_date;
-    private String imageSrc;
+    private String borrowUserId;
+    private java.sql.Date borrowedDate;
+    private java.sql.Date requiredDate;
     private String description;
     private String rating;
 
-
-    public String getImageSrc() {
-        return imageSrc;
-    }
-
-    public void setImageSrc(String imageSrc) {
-        this.imageSrc = imageSrc;
-    }
-
-    public Book (Book GoogleApiBooks, String borrow_user_id) {
+    /**
+     * Constructor cho việc thêm sách khi mượn , nếu sách chưa được mượn, lấy từ api sau đó thêm ngày
+     * mượn, cùng với id
+     * @param GoogleApiBooks Sách đuọc lấy xuống từ googleapi
+     * @param borrowUserId id của người mượn
+     */
+    public Book (Book GoogleApiBooks, String borrowUserId) {
         this.title = GoogleApiBooks.title;
         this.author = GoogleApiBooks.author;
         this.categories = GoogleApiBooks.categories;
-        this.published_date = GoogleApiBooks.published_date;
+        this.publishedDate = GoogleApiBooks.publishedDate;
         this.pages = GoogleApiBooks.pages;
         this.available = false;
         this.book_id = GoogleApiBooks.book_id;
-        this.borrow_user_id = borrow_user_id;
-        this.borrowed_date = new Date(System.currentTimeMillis());
+        this.borrowUserId = borrowUserId;
+        this.borrowedDate = new Date(System.currentTimeMillis());
         this.description = GoogleApiBooks.description;
-        LocalDate borrowedLocalDate = borrowed_date.toLocalDate();
+        LocalDate borrowedLocalDate = borrowedDate.toLocalDate();
         LocalDate requiredLocalDate = borrowedLocalDate.plusDays(30);
-        this.required_date = java.sql.Date.valueOf(requiredLocalDate);
-        System.out.println(required_date);
+        this.requiredDate = java.sql.Date.valueOf(requiredLocalDate);
+        System.out.println(requiredDate);
         this.rating = "Not rated";
     }
-    public Book(String book_id, String borrow_user_id) {
+
+    /**
+     * Constuctor vói book id và id nguòi mượn, nhằm việc tạo book khi cho
+     * @param book_id id sách
+     * @param borrowUserId id người
+     */
+    public Book(String book_id, String borrowUserId) {
         this.book_id = book_id;
-        this.borrow_user_id = borrow_user_id;
-        this.borrowed_date = new Date(System.currentTimeMillis());
-        LocalDate borrowedLocalDate = borrowed_date.toLocalDate();
+        this.borrowUserId = borrowUserId;
+        this.borrowedDate = new Date(System.currentTimeMillis());
+        LocalDate borrowedLocalDate = borrowedDate.toLocalDate();
         LocalDate requiredLocalDate = borrowedLocalDate.plusDays(30);
-        this.required_date = java.sql.Date.valueOf(requiredLocalDate);
-        System.out.println(required_date);
+        this.requiredDate = java.sql.Date.valueOf(requiredLocalDate);
+        System.out.println(requiredDate);
         this.rating = "Not rated";
 
     }
 
+    /**
+     * Constructor bình thường với việc tạo các thuộc tính cho sách
+     * @param book_id id sách
+     * @param title tên sách
+     * @param author tác giả
+     * @param categories thể loại
+     * @param publishedDate ngày viết
+     * @param pages số trang
+     * @param borrowUserId id người mượn
+     * @param borrowedDate ngày mượn
+     * @param requiredDate ngày cần trả
+     */
     public Book(String book_id, String title, String author, String[] categories,
-                String published_date, String pages, String borrow_user_id, Date borrowed_date, Date required_date) {
+                String publishedDate, String pages, String borrowUserId, Date borrowedDate, Date requiredDate) {
         this.book_id = book_id;
         this.title = title;
         this.author = author;
         this.categories = categories;
-        this.published_date = published_date;
+        this.publishedDate = publishedDate;
         this.pages = pages;
         this.available = false;
-        this.borrow_user_id = borrow_user_id;
-        this.borrowed_date = borrowed_date;
-        this.required_date = required_date;
+        this.borrowUserId = borrowUserId;
+        this.borrowedDate = borrowedDate;
+        this.requiredDate = requiredDate;
         this.rating = "Not rated";
 
     }
 
-    public Book(String book_id, String title, String author, String pages, String[] categories, String published_date) {
+    /**
+     * Constructor cho những quyển sách ko có nguòi mượn
+     * @param book_id id người mượn
+     * @param title tên sách
+     * @param author tác giả
+     * @param pages số trang
+     * @param categories thể loại
+     * @param publishedDate ngày xuất bản
+     */
+    public Book(String book_id, String title, String author, String pages, String[] categories, String publishedDate) {
         this.book_id = book_id;
         this.title = title;
         this.author = author;
         this.pages = pages;
         this.categories = categories;
-        this.published_date = published_date;
+        this.publishedDate = publishedDate;
          this.rating = "Not rated";
 
     }
@@ -114,12 +137,12 @@ public class Book {
         this.pages = pages;
     }
 
-    public String getPublished_date() {
-        return published_date;
+    public String getPublishedDate() {
+        return publishedDate;
     }
 
-    public void setPublished_date(String published_date) {
-        this.published_date = published_date;
+    public void setPublishedDate(String publishedDate) {
+        this.publishedDate = publishedDate;
     }
 
     public String getTitle() {
@@ -142,20 +165,20 @@ public class Book {
         return book_id;
     }
 
-    public String getBorrow_user_id() {
-        return borrow_user_id;
+    public String getBorrowUserId() {
+        return borrowUserId;
     }
 
-    public void setBorrow_user_id(String borrow_user_id) {
-        this.borrow_user_id = borrow_user_id;
+    public void setBorrowUserId(String borrowUserId) {
+        this.borrowUserId = borrowUserId;
     }
 
-    public Date getBorrowed_date() {
-        return borrowed_date;
+    public Date getBorrowedDate() {
+        return borrowedDate;
     }
 
-    public void setBorrowed_date(Date borrowed_date) {
-        this.borrowed_date = borrowed_date;
+    public void setBorrowedDate(Date borrowedDate) {
+        this.borrowedDate = borrowedDate;
     }
 
     public void setBorrowed_Date(String borrowed_date) {
@@ -163,18 +186,18 @@ public class Book {
         try {
             java.util.Date utilDate = formatter.parse(borrowed_date);
             Date sqlDate = new Date(utilDate.getTime());
-            setBorrowed_date(sqlDate);
+            setBorrowedDate(sqlDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
-    public Date getRequired_date() {
-        return required_date;
+    public Date getRequiredDate() {
+        return requiredDate;
     }
 
-    public void setRequired_date(Date required_date) {
-        this.required_date = required_date;
+    public void setRequiredDate(Date requiredDate) {
+        this.requiredDate = requiredDate;
     }
 
     public void setRequired_date(String required_date) {
@@ -182,7 +205,7 @@ public class Book {
         try {
             java.util.Date utilDate = formatter.parse(required_date);
             Date sqlDate = new Date(utilDate.getTime());
-            setRequired_date(sqlDate);
+            setRequiredDate(sqlDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -204,27 +227,11 @@ public class Book {
         this.categories = categories;
     }
 
-    public Book(String book_id, String title, String author,
-                String[] categories, String published_date, String pages) {
-        this.book_id = book_id;
-        this.title = title;
-        this.author = author;
-        this.categories = categories;
-        this.published_date = published_date;
-        this.pages = pages;
-        this.available = true;
-        this.rating = "Not rated";
-    }
 
     /**
-     * danh dau quyen sach nay chua co nguoi muon.
+     *  Đánh dấu quyển sách đã được trả
      */
     public void check_out() {
-        Library.add_record(this);
-        Date currentTime  = new Date(System.currentTimeMillis());
-        LocalDate currentDate = borrowed_date.toLocalDate();
-        Date currentDateSQL = java.sql.Date.valueOf(currentDate);
-        Library.recordsLists.add(new BorrowRecord(Integer.parseInt(borrow_user_id),book_id));
         String updateQuery = "UPDATE book SET available = 1, " +
                 "borrowed_user_id = NULL, " + // Use NULL without quotes
                 "borrowed_date = NULL, " +   // Use NULL without quotes
@@ -239,32 +246,32 @@ public class Book {
         }
         // Cần Update phần này để khi ktra thấy available chuyển book available thành ko
         available = true;
-        borrow_user_id = null;
-        borrowed_date = null;
-        required_date = null;
+        borrowUserId = null;
+        borrowedDate = null;
+        requiredDate = null;
     }
 
     /**
-     * danh dau quyen sach nay da co nguoi muon.
+     * Đánh dấu quyển sách đã có người mượn.
      *
      * @param borrow_user_id id nguoi muon.
      */
     public void check_in(String borrow_user_id) {
         available = false;
-        this.borrow_user_id = borrow_user_id;
-        this.borrowed_date = new Date(System.currentTimeMillis());
-        LocalDate borrowedLocalDate = borrowed_date.toLocalDate();
+        this.borrowUserId = borrow_user_id;
+        this.borrowedDate = new Date(System.currentTimeMillis());
+        LocalDate borrowedLocalDate = borrowedDate.toLocalDate();
         LocalDate requiredLocalDate = borrowedLocalDate.plusDays(30);
-        this.required_date = java.sql.Date.valueOf(requiredLocalDate);
+        this.requiredDate = java.sql.Date.valueOf(requiredLocalDate);
     }
 
     @Override
     public String toString() {
         return "Book{" +
                 "book_id='" + book_id + '\'' +
-                ", borrow_user_id='" + borrow_user_id + '\'' +
-                ", borrowed_date=" + borrowed_date +
-                ", required_date=" + required_date +
+                ", borrow_user_id='" + borrowUserId + '\'' +
+                ", borrowed_date=" + borrowedDate +
+                ", required_date=" + requiredDate +
                 '}';
     }
 
