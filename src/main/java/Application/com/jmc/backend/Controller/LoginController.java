@@ -163,11 +163,11 @@ public class LoginController implements Initializable {
     private void onLogin(){
         Stage stage = (Stage) LoginButton.getScene().getWindow();
         Model.getInstance().getFactoryViews().closeStage(stage);
+        Library.init_current_user(UsernameField.getText(),passwordField.getText());
+        System.out.println(Library.usersList);
+        System.out.println(UsernameField.getText()+" "+passwordField.getText());
+        System.out.println(Library.current_user);
         if (Model.getInstance().getFactoryViews().getAccountType() == AccountType.Member) {
-            Library.init_current_user(UsernameField.getText(),passwordField.getText());
-            System.out.println(Library.usersList);
-            System.out.println(UsernameField.getText()+" "+passwordField.getText());
-            System.out.println(Library.current_user);
             Thread thread = new Thread(Library::load_current_user_favourite);
             thread.start();
             Member cur = (Member) Library.current_user;
@@ -186,6 +186,7 @@ public class LoginController implements Initializable {
             Model.getInstance().getFactoryViews().showLoadingView();
         }
         else{
+
             Library.init_Library_Admin();
             Model.getInstance().getFactoryViews().showLoadingView();
         }
