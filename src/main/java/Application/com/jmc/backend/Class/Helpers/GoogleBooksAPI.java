@@ -175,29 +175,6 @@ public class GoogleBooksAPI {
         return getJsonFromUrl(urlString);
     }
 
-    /**
-     * Lấy ID của cuốn sách từ JSON phản hồi.
-     *
-     * @param pos          Vị trí của cuốn sách trong danh sách items.
-     * @param jsonResponse Chuỗi JSON phản hồi từ API.
-     * @return trả về ID của cuốn sách hoặc error.
-     */
-    public static String get_book_ID(int pos, String jsonResponse) {
-        try {
-            // Create an ObjectMapper
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            // Parse the JSON string into a JsonNode object
-            JsonNode rootNode = objectMapper.readTree(jsonResponse);
-
-            // Get the first book item (if exists)
-            int querySize = rootNode.path("items").size();
-            return rootNode.path("items").get(pos).path("id").asText();
-        } catch (IOException e) {
-            System.err.println("Error parsing JSON response: " + e.getMessage());
-        }
-        return "error!";
-    }
 
     /**
      * Lấy URL ảnh bìa của cuốn sách từ ID.
