@@ -827,6 +827,7 @@ public class Library {
         Member cur = (Member) Library.current_user;
         int account_id = cur.getAccount_id();
         FavouriteController.books.remove(book);
+        System.out.println(FavouriteController.books);
         String deleteFromFavourite = "DELETE FROM favourite_books WHERE book_id='" + book.getBook_id() + "' AND account_id='" + account_id + "'";
         try {
             Statement stmt = connectDB.createStatement();

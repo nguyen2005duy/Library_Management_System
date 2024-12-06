@@ -39,6 +39,7 @@ public class FactoryViews {
     private AccountType accountType;
     private SearchResultsController searchResultsController;
     private SearchResultAdminController adminSearchResultsController;
+    private FavouriteController favouriteController;
 
     public FactoryViews() {
         this.accountType = AccountType.Librarian;
@@ -195,7 +196,6 @@ public class FactoryViews {
                 }
             };
             task.setOnSucceeded(event -> {
-                // Get the loaded view from the background thread and assign it to FavouriteView
                 LibraryView = task.getValue();
             });
             new Thread(task).start();
@@ -206,31 +206,26 @@ public class FactoryViews {
 
     public AnchorPane getFavouriteView() {
         if (FavouriteView == null) {
-            // Create a task that will load the FXML and refresh in the background
             Task<AnchorPane> loadFavouriteViewTask = new Task<AnchorPane>() {
                 @Override
                 protected AnchorPane call() throws Exception {
-                    // Load the FXML in the background thread
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/Application/favourite.fxml"));
                     AnchorPane loadedView = loader.load();  // This is where the view is loaded
-                    FavouriteController controller = loader.getController();
-                    controller.refreshFavouriteBooks();
+                     favouriteController= loader.getController();
+                    favouriteController.refreshFavouriteBooks();
 
-                    // Return the loaded view to be used later on the main thread
                     return loadedView;
                 }
             };
 
-            // When the task finishes, set FavouriteView on the JavaFX Application Thread
             loadFavouriteViewTask.setOnSucceeded(event -> {
-                // Get the loaded view from the background thread and assign it to FavouriteView
                 FavouriteView = loadFavouriteViewTask.getValue();
             });
 
-            // Start the task in a new thread
             new Thread(loadFavouriteViewTask).start();
         }
 
+        favouriteController.refreshFavouriteBooks();
         return FavouriteView;
     }
 

@@ -38,8 +38,12 @@ public class FavouriteController  implements Initializable {
         books = FXCollections.observableArrayList(favouriteBooks());
         books.addListener((ListChangeListener<Book>) change -> {
             while (change.next()) {
-                if (change.wasAdded() || change.wasRemoved()) {
+                if (change.wasAdded()) {
+                } else if ( change.wasRemoved())
+                {
+                    bookContainer.getChildren().clear();
                     refreshFavouriteBooks();  // Call the refresh method on any change
+
                 }
             }
         });
@@ -78,6 +82,7 @@ public class FavouriteController  implements Initializable {
     //tra ve list favou
     private List<Book> favouriteBooks(){
         Member cur =(Member)Library.current_user;
+        System.out.println("favouritecontroller");
         System.out.println(cur.getFavourite_books());
         return cur.getfavourite_books();
     }

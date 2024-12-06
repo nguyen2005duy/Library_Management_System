@@ -38,18 +38,14 @@ public class SearchResultsController implements Initializable {
 
     public void refreshSearchResults() {
         String searchQuery = Model.getInstance().getSearchString();
-
-        // Clear existing results
         results.setText("Results for '" + searchQuery + "'");
-        bookContainer.getChildren().clear(); // Clear any previous results
+        bookContainer.getChildren().clear();
         number_of_results.setText("Loading...");
 
-        // Stop previous search thread if it's running
         if (currentSearchThread != null && currentSearchThread.isAlive()) {
             currentSearchThread.interrupt();
         }
 
-        // Start a new search thread
         currentSearchThread = new Thread(() -> {
             List<Book> searchResults = getSearchResults(searchQuery);
 
