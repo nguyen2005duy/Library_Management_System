@@ -63,6 +63,9 @@ public class MembersController implements Initializable {
     private Button search_button;
 
     @FXML
+    private TableColumn<MemberSearchModel, ?> edit;
+
+    @FXML
     void search(MouseEvent event) {
         Model.getInstance().setSearchString(bookSearchBar.getText());
         Model.getInstance().getFactoryViews().getAdminSelectedMenuItem().set(AdminMenuOptions.SEARCH);
@@ -78,6 +81,19 @@ public class MembersController implements Initializable {
                 MemberSearchModel mem = TableViewMember.getSelectionModel().getSelectedItem();
                 memberSearchModel = mem;
                 mem.getDelete().setVisible(true);
+                mem.getEdit().setVisible(true);
+                mem.getEdit().setOnAction(actionEvent -> {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Application/edit_member.fxml"));
+                        Parent root = (Parent) fxmlLoader.load();
+                        Stage stage = new Stage();
+                        stage.setTitle("Edit");
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                    } catch (Exception ex) {
+                        System.out.println("can't load edit");
+                    }
+                });
                 mem.getDelete().setOnAction(actionEvent -> {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Confirmation");
@@ -100,6 +116,19 @@ public class MembersController implements Initializable {
             MemberSearchModel mem = TableViewMember.getSelectionModel().getSelectedItem();
             memberSearchModel = mem;
             mem.getDelete().setVisible(true);
+            mem.getEdit().setVisible(true);
+            mem.getEdit().setOnAction(actionEvent -> {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Application/edit_member.fxml"));
+                    Parent root = (Parent) fxmlLoader.load();
+                    Stage stage = new Stage();
+                    stage.setTitle("Edit");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                } catch (Exception ex) {
+                    System.out.println("can't load edit");
+                }
+            });
             mem.getDelete().setOnAction(actionEvent -> {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation");
@@ -165,6 +194,7 @@ public class MembersController implements Initializable {
             Member_name.setCellValueFactory(new PropertyValueFactory<>("lastname"));
             Member_email.setCellValueFactory(new PropertyValueFactory<>("email"));
             Action.setCellValueFactory(new PropertyValueFactory<>("delete"));
+            edit.setCellValueFactory(new PropertyValueFactory<>("edit"));
 
 
             TableViewMember.setItems(MemberSearchModelObservableList);
