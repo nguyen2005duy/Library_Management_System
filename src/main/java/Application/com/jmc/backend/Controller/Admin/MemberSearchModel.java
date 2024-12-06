@@ -11,6 +11,7 @@ public class MemberSearchModel {
     private final StringProperty lastname;
     private final IntegerProperty account_id;
     private Button delete;
+    private Button edit;
 
     // Constructor
     public MemberSearchModel(int account_id, String lastname, String email) {
@@ -20,6 +21,9 @@ public class MemberSearchModel {
         delete = new Button("Delete");
         delete.setVisible(false);
         delete.getStylesheets().add(getClass().getResource("/Styles/button.css").toExternalForm());
+        edit = new Button("Edit");
+        edit.setVisible(false);
+        edit.getStylesheets().add(getClass().getResource("/Styles/edit_button.css").toExternalForm());
     }
 
     // Getters for properties
@@ -50,5 +54,9 @@ public class MemberSearchModel {
 
     public Button getDelete() {
         return delete;
+    }
+
+    public Button getEdit() {
+        return edit;
     }
 }

@@ -97,7 +97,8 @@
                 <TableColumn fx:id="Member_ID" prefWidth="101.86668622493744" text="Member ID" />
                 <TableColumn fx:id="Member_name" prefWidth="190.66667938232422" text="Member" />
                   <TableColumn fx:id="Member_email" prefWidth="302.13336181640625" text="Email ID" />
-                  <TableColumn fx:id="Action" prefWidth="203.73330688476562" text="Action" />
+                  <TableColumn fx:id="Action" prefWidth="101.3333740234375" />
+                  <TableColumn fx:id="edit" prefWidth="101.06658935546875" />
               </columns>
                <VBox.margin>
                   <Insets left="50.0" right="30.0" />

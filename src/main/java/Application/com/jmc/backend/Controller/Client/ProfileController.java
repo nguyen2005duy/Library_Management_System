@@ -17,10 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class ProfileController implements Initializable {
@@ -85,13 +82,18 @@ public class ProfileController implements Initializable {
             DatabaseConnection connection = new DatabaseConnection();
             Connection connectDB = connection.getConnection();
 
-            String sql = "UPDATE user_account" +
-                    "SET username = '"+user_name.getText()+ "' , firstname = '" + first_name_field.getText() +"', lastname = '"
-                    + last_name_field.getText()+ "' , email = '" + email_field.getText() +"'"
-                    + "WHERE account_id = " + String.valueOf(cur.getAccount_id()) + ";";
-            try{
-                Statement statement = connectDB.createStatement();
-                statement.executeUpdate(sql);
+            String sql = "UPDATE user_account SET username = ?, firstname = ?, lastname = ?, email = ? WHERE account_id = ?";
+
+            try (PreparedStatement statement = connectDB.prepareStatement(sql)) {
+                // Set the parameters
+                statement.setString(1, user_name.getText());
+                statement.setString(2, first_name_field.getText());
+                statement.setString(3, last_name_field.getText());
+                statement.setString(4, email_field.getText());
+                statement.setInt(5, cur.getAccount_id());
+
+                // Execute the update
+                statement.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

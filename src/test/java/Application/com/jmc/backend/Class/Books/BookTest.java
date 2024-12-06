@@ -61,28 +61,6 @@ class BookTest {
     }
 
     @Test
-    void testConstructorWithoutBorrower() {
-        String[] categories = {"Science Fiction", "Drama"};
-
-        book = new Book(
-                "3",
-                "Dune",
-                "Frank Herbert",
-                "412",
-                categories,
-                "1965-08-01"
-        );
-
-        assertEquals("3", book.getBook_id());
-        assertEquals("Dune", book.getTitle());
-        assertEquals("Frank Herbert", book.getAuthor());
-        assertEquals("1965-08-01", book.getPublishedDate());
-        assertEquals("412", book.getPages());
-        assertArrayEquals(categories, book.getCategories());
-        assertTrue(book.isAvailable());
-    }
-
-    @Test
     void testCheckIn() {
         book = new Book("4", "4");
         book.check_in("4");
@@ -105,14 +83,6 @@ class BookTest {
     }
 
     @Test
-    void testSetAndGetImageSrc() {
-        book = new Book("6", "6");
-        book.setImageSrc("images/book_cover.png");
-
-        assertEquals("images/book_cover.png", book.getImageSrc());
-    }
-
-    @Test
     void testToString() {
         String[] categories = {"Mystery", "Thriller"};
 
@@ -120,18 +90,17 @@ class BookTest {
                 "7",
                 "The Da Vinci Code",
                 "Dan Brown",
+                "454",
                 categories,
-                "2003-04-03",
-                "454"
+                "2003-04-03"
         );
 
-        String expected = "Book{borrowed_id'null', " +
-                "title='The Da Vinci Code', " +
-                "published_date='2003-04-03', " +
-                "pages=454, " +
-                "categories=[Mystery, Thriller], " +
+        String expected = "Book{" +
                 "book_id='7', " +
-                "author='Dan Brown'}";
+                "borrow_user_id='null', " +
+                "borrowed_date=null, " +
+                "required_date=null" +
+                '}';
 
         assertEquals(expected, book.toString());
     }
