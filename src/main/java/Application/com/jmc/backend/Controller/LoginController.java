@@ -1,6 +1,5 @@
 package Application.com.jmc.backend.Controller;
 
-import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Connection.DatabaseConnection;
@@ -24,7 +23,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -84,8 +82,8 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Library.init_Library();
-        Library.printBookDetails();
-        Library.printUsers();
+       // Library.printBookDetails();
+       // Library.printUsers();
         toggle_button.setStyle("-fx-background-color: #FFF7D1;" + "-fx-background-radius: 50");
         Image bookFile = new Image(Login.class.getResourceAsStream("/Img/book1.png"));
         book.setImage(bookFile);
@@ -168,7 +166,7 @@ public class LoginController implements Initializable {
         System.out.println(UsernameField.getText()+" "+passwordField.getText());
         System.out.println(Library.current_user);
         if (Model.getInstance().getFactoryViews().getAccountType() == AccountType.Member) {
-            Thread thread = new Thread(Library::load_current_user_favourite);
+            Thread thread = new Thread(Library::loadCurrentUserFavourite);
             thread.start();
             Member cur = (Member) Library.current_user;
             try {

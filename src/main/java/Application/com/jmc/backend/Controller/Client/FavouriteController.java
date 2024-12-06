@@ -78,6 +78,7 @@ public class FavouriteController  implements Initializable {
     //tra ve list favou
     private List<Book> favouriteBooks(){
         Member cur =(Member)Library.current_user;
+        System.out.println(cur.getFavourite_books());
         return cur.getfavourite_books();
     }
 }

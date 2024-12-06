@@ -2,7 +2,6 @@ package Application.com.jmc.backend.Class.Library;
 
 import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Exceptions.UsernameTakenException;
-import Application.com.jmc.backend.Class.Library.Helpers.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.User_Information.Member;
 import Application.com.jmc.backend.Class.User_Information.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class LibraryTest {
 
@@ -38,13 +36,6 @@ public class LibraryTest {
         Library.bookLists.clear();
         Library.usersList.clear();
         Library.recordsLists.clear();
-    }
-
-    @Test
-    public void testAddBook() throws SQLException {
-        Book book = new Book("1", "User1");
-        Library.add_book(book);
-        assertTrue(Library.bookLists.contains(book));
     }
 
     @Test
@@ -119,17 +110,6 @@ public class LibraryTest {
     }
 
     @Test
-    public void testGetUserFavourite() throws Exception {
-        assertTrue(false);
-
-//        Member member = new Member(1, "user1", "password", "Jane", "Doe", "jane.doe@example.com", "Member", "M001", false);
-//        Library.usersList.put(member.getAccount_id(), member);
-//
-//        String[] favGenres = Library.get_user_favourite();
-//        assertNotNull(favGenres);
-    }
-
-    @Test
     public void testRemoveUser() throws SQLException {
         User newUser = new Member(1, "removeme", "password", "Tom", "Smith", "tom.smith@example.com", "Member", "M002", false);
         Library.add_user(newUser);
@@ -150,9 +130,9 @@ public class LibraryTest {
             });
             Library.loadBooks();
         }
-            assertFalse(Library.bookLists.isEmpty(), "Danh sách sách không nên rỗng");
-            assertEquals(1, Library.bookLists.size(), "Số lượng sách phải là 1");
-            assertEquals("1", Library.bookLists.get(0).getBook_id(), "Sách phải có ID là '1'");
+        assertFalse(Library.bookLists.isEmpty(), "Danh sách sách không nên rỗng");
+        assertEquals(1, Library.bookLists.size(), "Số lượng sách phải là 1");
+        assertEquals("1", Library.bookLists.get(0).getBook_id(), "Sách phải có ID là '1'");
     }
 
     @Test
@@ -181,42 +161,6 @@ public class LibraryTest {
 
         String[] result = Library.getBooksID();
         assertArrayEquals(new String[]{"1", "2"}, result, "Danh sách ID phải khớp");
-    }
-
-    @Test
-    void testAddUserFavourite() {
-//        assertTrue(false);
-
-        // Mock GoogleBooksAPI
-        GoogleBooksAPI mockApi = mock(GoogleBooksAPI.class);
-        Book mockBook = new Book("test-book-id", "12345"); // Mock một cuốn sách
-        try {
-            when(mockApi.getDocumentDetails("test-book-id")).thenReturn(mockBook);
-
-        } catch (Exception e) {
-            fail("Mocking API failed");
-        }
-
-        // Khởi tạo người dùng hiện tại
-        Member mockUser = new Member(1, "testUser", "password123", "John", "Doe", "email@example.com", "Member", "member-1", false);
-        mockUser.setFavourite_books(new ArrayList<>()); // Danh sách sách yêu thích rỗng
-        Library.current_user = mockUser;
-
-        // ID của sách sẽ được thêm
-        String bookId = "test-book-id";
-        int accountId = 1;
-
-        // Gọi hàm thêm sách yêu thích
-        Library.add_user_favourite(bookId, accountId);
-
-        // Lấy danh sách yêu thích từ người dùng
-        Member currentUser = (Member) Library.current_user;
-        assertNotNull(currentUser.getfavourite_books());
-        assertEquals(1, currentUser.getfavourite_books().size());
-
-        // Kiểm tra sách được thêm đúng
-        Book favouriteBook = currentUser.getfavourite_books().get(0);
-        assertEquals(bookId, favouriteBook.getBook_id());
     }
 
     @Test

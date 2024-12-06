@@ -4,6 +4,7 @@ import Application.com.jmc.backend.Class.Books.Book;
 import Application.com.jmc.backend.Class.Helpers.GoogleBooksAPI;
 import Application.com.jmc.backend.Class.Library.Library;
 import Application.com.jmc.backend.Class.User_Information.Member;
+import Application.com.jmc.backend.Controller.Client.FavouriteController;
 import Application.com.jmc.backend.Model.Model;
 import Application.com.jmc.backend.Views.ClientMenuOptions;
 import javafx.fxml.FXML;
@@ -63,10 +64,12 @@ public class BookController implements Initializable {
         ratingBox.setRating(0);
         Book currentViewing = Model.getInstance().getSelectedBook();
         Member cur = (Member) Library.current_user;
+        favourite_button.setText("Add to favourites");
         for (Book a : cur.getfavourite_books()) {
             if (Objects.equals(a.getBook_id(), currentViewing.getBook_id())) {
-                favourite_button.setDisable(true);
-                favourite_button.setText("Added to Favourites");
+               /* favourite_button.setDisable(true);
+                favourite_button.setText("Added to Favourites");*/
+                favourite_button.setText("Remove from favourites");
             }
         }
         if (!currentViewing.isAvailable() && Integer.parseInt(currentViewing.getBorrowUserId()) == Library.current_user.getAccount_id()) {
@@ -100,7 +103,6 @@ public class BookController implements Initializable {
             Rating.setText(Library.getBookRating(this.book.getBook_id()));
         });
 
-        // Load the book image (if available)
         try {
             Image image = new Image(GoogleBooksAPI.get_Book_Image(book.getBook_id()));
             bookImage.setImage(image);
@@ -119,10 +121,15 @@ public class BookController implements Initializable {
 
     @FXML
     void add_to_favourite(MouseEvent event) {
-        Library.add_user_favourite(Model.getInstance().getSelectedBook().getBook_id(), Library.current_user.getAccount_id());
-        favourite_button.setDisable(true);
-        favourite_button.setText("Added to favourite");
+        if (favourite_button.getText().equalsIgnoreCase("Add to favourites")) {
+            Library.addUserFavourite(Model.getInstance().getSelectedBook().getBook_id(), Library.current_user.getAccount_id());
+            favourite_button.setText("Remove from favourites");
+        } else {
+            Library.removeFromFavourites(book);
+            favourite_button.setText("Add to favourites");
+        }
     }
+
 
     @FXML
     void add_to_library(MouseEvent event) {
